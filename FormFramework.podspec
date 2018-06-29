@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.dependency 'FlowFramework', '~> 1.2'
 
   s.subspec 'Presentation' do |presentation|
-    presentation.dependency 'PresentationFramework', '~> 1.0'
+    presentation.dependency 'PresentationFramework', '~> 1.1'
   end
 
   s.source       = { :git => "https://github.com/iZettle/Form.git", :tag => "#{s.version}" }

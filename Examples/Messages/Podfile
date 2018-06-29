@@ -4,5 +4,6 @@ target 'Example' do
   use_frameworks!
 
   pod 'FormFramework/Presentation', :path => '../..'
-     
+  pod 'FormFramework', :path => '../..'
+
 end
