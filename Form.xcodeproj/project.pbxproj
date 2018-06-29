@@ -69,12 +69,6 @@
 		F684BF09209348F30018EDE9 /* KeyboardAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F684BF08209348F30018EDE9 /* KeyboardAnimation.swift */; };
 		F684BF0C209349470018EDE9 /* ViewPortEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F684BF0B209349470018EDE9 /* ViewPortEvent.swift */; };
 		F684BF18209350B60018EDE9 /* ValueEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F684BF17209350B60018EDE9 /* ValueEditor.swift */; };
-		F69FADB620D122F600F5BB29 /* Styling.md in Resources */ = {isa = PBXBuildFile; fileRef = F69FADB020D122F500F5BB29 /* Styling.md */; };
-		F69FADB720D122F600F5BB29 /* Layout.md in Resources */ = {isa = PBXBuildFile; fileRef = F69FADB120D122F500F5BB29 /* Layout.md */; };
-		F69FADB820D122F600F5BB29 /* Keyboard.md in Resources */ = {isa = PBXBuildFile; fileRef = F69FADB220D122F500F5BB29 /* Keyboard.md */; };
-		F69FADB920D122F600F5BB29 /* Forms.md in Resources */ = {isa = PBXBuildFile; fileRef = F69FADB320D122F500F5BB29 /* Forms.md */; };
-		F69FADBA20D122F600F5BB29 /* Values.md in Resources */ = {isa = PBXBuildFile; fileRef = F69FADB420D122F500F5BB29 /* Values.md */; };
-		F69FADBB20D122F600F5BB29 /* Tables.md in Resources */ = {isa = PBXBuildFile; fileRef = F69FADB520D122F600F5BB29 /* Tables.md */; };
 		F6A0AC4820BC4352000500EC /* CollectionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0AC4620BC4351000500EC /* CollectionAnimation.swift */; };
 		F6A326E71F9492BC00C3A692 /* FieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A326E61F9492BC00C3A692 /* FieldStyle.swift */; };
 		F6A326EA1F94935200C3A692 /* UILabel+Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A326E91F94935200C3A692 /* UILabel+Styling.swift */; };
@@ -515,12 +509,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F69FADB720D122F600F5BB29 /* Layout.md in Resources */,
-				F69FADB820D122F600F5BB29 /* Keyboard.md in Resources */,
-				F69FADB920D122F600F5BB29 /* Forms.md in Resources */,
-				F69FADBB20D122F600F5BB29 /* Tables.md in Resources */,
-				F69FADB620D122F600F5BB29 /* Styling.md in Resources */,
-				F69FADBA20D122F600F5BB29 /* Values.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

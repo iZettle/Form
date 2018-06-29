@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "FormFramework"
-  s.version      = "1.1.0"
+  s.version      = "1.0.0"
   s.module_name  = "Form"
   s.summary      = "Powerful iOS layout and styling"
   s.description  = <<-DESC
@@ -12,8 +12,9 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = "9.0"
   s.dependency 'FlowFramework', '~> 1.1'
-  
+
   s.source       = { :git => "https://github.com/iZettle/Form.git", :tag => "#{s.version}" }
-  s.source_files = "Form/*.{swift}"
+  s.source_files = "Form/*.{swift,m,h}"
+  s.public_header_files = "Form/*.{h}"
   s.swift_version = '4.1'
 end

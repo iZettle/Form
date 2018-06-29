@@ -148,7 +148,7 @@ private extension SectionStyle {
         rowInsets = UIEdgeInsets(horizontalInset: 15, verticalInset: 9)
         itemSpacing = 10
 
-        let insetted = traits.isPad && isGrouped && traits.horizontalSizeClass == .regular
+        let insetted = isGrouped && traits.horizontalSizeClass == .regular
         background = insetted ? .systemInsetted : .system
         selectedBackground = insetted ? .systemInsettedSelected : .systemSelected
 
