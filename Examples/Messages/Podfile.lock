@@ -1,0 +1,28 @@
+PODS:
+  - FlowFramework (1.2.0)
+  - FormFramework (1.0.0):
+    - FlowFramework (~> 1.2)
+  - PresentationFramework/Form (1.1.0):
+    - FlowFramework (~> 1.1)
+    - FormFramework (~> 1.0)
+
+DEPENDENCIES:
+  - PresentationFramework/Form (from `../..`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - FlowFramework
+    - FormFramework
+
+EXTERNAL SOURCES:
+  PresentationFramework:
+    :path: "../.."
+
+SPEC CHECKSUMS:
+  FlowFramework: 1068bfba0d5cfe5fed242ea77d1ac74afc921618
+  FormFramework: f55c63a2a70531fe934a26c92269965dfe9d9590
+  PresentationFramework: bfa371d57466861b6bf512a0f32afab16e5313e7
+
+PODFILE CHECKSUM: 4e21812deb16237893887772bd7ba1cda3e06f4c
+
+COCOAPODS: 1.5.3

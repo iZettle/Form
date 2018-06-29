@@ -13,6 +13,10 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "9.0"
   s.dependency 'FlowFramework', '~> 1.2'
 
+  s.subspec 'Presentation' do |presentation|
+    presentation.dependency 'PresentationFramework', '~> 1.0'
+  end
+
   s.source       = { :git => "https://github.com/iZettle/Form.git", :tag => "#{s.version}" }
   s.source_files = "Form/*.{swift,m,h}"
   s.public_header_files = "Form/*.{h}"
