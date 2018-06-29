@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.author       = { 'iZettle AB' => 'hello@izettle.com' }
 
   s.ios.deployment_target = "9.0"
-  s.dependency 'FlowFramework', '~> 1.1'
+  s.dependency 'FlowFramework', '~> 1.2'
 
   s.source       = { :git => "https://github.com/iZettle/Form.git", :tag => "#{s.version}" }
   s.source_files = "Form/*.{swift,m,h}"
