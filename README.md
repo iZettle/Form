@@ -84,7 +84,7 @@ extension UIViewController {
 
 Form extends several UI components with initializers accepting a style parameter that often has a default that can be globally overridden by your app:
 
-![Messages and compose views using custom styling](https://github.com/iZettle/Form/blob/master/Documentation/MessageCustom.png?raw=true)
+![Messages and compose views using custom styling](https://github.com/iZettle/Form/blob/master/Documentation/MessagesCustom.png?raw=true)
 
 Where the form shown above is built using stack views, Form also provides helpers to populate `UITableView`s for improved performance when you have larger or dynamic tables:
 
@@ -182,7 +182,7 @@ prefix func §(key: String) -> Localized {
 let label = UILabel(value: §"InfoKey")
 ```
 
-## Presentation Framework
+## Presentation framework
 
 We highly recommend that you also check out the [Presentation framework](https://github.com/iZettle/Presentation). Form and Presentation were developed closely together and share many of the same underlying design philosophies.
 
