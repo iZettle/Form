@@ -120,8 +120,6 @@ extension UIViewController {
 }
 ```
 
-![Compose message using system and custom styles](https://github.com/iZettle/Form/blob/master/Documentation/Messages.png?raw=true)
-
 Both forms and tables are using the same styling allowing you to seamlessly intermix tables and forms to get the benefit of both.
 
 ## Requirements
