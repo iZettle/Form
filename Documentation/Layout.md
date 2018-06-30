@@ -24,7 +24,7 @@ Form also provides helpers to pin a view to an edge of a scroll view and update 
 bag += scrollView.embedPinned(button, edge: .bottom, minHeight: 44)
 ```
 
-### View controller installation 
+## View controller installation 
 
 As it is so common to set up your views in scroll views and also to set up your view controller to use this scroll view, Form provides the install helper: 
 

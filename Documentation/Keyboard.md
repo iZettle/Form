@@ -57,7 +57,7 @@ bag += viewPortEventSignal().onValue { event in
 }
 ```
 
-# Working with responders
+## Working with responders
 
 Form also comes with several helpers to make it easier to work with responders. By using `setNextResponder()` you could set up a control to set a new first responder once it ends editing on exit:
 
