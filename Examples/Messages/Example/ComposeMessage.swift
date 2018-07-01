@@ -25,17 +25,26 @@ extension ComposeMessage: Presentable {
         let title = section.appendRow(title: "Title").append(UITextField(placeholder: "title"))
         let body = section.appendRow(title: "Body").append(UITextField(placeholder: "body"))
 
+        let isValid = combineLatest(title, body).map {
+            !$0.isEmpty && !$1.isEmpty
+        }
+
+        let save = viewController.navigationItem.addItem(UIBarButtonItem(system: .save), position: .right)
+        let cancel = viewController.navigationItem.addItem(UIBarButtonItem(system: .cancel), position: .left)
+
         return (viewController, Future { completion in
             // Setup event handling
             let bag = DisposeBag()
 
-            bag += viewController.navigationItem.addItem(UIBarButtonItem(system: .cancel), position: .left).onValue {
-                completion(.failure(PresentError.dismissed))
-            }
+            bag += isValid.atOnce().bindTo(save, \.enabled)
 
-            bag += viewController.navigationItem.addItem(UIBarButtonItem(system: .save), position: .right).onValue {
+            bag += save.onValue {
                 let message = Message(title: title.value, body: body.value)
                 completion(.success(message))
+            }
+
+            bag += cancel.onValue {
+                completion(.failure(PresentError.dismissed))
             }
 
             bag += viewController.install(form) { scrollView in
