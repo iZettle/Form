@@ -40,9 +40,33 @@ extension UIViewController {
         let label = UILabel(value: "Hello")
         stylingSection.appendRow(title: "Label").append(label)
 
-        let textRow = stylingSection.appendRow(title: "TextField").append(UITextField(value: "Hello", placeholder: "PlaceHolder"))
+        let firstField = UITextField(value: "Hello", placeholder: "PlaceHolder")
+        firstField.accessibilityIdentifier = "firstField"
+        
+        let textRow = stylingSection.appendRow(title: "TextField").append(firstField)
         bag += textRow.atOnce().map { $0 }.bindTo(label, \.value)
-
+        
+        let secondField = UITextField(value: "", placeholder: "")
+        secondField.accessibilityIdentifier = "secondField"
+        let secondRow = stylingSection.appendRow(title: "SecondRow").append(secondField)
+        secondRow.row.accessibilityIdentifier = "secondRow"
+        
+        let thirdField = UITextField(value: "", placeholder: "")
+        thirdField.accessibilityIdentifier = "thirdField"
+        
+        let testSwitch = UISwitch()
+        testSwitch.accessibilityIdentifier = "switch"
+        
+        let switchRow = stylingSection.appendRow(title: "SwitchRow").append(thirdField).append(testSwitch)
+        switchRow.row.accessibilityIdentifier = "switchRow"
+        
+        let valueField = ValueField(value: 0)
+        valueField.accessibilityIdentifier = "valueField"
+        let valueRow = stylingSection.appendRow(title: "ValueRow").append(valueField)
+        
+        
+        valueRow.row.accessibilityIdentifier = "valueRow"
+        
         let buttonRow = stylingSection.appendRow(title: "Button").append(UIButton(title: "Hello"))
 
         bag += stylingSection.appendRow(title: "Switch").append(UISwitch(value: true)).atOnce().negate().bindTo(buttonRow, \.[animated: \.isHidden])
