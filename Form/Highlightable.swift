@@ -23,12 +23,12 @@ public extension Highlightable {
 
 extension UILabel: Highlightable {
     public var isHighlightedSignal: ReadWriteSignal<Bool> {
-        return signal(for: \.highlighted).distinct()
+        return signal(for: \.isHighlighted).distinct()
     }
 }
 
 extension UIImageView: Highlightable {
     public var isHighlightedSignal: ReadWriteSignal<Bool> {
-        return signal(for: \.highlighted).distinct()
+        return signal(for: \.isHighlighted).distinct()
     }
 }

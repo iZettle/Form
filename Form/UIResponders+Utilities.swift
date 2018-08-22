@@ -117,7 +117,7 @@ public extension UIView {
 
             // Observing if a view becomes hidden or visible
             let viewsToObserve = Set([self] + controls.flatMap { $0.allAncestors(descendantsOf: self).map(Array.init) ?? [] })
-            treeChangeBag += merge(viewsToObserve.reduce([]) { $0 + [$1.signal(for: \.hidden)] }).atOnce().onValue { _ in
+            treeChangeBag += merge(viewsToObserve.reduce([]) { $0 + [$1.signal(for: \.isHidden)] }).atOnce().onValue { _ in
                 chainingBag.dispose()
                 let chainableControls = self.chainableControls.sorted(by: self.topLeftToBottomRightSort)
                 chainingBag += chainResponders(chainableControls, shouldLoop: shouldLoop, returnKey: returnKey)

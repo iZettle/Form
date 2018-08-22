@@ -196,7 +196,7 @@ private extension SectionView {
         var synchronizedHides = [(() -> ())]()
 
         for row in rows {
-            hiddenBag += row.content.signal(for: \.hidden).onValue { [weak self] hidden in
+            hiddenBag += row.content.signal(for: \.isHidden).onValue { [weak self] hidden in
                 guard let `self` = self else { return }
 
                 let action = {
