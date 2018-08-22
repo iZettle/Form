@@ -107,7 +107,7 @@ extension CollectionKit: TableAnimatable {
                                    rowIdentifier: rowIdentifier,
                                    rowNeedsUpdate: rowNeedsUpdate ?? { (_, _)  in false })
 
-        view.animate(changes: changes)
+        view.animate(changes: changes, animation: animation)
 
         changesCallbacker.callAll(with: changes)
         callbacker.callAll(with: table)
