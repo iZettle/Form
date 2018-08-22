@@ -23,7 +23,7 @@ public extension Selectable {
 
 extension UIControl: Selectable {
     public var isSelectedSignal: ReadWriteSignal<Bool> {
-        return signal(for: \.selected).distinct()
+        return signal(for: \.isSelected).distinct()
     }
 }
 
