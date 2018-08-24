@@ -71,10 +71,12 @@ public final class SelectView: UIView, Selectable, Highlightable {
     }
 
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if callbacker.isEmpty && detectFirstResponder {
-            firstPossibleResponder?.becomeFirstResponder()
-        } else {
-            callbacker.callAll(with: ())
+        if isSingleAndInside(touches) {
+            if callbacker.isEmpty && detectFirstResponder {
+                firstPossibleResponder?.becomeFirstResponder()
+            } else {
+                callbacker.callAll(with: ())
+            }
         }
 
         guard let didHighlightTime = autoHighlightTime else { return }
