@@ -118,9 +118,9 @@ public extension SectionView {
 
 extension SectionView: DynamicStylable {
     public func applyStyle(_ style: SectionStyle) {
-        let rows = self.rows.filter { !$0.content.isHidden }
-        for (i, row) in rows.enumerated() {
-            rowConstraints[i].constant = style.minRowHeight
+        let rowsAndConstraints = zip(rows, rowConstraints).filter { !$0.0.content.isHidden }
+        for (i, (row, rowConstraint)) in rowsAndConstraints.enumerated() {
+            rowConstraint.constant = style.minRowHeight
             let isFirst = i == 0
             let isLast = i == rows.count - 1
             let position = CellPosition(isFirst: isFirst, isLast: isLast)
@@ -177,9 +177,9 @@ private extension SectionView {
 
     func updateMinHeightConstraints() {
         let minHeight = currentStyle.minRowHeight
-        for (i, row) in rows.enumerated() {
+        for (row, rowConstraint) in zip(rows, rowConstraints) {
             // Make sure to set height to 0 to avoid bug where the stack view sometimes get an incorrect initial layout e.g. after an initial presentation of some hidden rows.
-            rowConstraints[i].constant = row.content.isHidden ? 0 : minHeight
+            rowConstraint.constant = row.content.isHidden ? 0 : minHeight
         }
     }
 
