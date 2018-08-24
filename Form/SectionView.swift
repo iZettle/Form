@@ -119,10 +119,12 @@ public extension SectionView {
 extension SectionView: DynamicStylable {
     public func applyStyle(_ style: SectionStyle) {
         let rowsAndConstraints = zip(rows, rowConstraints).filter { !$0.0.content.isHidden }
+        let visibleRowCount = rowsAndConstraints.count
+
         for (i, (row, rowConstraint)) in rowsAndConstraints.enumerated() {
             rowConstraint.constant = style.minRowHeight
             let isFirst = i == 0
-            let isLast = i == rows.count - 1
+            let isLast = i == visibleRowCount - 1
             let position = CellPosition(isFirst: isFirst, isLast: isLast)
             row.background.image = style.background.image(for: position)
             row.selected.image = style.selectedBackground.image(for: position)
@@ -175,14 +177,6 @@ private extension SectionView {
         }
     }
 
-    func updateMinHeightConstraints() {
-        let minHeight = currentStyle.minRowHeight
-        for (row, rowConstraint) in zip(rows, rowConstraints) {
-            // Make sure to set height to 0 to avoid bug where the stack view sometimes get an incorrect initial layout e.g. after an initial presentation of some hidden rows.
-            rowConstraint.constant = row.content.isHidden ? 0 : minHeight
-        }
-    }
-
     func updateOrderedViews(to newValue: [UIView]) {
         let stack = rowsStackView
         for change in orderedViews.changes(toBuild: newValue) {
@@ -217,17 +211,13 @@ private extension SectionView {
                     if isAnimating {
                         synchronizedHides.append(action)
                         self.oneAtTheTimeHiddenUpdate.coalesceToNextRunLoop {
-                            UIView.animate(withDuration: 0.3, delay: 0, options: [], animations: {
+                            UIView.animate(withDuration: 0.3) {
                                 synchronizedHides.forEach { $0(); self.applyStyling() }
                                 synchronizedHides.removeAll()
-                            }, completion: { _ in
-                                // We need to update constraints once animation is done to not cause animation artifacts.
-                                self.updateMinHeightConstraints()
-                            })
+                            }
                         }
                     } else {
                         action()
-                        self.updateMinHeightConstraints()
                     }
                 }
             }
