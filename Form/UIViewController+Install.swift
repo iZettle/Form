@@ -112,9 +112,7 @@ private extension UIViewController {
     func installScrollView<T: UIScrollView>(_ scrollView: T, options: InstallOptions, onInstall: ((T) -> Void)?) -> Disposable {
         let bag = DisposeBag()
 
-        if options.contains(.disableScrollingIfContentFits) {
-            bag += scrollView.disableScrollingIfContentFits()
-        }
+        scrollView.alwaysBounceVertical = !options.contains(.disableScrollingIfContentFits)
 
         bag += combineLatest(scrollView.didMoveToWindowSignal, scrollView.didLayoutSignal).onFirstValue { _ in
             if self.automaticallyAdjustsScrollViewInsets {
