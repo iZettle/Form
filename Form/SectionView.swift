@@ -118,11 +118,13 @@ public extension SectionView {
 
 extension SectionView: DynamicStylable {
     public func applyStyle(_ style: SectionStyle) {
-        let rows = self.rows.filter { !$0.content.isHidden }
-        for (i, row) in rows.enumerated() {
-            rowConstraints[i].constant = style.minRowHeight
+        let rowsAndConstraints = zip(rows, rowConstraints).filter { !$0.0.content.isHidden }
+        let visibleRowsCount = rowsAndConstraints.count
+
+        for (i, (row, rowConstraint)) in rowsAndConstraints.enumerated() {
+            rowConstraint.constant = style.minRowHeight
             let isFirst = i == 0
-            let isLast = i == rows.count - 1
+            let isLast = i == visibleRowsCount - 1
             let position = CellPosition(isFirst: isFirst, isLast: isLast)
             row.background.image = style.background.image(for: position)
             row.selected.image = style.selectedBackground.image(for: position)
