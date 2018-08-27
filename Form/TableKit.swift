@@ -69,6 +69,41 @@ public final class TableKit<Section, Row> {
         }
     }()
 
+    /// Delegate to retreive a view to be displayed when the table is empty.
+    /// The view will be constrained to the edges of the table
+    ///
+    /// - Parameter animationDuration: The duration of the fade in/out animation when showing/hiding the empty view
+    /// - Returns: A delegate object capturing the logic for creating an empty view
+    public func viewForEmptyTable(animationDuration: TimeInterval = 0.15) -> Delegate<(), UIView> {
+        return Delegate { [weak self] getEmptyView in
+            let bag = DisposeBag()
+            guard let `self` = self else { return bag }
+
+            var currentView: UIView? = nil
+            bag += self.atOnce().onValue { table in
+                if let prevView = currentView {
+                    currentView = nil
+                    UIView.animate(withDuration: animationDuration,
+                                   animations: { prevView.alpha = 0 },
+                                   completion: { _ in prevView.removeFromSuperview()  })
+                }
+
+                if table.isEmpty {
+                    let emptyView = getEmptyView(())
+                    emptyView.alpha = 0
+                    self.view.embedAutoresizingView(emptyView)
+                    self.view.sendSubview(toBack: emptyView)
+                    currentView = emptyView
+                    UIView.animate(withDuration: animationDuration) { emptyView.alpha = 1 }
+                }
+            }
+
+            bag += { currentView?.removeFromSuperview() }
+
+            return bag
+        }
+    }
+
     /// Creates a new instance
     /// - Parameters:
     ///   - table: The initial table. Defaults to an empty table.
