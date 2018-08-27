@@ -17,7 +17,7 @@ import Flow
 ///     bag += delegate.didSelectRow.onValue { row in ... }
 ///
 /// - Note: Even though you can use an instance of `self` by itself, you would most likely use it indirectly via a `CollectionKit` instance.
-public final class CollectionViewDelegate<Section, Row>: NSObject, UICollectionViewDelegate {
+public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UICollectionViewDelegate {
     public var table: Table<Section, Row>
     private let didSelectCallbacker = Callbacker<TableIndex>()
 

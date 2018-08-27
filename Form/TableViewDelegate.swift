@@ -18,7 +18,7 @@ import Flow
 ///     bag += dataSource.titleForHeaderInSection.set { index in ... }
 ///
 /// - Note: Even though you can use an instance of `self` by itself, you would most likely use it indirectly via a `TableKit` instance.
-public final class TableViewDelegate<Section, Row>: NSObject, UITableViewDelegate {
+public final class TableViewDelegate<Section, Row>: ScrollViewDelegate, UITableViewDelegate {
     private let didSelectCallbacker = Callbacker<TableIndex>()
     private let didReorderCallbacker = Callbacker<(source: TableIndex, destination: TableIndex)>()
     private let willDisplayCellCallbacker = Callbacker<(UITableViewCell, TableIndex)>()
