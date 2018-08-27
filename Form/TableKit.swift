@@ -39,6 +39,7 @@ public final class TableKit<Section, Row> {
     }
 
     /// Delegate to retreive a view to be displayed when table is empty.
+    @available(*, deprecated, message: "use `viewForEmptyTable(animationDuration:)` function instead")
     public lazy var viewForEmptyTable: Delegate<(), UIView> = {
         Delegate { [weak self] getEmptyView in
             let bag = DisposeBag()
