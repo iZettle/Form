@@ -39,7 +39,7 @@ extension NumberEditor: TextEditor {
     }
 
     public var textAndInsertionIndex: (text: String, index: String.Index) {
-        let text = formatter.string(from: decimalFromInternalText)!
+        let text = formatter.string(from: decimalFromInternalText(internalText))!
 
         guard let insertionIndexFromBack = formatter.insertionIndexFromBack else { return (text, text.endIndex) }
         return (text, text.index(text.endIndex, offsetBy: -insertionIndexFromBack))
@@ -65,6 +65,9 @@ extension NumberEditor: TextEditor {
             }
 
             append(char)
+        } else if char == negativeCharacter,
+            formatter.minimum?.decimalValue.isSignMinus ?? true {
+            isNegative = !isNegative
         }
     }
 
@@ -92,7 +95,7 @@ public extension NumberEditor where Value: BinaryInteger {
     init(formatter: NumberFormatter = .defaultInteger) {
         precondition(formatter.maximumFractionDigits == 0, "formatter used for integers must have maximumFractionDigits == 0")
         self.init(formatter: formatter,
-                  valueToDecimal: { NSDecimalNumber(value: UInt64($0)) },
+                  valueToDecimal: { NSDecimalNumber(value: Int64($0)) },
                   decimalToValue: { Value(truncatingIfNeeded: $0.uint64Value) })
     }
 }
@@ -127,7 +130,9 @@ private extension NumberFormatter {
 
 private extension NumberEditor {
     var decimalFromInternalText: NSDecimalNumber {
-        return decimalFromInternalText(internalText)
+        let decimal = decimalFromInternalText(internalText)
+        guard decimal != .negativeZero else { return .zero }
+        return decimal
     }
 
     private func decimalFromInternalText(_ internalText: String) -> NSDecimalNumber {
@@ -135,6 +140,9 @@ private extension NumberEditor {
         textWithDecimal.insert(".", at: textWithDecimal.index(textWithDecimal.endIndex, offsetBy: -minimumFractionDigits, limitedBy: textWithDecimal.startIndex)!)
         let value = NSDecimalNumber(string: textWithDecimal)
         let number = formatter.value(forFormattedValue: value)
+        if number == .zero && isNegative { // To handle '-0'
+            return .negativeZero
+        }
         return isNegative ? number.multiplying(by: -1) : number
     }
 
@@ -158,8 +166,8 @@ private extension NumberEditor {
         internalText = "0"
         alwaysShowsDecimalSeparator = false
         minimumFractionDigits = minFractionDigits
-        isNegative = value < NSDecimalNumber.zero
         chars.forEach { insertCharacter($0) }
+        isNegative = value < .zero
     }
 
     mutating func append(_ character: Character) {
@@ -173,10 +181,13 @@ private extension NumberEditor {
     }
 
     mutating func deleteLast() {
+        let previous = internalText
         internalText = String(internalText.dropLast())
-        if internalText.isEmpty {
+        if internalText.isEmpty { // `-3` -> `-0` and `-0` -> `0`
             internalText = "0"
-            isNegative = false
+            if previous == "0" {
+                isNegative = false
+            }
         }
     }
 
@@ -205,6 +216,10 @@ private extension NumberEditor {
 
     var decimalCharacter: Character {
         return formatter._decimalSeparator.first!
+    }
+
+    var negativeCharacter: Character {
+        return formatter.negativePrefix.first!
     }
 
     var formatter: NumberFormatter {
@@ -266,6 +281,10 @@ private extension NumberFormatter {
             return value
         }
     }
+}
+
+private extension NSDecimalNumber {
+    static let negativeZero = NSDecimalNumber(mantissa: 1, exponent: 1000, isNegative: true)
 }
 
 final class Box<A> {

@@ -61,7 +61,6 @@ class DecimalEditorTests: XCTestCase {
         test(editor, "11111<<<<<", "0", 0, 0)
         test(editor, "1234<<", "12", 12, 0)
         test(editor, "12<<34", "34", 34, 0)
-
     }
 
     func testMinFractionTwo() {
@@ -143,5 +142,50 @@ class DecimalEditorTests: XCTestCase {
             decimalEditor.deleteBackward()
         }
         XCTAssertEqual(decimalEditor.value, NSDecimalNumber.zero)
+    }
+
+    func testNegative() {
+        let formatter = decimalFormatter
+        let editor = NumberEditor(formatter: formatter)
+
+        test(editor, "-", "-0", 0, 0)
+        test(editor, "-1", "-1", -1, 0)
+        test(editor, "-1<", "-0", 0, 0)
+        test(editor, "-1<<", "0", 0, 0)
+        test(editor, "-123", "-123", -123, 0)
+        test(editor, "-12-3", "123", 123, 0)
+        test(editor, "-12-3-", "-123", -123, 0)
+    }
+
+    func testNegativeWithFraction() {
+        let formatter = decimalFormatter
+        formatter.maximumFractionDigits = 3
+        let editor = NumberEditor(formatter: formatter)
+
+
+        test(editor, "-.", "-0.", 0, 0)
+        test(editor, ".-", "-0.", 0, 0)
+        test(editor, "-.<", "-0", 0, 0)
+        test(editor, "-.<<", "0", 0, 0)
+        test(editor, "-.1", "-0.1", -0.1, 0)
+        test(editor, "-.12-", "0.12", 0.12, 0)
+    }
+
+    func testNegativeMinFractionTwoAndPrefix() {
+        let formatter = decimalFormatter
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        formatter.positivePrefix = "P"
+        formatter.negativePrefix = "-N"
+
+        let editor = NumberEditor(formatter: formatter)
+
+        test(editor, "-", "-N0.00", 0, 0)
+        test(editor, "-1", "-N0.01", -0.01, 0)
+        test(editor, "-1<", "-N0.00", 0, 0)
+        test(editor, "-1<<", "P0.00", 0, 0)
+        test(editor, "-123", "-N1.23", -1.23, 0)
+        test(editor, "-12-3", "P1.23", 1.23, 0)
+        test(editor, "-12-3-", "-N1.23", -1.23, 0)
     }
 }
