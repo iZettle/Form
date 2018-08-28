@@ -42,8 +42,7 @@ public final class TableKit<Section, Row> {
     @available(*, deprecated, message: "use `viewForEmptyTable(fadeDuration:)` instead")
     public lazy var viewForEmptyTable: Delegate<(), UIView> = {
         return Delegate { [weak self] getEmptyView in
-            let bag = DisposeBag()
-            guard let `self` = self else { return bag }
+            guard let `self` = self else { return NilDisposer() }
 
             return self.viewForEmptyTable().set { _ in
                 UIView(embeddedView: getEmptyView(()),
