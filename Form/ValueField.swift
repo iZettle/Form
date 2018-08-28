@@ -151,7 +151,13 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
     }
 
     public dynamic var returnKeyType: UIReturnKeyType = .default
-    public dynamic var autocorrectionType: UITextAutocorrectionType = .default
+
+    /// Always use `.no` autocorrection as the system keyboard will be confused if it is used.
+    public dynamic var autocorrectionType: UITextAutocorrectionType {
+        get { return .no }
+        set { /* ignore */ }
+    }
+    
     public dynamic var keyboardType: UIKeyboardType = .default
 
     public override var intrinsicContentSize: CGSize {
@@ -283,7 +289,6 @@ private extension ValueField {
         placeholderLabel.style = style.placeholder
         cursor.backgroundColor = style.cursorColor
         returnKeyType = style.returnKey
-        autocorrectionType = style.autocorrection
         keyboardType = style.keyboard
         updateAlignmentConstraints()
     }
