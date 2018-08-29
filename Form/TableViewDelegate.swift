@@ -22,6 +22,7 @@ public final class TableViewDelegate<Section, Row>: ScrollViewDelegate, UITableV
     private let didSelectCallbacker = Callbacker<TableIndex>()
     private let didReorderCallbacker = Callbacker<(source: TableIndex, destination: TableIndex)>()
     private let willDisplayCellCallbacker = Callbacker<(UITableViewCell, TableIndex)>()
+    private let didEndDisplayingCellCallbacker = Callbacker<UITableViewCell>()
     private var actions = [(UITableViewRowAction, (TableIndex) -> Bool)]()
 
     public var table: Table<Section, Row>
@@ -94,6 +95,10 @@ public final class TableViewDelegate<Section, Row>: ScrollViewDelegate, UITableV
         willDisplayCellCallbacker.callAll(with: (cell, tableIndex))
     }
 
+    public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        didEndDisplayingCellCallbacker.callAll(with: cell)
+    }
+
     public func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
         let sourceIndexPath = TableIndex(section: sourceIndexPath.section, row: sourceIndexPath.row)
         let toIndex = TableIndex(section: proposedDestinationIndexPath.section, row: proposedDestinationIndexPath.row)
@@ -120,6 +125,10 @@ public extension TableViewDelegate {
 
     var willDisplayCell: Signal<(UITableViewCell, TableIndex)> {
         return Signal(callbacker: willDisplayCellCallbacker)
+    }
+
+    var didEndDisplayingCell: Signal<UITableViewCell> {
+        return Signal(callbacker: didEndDisplayingCellCallbacker)
     }
 
     var didReorderRow: Signal<(source: TableIndex, destination: TableIndex)> {
