@@ -156,6 +156,11 @@ extension UITableViewCell {
         bag += configure(new)
     }
 
+    func releaseBag<Item>(forType: Item.Type) {
+        let (_, bag) = configureAndBag(Item.self)!
+        bag.dispose()
+    }
+
     func updateBackground(forStyle style: DynamicTableViewFormStyle, position: CellPosition) {
         guard let backgroundView = backgroundView as? CellBackgroundView, let selectedBackgroundView = selectedBackgroundView as? CellBackgroundView else {
             self.backgroundView = CellBackgroundView(frame: bounds, style: style, position: position)

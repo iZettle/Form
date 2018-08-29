@@ -174,6 +174,16 @@ public final class TableKit<Section, Row> {
             return cell
         }
 
+        bag += delegate.didEndDisplayingCell.onValue { cell in
+            cell.releaseBag(forType: Row.self)
+        }
+
+        bag += {
+            for cell in view.visibleCells {
+                cell.releaseBag(forType: Row.self)
+            }
+        }
+
         // Reordering
         bag += delegate.didReorderRow.onValue { (source: TableIndex, destination: TableIndex) in
             self.updatePositionsOfVisibleCells { index in
