@@ -223,8 +223,8 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable 
     /// - Parameters:
     ///   - table: The initial table. Defaults to an empty table.
     ///   - bag: A bag used to add table kit activities.
-    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, bag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
-        self.init(table: table, style: style, bag: bag, headerForSection: headerForSection, footerForSection: footerForSection) { table, row in
+    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
+        self.init(table: table, style: style, view: view, bag: bag, headerForSection: headerForSection, footerForSection: footerForSection) { table, row in
             table.dequeueCell(forItem: row, style: style)
         }
     }
@@ -235,8 +235,8 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable,
     /// - Parameters:
     ///   - table: The initial table. Defaults to an empty table.
     ///   - bag: A bag used to add table kit activities.
-    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, bag: DisposeBag, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
-        self.init(table: table, style: style, bag: bag, headerForSection: { table, section in
+    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
+        self.init(table: table, style: style, view: view, bag: bag, headerForSection: { table, section in
             table.dequeueHeaderFooterView(forItem: section, style: style.header, formStyle: style.form)
         }, footerForSection: footerForSection, cellForRow: { table, row in
             table.dequeueCell(forItem: row, style: style)
