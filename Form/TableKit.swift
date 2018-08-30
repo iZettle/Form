@@ -145,12 +145,12 @@ public final class TableKit<Section, Row> {
 
             self.delegate.headerHeight = style.fixedHeaderHeight ?? (headerForSection == nil ? style.section.header.emptyHeight : UITableViewAutomaticDimension)
             if self.delegate.headerHeight == 0 { // 0 has special meaning, not what we want
-                self.delegate.headerHeight = 0.0000001
+                self.delegate.headerHeight = .headerFooterAlmostZero
             }
 
             self.delegate.footerHeight = style.fixedFooterHeight ?? (footerForSection == nil ? style.section.footer.emptyHeight : UITableViewAutomaticDimension)
             if self.delegate.footerHeight == 0 { // 0 has special meaning, not what we want
-                self.delegate.footerHeight = 0.0000001
+                self.delegate.footerHeight = .headerFooterAlmostZero
             }
         }
 
@@ -396,6 +396,10 @@ public extension MasterDetailSelection where Elements.Index == TableIndex {
 }
 
 #endif
+
+extension CGFloat {
+    static let headerFooterAlmostZero: CGFloat = 0.0000001
+}
 
 private extension Table {
     func isValidIndex(_ index: TableIndex) -> Bool {
