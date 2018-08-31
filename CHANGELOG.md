@@ -4,10 +4,12 @@
 - Added `Either` conditional conformance to `Reusable` when `Left` and `Right` conforms to `Reusable`.
 - Added alternative helper type `MixedReusable` that can be used instead of `Either` for tables with mixed types.
 - Extended the Demo sample with examples show-casing using tables with mixed types.
+- Added new table and collection view overloads of dequeueCell taking a re-configure closure.
 
 - Deprecating `EitherRow`, replaced by using Flows `Either` instead 
 - Deprecating `dequeueCell(forItem:, style:, reuseIdentifier:)`, replaced by version not using explicit `reuseIdentifier`
 
+- Fixed issue where Reusable configure as called instead of reconfigure when rows was updated.
 
 ## 1.1.1
 - Added didEndDisplayingCell signal to TableViewDelegate

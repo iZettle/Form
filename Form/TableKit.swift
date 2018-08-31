@@ -305,7 +305,7 @@ extension TableKit: TableAnimatable {
                     continue
                 }
 
-                cell.reconfigure(new: row)
+                cell.reconfigure(old: old, new: row)
                 hasReconfiguredCells = true
             }
         }
