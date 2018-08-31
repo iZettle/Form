@@ -98,6 +98,18 @@ extension UIViewController {
             bag += section.appendRow(title: "TableKit, Reusable and blending forms header").append(.chevron).onValueDisposePrevious {
                 present { $0.presentTableUsingKitAndReusableWithBlendingFormHeader(style: style) }
             }
+
+            bag += section.appendRow(title: "TableKit and Either Reusable").append(.chevron).onValueDisposePrevious {
+                present { $0.presentTableUsingKitAndEitherReusable(style: style) }
+            }
+
+            bag += section.appendRow(title: "TableKit and Mixed Reusable").append(.chevron).onValueDisposePrevious {
+                present { $0.presentTableUsingKitAndMixedReusable(style: style) }
+            }
+
+            bag += section.appendRow(title: "TableKit and Nested Either Reusable").append(.chevron).onValueDisposePrevious {
+                present { $0.presentTableUsingKitAndNestedEitherReusable(style: style) }
+            }
         }
 
         bag += self.install(form)

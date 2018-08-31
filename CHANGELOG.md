@@ -1,3 +1,14 @@
+## 1.2
+
+- Added `reuseIdentifier` to the `Reusable` protocol to allow better handling of tables with mixed types.
+- Added `Either` conditional conformance to `Reusable` when `Left` and `Right` conforms to `Reusable`.
+- Added alternative helper type `MixedReusable` that can be used instead of `Either` for tables with mixed types.
+- Extended the Demo sample with examples show-casing using tables with mixed types.
+
+- Deprecating `EitherRow`, replaced by using Flows `Either` instead 
+- Deprecating `dequeueCell(forItem:, style:, reuseIdentifier:)`, replaced by version not using explicit `reuseIdentifier`
+
+
 ## 1.1.1
 - Added didEndDisplayingCell signal to TableViewDelegate
 - Bugfix: Updated TableKit to release the a cell's bag once the cell ends displaying or the TableKit's bag is being disposed.

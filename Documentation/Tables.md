@@ -55,6 +55,28 @@ extension Item: Reusable {
 
 When conforming to `Reusable` you provide a way to make new views that can be reused and will be configured every time they are reused using a configure function. For rows it is useful to return an instances of `RowView` (see [forms](./forms)).
 
+## Reusable of mixed types
+
+As `Either` conditionally conform to `Resusale` if both `Left` and `Right` do, you can use `Either` to handle tables with mixed types:
+
+```swift
+typealias Row = Either<Int, String>
+let table = Table<(), Row>(rows: [.left(1), .right("A")])
+```
+
+If you have more than two different types you can furhter nest `Either` types:
+
+```swift
+typealias Row = Either<Either<Int, String>, Double>
+let table = Table<(), Row>(rows: [.left(.left(1)), .left(.right("A")), .right(3.14)]])
+```
+
+If you are ok to loose type information you can also consider using the `MixedReusable` helper:
+
+```swift 
+var mixedTable = Table<(), MixedReusable>(rows: [.init(1), .init("A"), .init("B"), .init(2)])
+```
+
 ## TableKit
 
 Once you have your data in a `Table` and your `Row` and `Section` types conforming to `Reusable`, you can construct a `TableKit` that will provide a `UITableView` set up with a proper data source and delegate:
