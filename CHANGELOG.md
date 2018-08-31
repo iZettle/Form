@@ -1,3 +1,7 @@
+## 1.1.1
+- Added didEndDisplayingCell signal to TableViewDelegate
+- Bugfix: Updated TableKit to release the a cell's bag once the cell ends displaying or the TableKit's bag is being disposed.
+
 ## 1.1.0
 - Adds a ScrollViewDelegate class implementing the UIScrollViewDelegate protocol
 - Updates NumberEditor to handle entering and editing of negative value
