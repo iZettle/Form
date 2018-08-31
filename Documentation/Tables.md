@@ -64,14 +64,14 @@ typealias Row = Either<Int, String>
 let table = Table<(), Row>(rows: [.left(1), .right("A")])
 ```
 
-If you have more than two different types you can furhter nest `Either` types:
+If you have more than two different types you can further nest `Either` types:
 
 ```swift
 typealias Row = Either<Either<Int, String>, Double>
 let table = Table<(), Row>(rows: [.left(.left(1)), .left(.right("A")), .right(3.14)]])
 ```
 
-If you are ok to loose type information you can also consider using the `MixedReusable` helper:
+If you are ok with losing type information you can also consider using the `MixedReusable` helper:
 
 ```swift 
 var mixedTable = Table<(), MixedReusable>(rows: [.init(1), .init("A"), .init("B"), .init(2)])
