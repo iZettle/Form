@@ -10,7 +10,7 @@ import Foundation
 import Flow
 
 /// Helper containter for creating e.g. `Table`s of mixed content.
-/// In comparison of using e.g. `Either`, `MixedReusable` will loose type information
+/// In comparison of using e.g. `Either`, `MixedReusable` will lose type information
 /// as it will hold its value as `Any`.
 ///
 ///     var mixedTable = Table<(), MixedReusable>(rows: [.init(1), .init("A"), .init("B"), .init(2)])

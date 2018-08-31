@@ -134,7 +134,8 @@ extension Either: Reusable where Left: Reusable, Right: Reusable, Left.ReuseType
             case (.right(let prev)?, .right(let item)):
                 return right.reconfigure(prev, item)
             default:
-                fatalError("Should never get here")
+                assertionFailure("We should never get a mix of left and right for prev and item")
+                return NilDisposer()
             }
         })
     }
