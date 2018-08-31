@@ -62,11 +62,11 @@ public extension UITableView {
 
     /// Dequeues (reuse) or creates a new cell from `item` and by using the `cellAndConfigure` closure to create and configure configure the cell.
     /// - Parameter item: The item used to configure the cell.
-    /// - Parameter reuseIdentifier: The reuse identifier for the cell, defaults to `#function`.
+    /// - Parameter reuseIdentifier: The reuse identifier for the cell, defaults to name of `Item`'s type.
     /// - Parameter cellAndConfigure: Closure when given a reuse identifier returns a tuple of a `Row` and a configure closure. `
     ///     The configure closure passes the item to be used to configure the cell.
     ///     The disposable returned from the configure closure will be disposed before reusage.
-    func dequeueCell<Item, Cell: UITableViewCell>(forItem item: Item, reuseIdentifier: String = #function, cellAndConfigure: (String) -> (Cell, (Item) -> Disposable)) -> Cell {
+    func dequeueCell<Item, Cell: UITableViewCell>(forItem item: Item, reuseIdentifier: String = String(describing: Item.self), cellAndConfigure: (String) -> (Cell, (Item) -> Disposable)) -> Cell {
         if let cell = dequeueReusableCell(withIdentifier: reuseIdentifier) as? Cell {
             let (configure, bag) = cell.configureAndBag(Item.self)!
             bag.dispose() // Reuse
@@ -82,8 +82,15 @@ public extension UITableView {
     }
 
     /// Dequeues (reuses) or creates a new styled cell and using the `item`'s conformance to `Reusable` to create and configure the view to embed in the returned cell.
-    /// - Parameter reuseIdentifier: The reuse identifier for the cell, defaults to `#function`.
-    func dequeueCell<Item: Reusable>(forItem item: Item, style: DynamicTableViewFormStyle = .default, reuseIdentifier: String = #function) -> UITableViewCell where Item.ReuseType: ViewRepresentable {
+    func dequeueCell<Item: Reusable>(forItem item: Item, style: DynamicTableViewFormStyle = .default) -> UITableViewCell where Item.ReuseType: ViewRepresentable {
+        return dequeueCell(forItem: item, reuseIdentifier: item.reuseIdentifier, cellAndConfigure: { reuseIdentifier in
+            let (viewRepresentable, configure) = Item.makeAndConfigure()
+            return (UITableViewCell(view: viewRepresentable.viewRepresentation, reuseIdentifier: reuseIdentifier, style: style), configure)
+        })
+    }
+
+    @available(*, deprecated, message: "use `dequeueCell` version not using explicit `reuseIdentifier` parameter instead")
+    func dequeueCell<Item: Reusable>(forItem item: Item, style: DynamicTableViewFormStyle = .default, reuseIdentifier: String) -> UITableViewCell where Item.ReuseType: ViewRepresentable {
         return dequeueCell(forItem: item, reuseIdentifier: reuseIdentifier, cellAndConfigure: { reuseIdentifier in
             let (viewRepresentable, configure) = Item.makeAndConfigure()
             return (UITableViewCell(view: viewRepresentable.viewRepresentation, reuseIdentifier: reuseIdentifier, style: style), configure)

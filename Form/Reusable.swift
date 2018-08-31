@@ -53,6 +53,10 @@ public protocol Reusable {
     ///     }
     /// - Note: Only one of `makeAndConfigure()` or `makeAndReconfigure()` should be implemented.
     static func makeAndReconfigure() -> (make: ReuseType, reconfigure: (_ preceding: Self?, _ current: Self) -> Disposable)
+
+    /// The reuseIdentifer to be used when `Self` is used with e.g. `UITableView`'s or `UICollectionView`'s
+    /// Has a default implementation to return the name of `Self`'s type that should be suitable for most conforming types.
+    var reuseIdentifier: String { get }
 }
 
 public extension Reusable {
@@ -84,5 +88,62 @@ public extension Reusable {
 
     func reuseType() -> ReuseType {
         return reuseTypeAndDisposable().make
+    }
+
+    var reuseIdentifier: String {
+        return String(describing: Self.self)
+    }
+}
+
+/// You can use `Either`'s conditional conformance to `Reusable` to create `Table`s of mixed content.
+///
+///     typealias Row = Either<Int, String>
+///     let table = Table<(), Row>(rows: [.left(1), .right("A")]
+///
+///     typealias Row = Either<Either<Int, String>, Double>
+///     let table = Table<(), Row>(rows: [.left(.left(1)), .left(.right("A")), .right(3.14)]]
+///
+/// - See also: MixedReusable
+extension Either: Reusable where Left: Reusable, Right: Reusable, Left.ReuseType: ViewRepresentable, Right.ReuseType: ViewRepresentable {
+    public typealias ReuseType = UIView
+    private typealias ViewAndReconfigure<T: Reusable> = (make: T.ReuseType, reconfigure: (T?, T) -> Disposable)
+
+    public static func makeAndReconfigure() -> (make: UIView, reconfigure: (Either?, Either) -> Disposable) {
+        let row = UIStackView()
+        var left: ViewAndReconfigure<Left>!
+        var right: ViewAndReconfigure<Right>!
+
+        return (row, { prev, item in
+            if left == nil && right == nil {
+                switch item {
+                case .left:
+                    left = Left.makeAndReconfigure()
+                    row.orderedViews = [left.make.viewRepresentation]
+                case .right:
+                    right = Right.makeAndReconfigure()
+                    row.orderedViews = [right.make.viewRepresentation]
+                }
+            }
+            switch (prev, item) {
+            case (nil, .left(let item)):
+                return left.reconfigure(nil, item)
+            case (.left(let prev)?, .left(let item)):
+                return left.reconfigure(prev, item)
+            case (nil, .right(let item)):
+                return right.reconfigure(nil, item)
+            case (.right(let prev)?, .right(let item)):
+                return right.reconfigure(prev, item)
+            default:
+                assertionFailure("We should never get a mix of left and right for prev and item")
+                return NilDisposer()
+            }
+        })
+    }
+
+    public var reuseIdentifier: String {
+        switch self {
+        case .left(let l): return l.reuseIdentifier
+        case .right(let r): return r.reuseIdentifier
+        }
     }
 }

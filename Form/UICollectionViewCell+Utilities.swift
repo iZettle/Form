@@ -18,14 +18,13 @@ public extension UICollectionView {
 
     /// Dequeues (reuses) or creates a new cell for `indexPath`.
     /// - Parameter item: The item used to configure the cell.
-    /// - Parameter reuseIdentifier: The reuse identifier for the cell, defaults to `#function`.
+    /// - Parameter reuseIdentifier: The reuse identifier for the cell, defaults to name of `Item`'s type.
     /// - Parameter contentViewAndConfigure: A closure when given a reuse identifier returns a tuple of a view and a configure closure.
     ///     The configure closure passes the item to be used to configure the cell.
     ///     The disposable returned from the configure closure will be disposed before reusage.
     /// - Returns: A cell with the view embedded in.
     /// - Note: See `Reusable` for more info about reconfigure.
-    func dequeueCell<Item>(forItem item: Item, at indexPath: IndexPath, contentViewAndConfigure: () -> (UIView, (Item) -> Disposable)) -> UICollectionViewCell {
-        let reuseIdentifier = String(describing: Item.self)
+    func dequeueCell<Item>(forItem item: Item, at indexPath: IndexPath, reuseIdentifier: String = String(describing: Item.self), contentViewAndConfigure: () -> (UIView, (Item) -> Disposable)) -> UICollectionViewCell {
 
         register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
@@ -46,7 +45,7 @@ public extension UICollectionView {
 
     /// Dequeues (reuses) or creates a new view and using the `item`'s conformance to `Reusable` to create and configure the view to embed in the returned cell.
     func dequeueCell<Item: Reusable>(forItem item: Item, at indexPath: IndexPath) -> UICollectionViewCell where Item.ReuseType: ViewRepresentable {
-        return dequeueCell(forItem: item, at: indexPath, contentViewAndConfigure: {
+        return dequeueCell(forItem: item, at: indexPath, reuseIdentifier: item.reuseIdentifier, contentViewAndConfigure: {
             let (viewRepresentable, configure) = Item.makeAndConfigure()
             return (viewRepresentable.viewRepresentation, configure)
         })

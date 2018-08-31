@@ -123,6 +123,78 @@ extension UIViewController {
 
         return bag
     }
+
+    func presentTableUsingKitAndEitherReusable(style: DynamicTableViewFormStyle) -> Disposable {
+        displayableTitle = "TableKit and Either Reusable"
+        let bag = DisposeBag()
+
+        var table = Table<String, Either<Int, String>>(sections: [
+            ("Header 1", [.left(1), .right("A"), .right("B"), .left(2)]),
+            ("Header 2", [.left(3), .right("C"), .left(4), .right("D")])])
+
+        var swapTable = Table<String, Either<Int, String>>(sections: [
+            ("Header 1", [.left(5), .right("C"), .right("B"), .left(2)]),
+            ("Header 1b", [.left(1), .right("D"), .right("F"), .left(6)]),
+            ("Header 2", [.left(3), .right("A"), .left(4), .right("E")])])
+
+        let tableKit = TableKit(table: table, style: style, bag: bag)
+        bag += self.install(tableKit.view)
+
+        bag += self.navigationItem.addItem(UIBarButtonItem(title: "Swap"), position: .right).onValue {
+            swap(&table, &swapTable)
+            tableKit.set(table)
+        }
+
+        return bag
+    }
+
+    func presentTableUsingKitAndMixedReusable(style: DynamicTableViewFormStyle) -> Disposable {
+        displayableTitle = "TableKit and Mixed Reusable"
+        let bag = DisposeBag()
+
+        var table = Table<String, MixedReusable>(sections: [
+            ("Header 1", [.init(1), .init("A"), .init("B"), .init(2.2)]),
+            ("Header 2", [.init(3.14), .init("C"), .init(4), .init("D")])])
+
+        var swapTable = Table<String, MixedReusable>(sections: [
+            ("Header 1", [.init(5), .init("C"), .init("B"), .init(2.2)]),
+            ("Header 1b", [.init(1), .init("D"), .init("F"), .init(6.66)]),
+            ("Header 2", [.init(3.14), .init("A"), .init(4), .init("E")])])
+
+        let tableKit = TableKit(table: table, style: style, bag: bag)
+        bag += self.install(tableKit.view)
+
+        bag += self.navigationItem.addItem(UIBarButtonItem(title: "Swap"), position: .right).onValue {
+            swap(&table, &swapTable)
+            tableKit.set(table)
+        }
+
+        return bag
+    }
+
+    func presentTableUsingKitAndNestedEitherReusable(style: DynamicTableViewFormStyle) -> Disposable {
+        displayableTitle = "TableKit and Nested Either Reusable"
+        let bag = DisposeBag()
+        typealias Row = Either<Either<Int, String>, Double>
+
+        var table = Table<(), Row>(rows:
+            [.left(.left(1)), .left(.right("A")), .right(3.14)]
+        )
+
+        var swapTable = Table<(), Row>(rows:
+            [.left(.right("A")), .right(3.14), .left(.left(1)), .right(47.11) ]
+        )
+
+        let tableKit = TableKit(table: table, style: style, bag: bag)
+        bag += self.install(tableKit.view)
+
+        bag += self.navigationItem.addItem(UIBarButtonItem(title: "Swap"), position: .right).onValue {
+            swap(&table, &swapTable)
+            tableKit.set(table)
+        }
+
+        return bag
+    }
 }
 
 private var table = Table(sections: [("Header 1", 0..<5), ("Header 2", 5..<10)])
@@ -136,5 +208,25 @@ extension Int: Reusable {
             row.subtitle = "Subtitle \(item)"
             return NilDisposer()
         })
+    }
+}
+
+extension Double: Reusable {
+    public static func makeAndConfigure() -> (make: UIView, configure: (Double) -> Disposable) {
+        let label = ValueLabel(value: 0.0)
+        return (label, { value in
+            label.value = value
+            return NilDisposer()
+        })
+    }
+}
+
+// Could be removed once this is added to Flow
+extension Either: Hashable where Left: Hashable, Right: Hashable {
+    public var hashValue: Int {
+        switch self {
+        case .left(let left): return left.hashValue
+        case .right(let right): return right.hashValue
+        }
     }
 }

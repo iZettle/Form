@@ -27,6 +27,7 @@
 		21A79B6D1DBF5D84000D1231 /* BackgroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A79B6C1DBF5D84000D1231 /* BackgroundStyle.swift */; };
 		21A79B701DBF5DE9000D1231 /* TableViewFormStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A79B6F1DBF5DE9000D1231 /* TableViewFormStyle.swift */; };
 		21D7D99F1E1CE95200CB0FE9 /* ValueLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7D99E1E1CE95200CB0FE9 /* ValueLabel.swift */; };
+		3156BAED2139366B00ECC2EC /* MixedReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3156BAEC2139366B00ECC2EC /* MixedReusable.swift */; };
 		7270AFB0201FAB7C004DAAA3 /* ViewLayoutArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7270AFAF201FAB7C004DAAA3 /* ViewLayoutArea.swift */; };
 		B35F8AEE1F36676D00904E37 /* Collection+Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F8AED1F36676D00904E37 /* Collection+Changes.swift */; };
 		B35F8B4C1F3783E400904E37 /* CollectionDiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F8B4B1F3783E400904E37 /* CollectionDiffTests.swift */; };
@@ -123,11 +124,12 @@
 		213A4D2B1D9A633700F0ADE1 /* Reusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Reusable.swift; path = Form/Reusable.swift; sourceTree = "<group>"; };
 		215D10681DCB80A400504923 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = Form/Utilities.h; sourceTree = SOURCE_ROOT; };
 		215D10691DCB80A400504923 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utilities.m; path = Form/Utilities.m; sourceTree = SOURCE_ROOT; };
-		2191EB5D1D9E9E7800A9B6D0 /* TableKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = TableKit.swift; path = Form/TableKit.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		2191EB5D1D9E9E7800A9B6D0 /* TableKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = TableKit.swift; path = Form/TableKit.swift; sourceTree = "<group>"; };
 		21A79AAC1DBE48E4000D1231 /* HeaderFooterStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeaderFooterStyle.swift; path = Form/HeaderFooterStyle.swift; sourceTree = "<group>"; };
 		21A79B6C1DBF5D84000D1231 /* BackgroundStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackgroundStyle.swift; path = Form/BackgroundStyle.swift; sourceTree = "<group>"; };
 		21A79B6F1DBF5DE9000D1231 /* TableViewFormStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewFormStyle.swift; path = Form/TableViewFormStyle.swift; sourceTree = "<group>"; };
 		21D7D99E1E1CE95200CB0FE9 /* ValueLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ValueLabel.swift; path = Form/ValueLabel.swift; sourceTree = "<group>"; };
+		3156BAEC2139366B00ECC2EC /* MixedReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MixedReusable.swift; path = Form/MixedReusable.swift; sourceTree = "<group>"; };
 		7270AFAF201FAB7C004DAAA3 /* ViewLayoutArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewLayoutArea.swift; path = Form/ViewLayoutArea.swift; sourceTree = "<group>"; };
 		B35F8AED1F36676D00904E37 /* Collection+Changes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Collection+Changes.swift"; path = "Form/Collection+Changes.swift"; sourceTree = "<group>"; };
 		B35F8B4B1F3783E400904E37 /* CollectionDiffTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDiffTests.swift; sourceTree = "<group>"; };
@@ -158,7 +160,7 @@
 		F65A9FAA1C7B216F007007B4 /* KeyboardEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardEvent.swift; path = Form/KeyboardEvent.swift; sourceTree = "<group>"; };
 		F65A9FAC1C7B216F007007B4 /* UIEdgeInsets+Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIEdgeInsets+Utilities.swift"; path = "Form/UIEdgeInsets+Utilities.swift"; sourceTree = "<group>"; };
 		F666BB8E20BE9741006D2507 /* NumberEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumberEditor.swift; path = Form/NumberEditor.swift; sourceTree = "<group>"; };
-		F666BBD720BEDC31006D2507 /* FormFramework.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = FormFramework.podspec; sourceTree = "<group>"; };
+		F666BBD720BEDC31006D2507 /* FormFramework.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = FormFramework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F666BBD820BEDC32006D2507 /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		F666BBD920BEDC32006D2507 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		F666BBDA20BEDC32006D2507 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 			children = (
 				F6C2E5E91C69FA0300453548 /* Table.swift */,
 				213A4D2B1D9A633700F0ADE1 /* Reusable.swift */,
+				3156BAEC2139366B00ECC2EC /* MixedReusable.swift */,
 				2191EB5D1D9E9E7800A9B6D0 /* TableKit.swift */,
 				F60102301DAE2D410020015B /* TableChange.swift */,
 				B35F8AED1F36676D00904E37 /* Collection+Changes.swift */,
@@ -573,6 +576,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3156BAED2139366B00ECC2EC /* MixedReusable.swift in Sources */,
 				F684BF0C209349470018EDE9 /* ViewPortEvent.swift in Sources */,
 				F6A0AC4820BC4352000500EC /* CollectionAnimation.swift in Sources */,
 				F6A326E71F9492BC00C3A692 /* FieldStyle.swift in Sources */,
