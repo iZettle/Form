@@ -9,7 +9,7 @@
 - Deprecating `EitherRow`, replaced by using Flows `Either` instead 
 - Deprecating `dequeueCell(forItem:, style:, reuseIdentifier:)`, replaced by version not using explicit `reuseIdentifier`
 
-- Fixed issue where Reusable configure as called instead of reconfigure when rows was updated.
+- Fixed issue where Reusable configure was called instead of reconfigure when rows was updated.
 
 ## 1.1.1
 - Added didEndDisplayingCell signal to TableViewDelegate
