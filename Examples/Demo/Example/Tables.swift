@@ -220,13 +220,3 @@ extension Double: Reusable {
         })
     }
 }
-
-// Could be removed once this is added to Flow
-extension Either: Hashable where Left: Hashable, Right: Hashable {
-    public var hashValue: Int {
-        switch self {
-        case .left(let left): return left.hashValue
-        case .right(let right): return right.hashValue
-        }
-    }
-}
