@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.author       = { 'iZettle AB' => 'hello@izettle.com' }
 
   s.ios.deployment_target = "9.0"
-  s.dependency 'FlowFramework', '~> 1.2'
+  s.dependency 'FlowFramework', '~> 1.2.1'
   s.default_subspec = 'Form'
 
   s.subspec 'Form' do |form|

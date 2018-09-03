@@ -20,7 +20,7 @@ public struct MixedReusable {
     private typealias ViewAndReconfigure = (view: UIView, reconfigure: (Any?, Any) -> Disposable)
     private let viewAndReconfigure: () -> ViewAndReconfigure
     let identifier: (Any) -> AnyHashable
-    let isSameAs: (Any) -> Bool
+    let needsUpdate: (Any) -> Bool
 
     public let value: Any
     public let reuseIdentifier: String
@@ -28,10 +28,13 @@ public struct MixedReusable {
     /// Creates a new instance holding `value`
     ///   - identifier: Closure returning unique identity for a given value
     ///   - isSame: Closure indicating whether two values are equal.
-    public init<Value: Reusable>(_ value: Value, identifier: @escaping (Value) -> AnyHashable, isSame: @escaping (Value, Value) -> Bool) where Value.ReuseType: ViewRepresentable {
+    ///   - identifier: Closure returning unique identity for a given value
+    ///   - rowNeedsUpdate: Closure indicating whether two values with equal identifiers have any updates.
+    ///           Defaults to true. If provided, unnecessary reconfigure calls to visible rows could be avoided.
+    public init<Value: Reusable>(_ value: Value, identifier: @escaping (Value) -> AnyHashable, needsUpdate: @escaping (Value, Value) -> Bool = { _, _ in true }) where Value.ReuseType: ViewRepresentable {
         self.value = value
         self.identifier = { identifier($0 as! Value) }
-        self.isSameAs = { isSame(value, $0 as! Value) }
+        self.needsUpdate = { needsUpdate(value, $0 as! Value) }
         self.reuseIdentifier = String(describing: type(of: Value.self))
         self.viewAndReconfigure = {
             let (reuseType, reconfigure) = Value.makeAndReconfigure()
@@ -54,19 +57,53 @@ extension MixedReusable: Reusable {
     }
 }
 
-extension MixedReusable {
+public extension MixedReusable {
     /// Creates a new instance holding `value`
-    public init<Value: Reusable & Hashable>(_ value: Value) where Value.ReuseType: ViewRepresentable {
-        self.init(value, identifier: { $0 }, isSame: ==)
+    ///   - identifier: Closure returning unique identity for a given value
+    init<Value: Reusable & Equatable>(_ value: Value, identifier: @escaping (Value) -> AnyHashable) where Value.ReuseType: ViewRepresentable {
+        self.init(value, identifier: identifier, needsUpdate: ==)
+    }
+
+    /// Creates a new instance holding `value`
+    init<Value: Reusable & Hashable>(_ value: Value) where Value.ReuseType: ViewRepresentable {
+        self.init(value, identifier: { $0 }, needsUpdate: ==)
     }
 }
 
-extension MixedReusable: Hashable {
-    public var hashValue: Int {
-        return identifier(value).hashValue
+public extension TableAnimatable where Row == MixedReusable, Section == EmptySection {
+    /// Sets table to `table` and calculates and animates the changes using the provided parameters.
+    /// - Parameters:
+    ///   - table: The new table
+    ///   - animation: How updates should be animated
+    func set(_ table: Table, animation: Animation = Self.defaultAnimation) {
+        set(table, animation: animation, rowIdentifier: rowIdentifier, rowNeedsUpdate: rowNeedsUpdate)
     }
+}
 
-    public static func == (lhs: MixedReusable, rhs: MixedReusable) -> Bool {
-        return lhs.reuseIdentifier == rhs.reuseIdentifier && lhs.hashValue == rhs.hashValue && lhs.isSameAs(rhs.value)
+public extension TableAnimatable where Row == MixedReusable, Section: Hashable {
+    /// Sets table to `table` and calculates and animates the changes using the provided parameters.
+    /// - Parameters:
+    ///   - table: The new table
+    ///   - animation: How updates should be animated
+    func set(_ table: Table, animation: Animation = Self.defaultAnimation) {
+        set(table, animation: animation, rowIdentifier: rowIdentifier, rowNeedsUpdate: rowNeedsUpdate)
     }
+}
+
+public extension TableAnimatable where Row == MixedReusable, Section: AnyObject {
+    /// Sets table to `table` and calculates and animates the changes using the provided parameters.
+    /// - Parameters:
+    ///   - table: The new table
+    ///   - animation: How updates should be animated
+    func set(_ table: Table, animation: Animation = Self.defaultAnimation) {
+        set(table, animation: animation, rowIdentifier: rowIdentifier, rowNeedsUpdate: rowNeedsUpdate)
+    }
+}
+
+private func rowIdentifier(_ row: MixedReusable) -> AnyHashable {
+    return row.identifier(row.value).hashValue
+}
+
+private func rowNeedsUpdate(_ lhs: MixedReusable, _ rhs: MixedReusable) -> Bool {
+    return lhs.reuseIdentifier == rhs.reuseIdentifier && lhs.needsUpdate(rhs.value)
 }
