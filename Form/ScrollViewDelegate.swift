@@ -6,51 +6,51 @@ import Foundation
 import Flow
 
 public class ScrollViewDelegate: NSObject, UIScrollViewDelegate {
-    private let didEndDeceleratingCallbacker = Callbacker<UIScrollView>()
-    private let didScrollCallbacker = Callbacker<UIScrollView>()
-    private let willBeginDeceleratingCallbacker = Callbacker<UIScrollView>()
-    private let willBeginDraggingCallbacker = Callbacker<UIScrollView>()
-    private let didZoomCallbacker = Callbacker<UIScrollView>()
+    private let didEndDeceleratingCallbacker = Callbacker<()>()
+    private let didScrollCallbacker = Callbacker<()>()
+    private let willBeginDeceleratingCallbacker = Callbacker<()>()
+    private let willBeginDraggingCallbacker = Callbacker<()>()
+    private let didZoomCallbacker = Callbacker<()>()
 
     public func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        didZoomCallbacker.callAll(with: scrollView)
+        didZoomCallbacker.callAll()
     }
 
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        willBeginDraggingCallbacker.callAll(with: scrollView)
+        willBeginDraggingCallbacker.callAll()
     }
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        didEndDeceleratingCallbacker.callAll(with: scrollView)
+        didEndDeceleratingCallbacker.callAll()
     }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        didScrollCallbacker.callAll(with: scrollView)
+        didScrollCallbacker.callAll()
     }
 
     public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        willBeginDeceleratingCallbacker.callAll(with: scrollView)
+        willBeginDeceleratingCallbacker.callAll()
     }
 }
 
 public extension ScrollViewDelegate {
-    var didEndDecelerating: Signal<UIScrollView> {
+    var didEndDecelerating: Signal<()> {
         return Signal(callbacker: didEndDeceleratingCallbacker)
     }
 
-    var willBeginDecelerating: Signal<UIScrollView> {
+    var willBeginDecelerating: Signal<()> {
         return Signal(callbacker: willBeginDeceleratingCallbacker)
     }
 
-    var didScroll: Signal<UIScrollView> {
+    var didScroll: Signal<()> {
         return Signal(callbacker: didScrollCallbacker)
     }
 
-    var didZoom: Signal<UIScrollView> {
+    var didZoom: Signal<()> {
         return Signal(callbacker: didZoomCallbacker)
     }
 
-    var willBeginDragging: Signal<UIScrollView> {
+    var willBeginDragging: Signal<()> {
         return Signal(callbacker: willBeginDraggingCallbacker)
     }
 }
