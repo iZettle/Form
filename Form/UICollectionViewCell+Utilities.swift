@@ -25,23 +25,38 @@ public extension UICollectionView {
     /// - Returns: A cell with the view embedded in.
     /// - Note: See `Reusable` for more info about reconfigure.
     func dequeueCell<Item>(forItem item: Item, at indexPath: IndexPath, reuseIdentifier: String = String(describing: Item.self), contentViewAndConfigure: () -> (UIView, (Item) -> Disposable)) -> UICollectionViewCell {
+        return dequeueCell(forItem: item, at: indexPath, reuseIdentifier: reuseIdentifier, contentViewAndReconfigure: {
+            let (view, configure) = contentViewAndConfigure()
+            return (view, { _, item in configure(item) })
+        })
+    }
 
+    /// Dequeues (reuses) or creates a new cell for `indexPath`.
+    /// - Parameter item: The item used to configure the cell.
+    /// - Parameter reuseIdentifier: The reuse identifier for the cell, defaults to name of `Item`'s type.
+    /// - Parameter contentViewAndReconfigure: A closure when given a reuse identifier returns a tuple of a view and a reconfigure closure.
+    ///     The reconfigure closure passes preceding (if any) and current item to be used to configure the cell.
+    ///     The disposable returned from the configure closure will be disposed before reusage.
+    /// - Returns: A cell with the view embedded in.
+    /// - Note: See `Reusable` for more info about reconfigure.
+    func dequeueCell<Item>(forItem item: Item, at indexPath: IndexPath, reuseIdentifier: String = String(describing: Item.self), contentViewAndReconfigure: () -> (UIView, (Item?, Item) -> Disposable), _ noTrailingClosure: Void = ()) -> UICollectionViewCell {
         register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         let cell = dequeueCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-        if let (configure, bag) = cell.configureAndBag(Item.self) {
+        if let (reconfigure, bag) = cell.reconfigureAndBag(Item.self) {
             bag.dispose() // Reuse
-            bag += configure(item)
+            bag += reconfigure(nil, item)
             return cell
         } else {
-            let (contentView, configure) = contentViewAndConfigure()
+            let (contentView, reconfigure) = contentViewAndReconfigure()
             cell.embedView(contentView)
             let bag = DisposeBag()
-            cell.setConfigureAndBag((configure, bag))
-            bag += configure(item)
+            cell.setReconfigureAndBag((reconfigure, bag))
+            bag += reconfigure(nil, item)
             return cell
         }
     }
+
 
     /// Dequeues (reuses) or creates a new view and using the `item`'s conformance to `Reusable` to create and configure the view to embed in the returned cell.
     func dequeueCell<Item: Reusable>(forItem item: Item, at indexPath: IndexPath) -> UICollectionViewCell where Item.ReuseType: ViewRepresentable {
@@ -64,11 +79,11 @@ public extension UICollectionView {
 }
 
 private extension UICollectionViewCell {
-    func configureAndBag<Item>(_ type: Item.Type) -> ((Item) -> Disposable, DisposeBag)? {
+    func reconfigureAndBag<Item>(_ type: Item.Type) -> ((Item?, Item) -> Disposable, DisposeBag)? {
         return associatedValue(forKey: &collectionConfigureKey)
     }
 
-    func setConfigureAndBag<Item>(_ configureAndBag: ((Item) -> Disposable, DisposeBag)) {
+    func setReconfigureAndBag<Item>(_ configureAndBag: ((Item?, Item) -> Disposable, DisposeBag)) {
         setAssociatedValue(configureAndBag, forKey: &collectionConfigureKey)
     }
 }
