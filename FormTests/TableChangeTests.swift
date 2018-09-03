@@ -72,4 +72,49 @@ class TableChangeTests: XCTestCase {
     func testIsolated() {
         test(from: [("A", [1]), ("B", [3, 4])], to: [("B", [3])])
     }
+
+    func testReconfigure() {
+        let bag = DisposeBag()
+        var rows = [(1, 4), (2, 5)].map(ReconfigureItem.init)
+        let signal = merge(rows.map { Signal(callbacker: $0.callbacker) })
+
+        var prevs = [Int?]()
+        bag += signal.onValue { prevs.append($0) }
+
+        let tableKit = TableKit<(), ReconfigureItem>(bag: bag)
+        UIWindow().addSubview(tableKit.view)
+        tableKit.view.frame.size = CGSize(width: 1000, height: 1000)
+
+        tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
+        XCTAssertEqual(prevs, [nil, nil]) // loading first two rows
+
+        rows[0].value = 55
+        tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
+        XCTAssertEqual(prevs, [nil, nil, 4])
+
+        tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
+        XCTAssertEqual(prevs, [nil, nil, 4])
+
+        rows[1].value = 77
+        tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
+        XCTAssertEqual(prevs, [nil, nil, 4, 5])
+    }
+}
+
+private struct ReconfigureItem: Reusable {
+    let id: Int
+    var value: Int
+    var callbacker = Callbacker<Int?>()
+
+    init(id: Int, value: Int) {
+        self.id = id
+        self.value = value
+    }
+
+    static func makeAndReconfigure() -> (make: UIView, reconfigure: (ReconfigureItem?, ReconfigureItem) -> Disposable) {
+        return (UIView(), { prev, item in
+            item.callbacker.callAll(with: prev?.value)
+            return NilDisposer()
+        })
+    }
 }
