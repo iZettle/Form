@@ -25,7 +25,7 @@ public extension UICollectionView {
     /// - Returns: A cell with the view embedded in.
     /// - Note: See `Reusable` for more info about reconfigure.
     func dequeueCell<Item>(forItem item: Item, at indexPath: IndexPath, reuseIdentifier: String = String(describing: Item.self), contentViewAndConfigure: () -> (UIView, (Item) -> Disposable)) -> UICollectionViewCell {
-        return dequeueCell(forItem: item, at: indexPath, contentViewAndReconfigure: {
+        return dequeueCell(forItem: item, at: indexPath, reuseIdentifier: reuseIdentifier, contentViewAndReconfigure: {
             let (view, configure) = contentViewAndConfigure()
             return (view, { _, item in configure(item) })
         })
@@ -33,15 +33,13 @@ public extension UICollectionView {
 
     /// Dequeues (reuses) or creates a new cell for `indexPath`.
     /// - Parameter item: The item used to configure the cell.
-    /// - Parameter reuseIdentifier: The reuse identifier for the cell, defaults to `#function`.
+    /// - Parameter reuseIdentifier: The reuse identifier for the cell, defaults to name of `Item`'s type.
     /// - Parameter contentViewAndReconfigure: A closure when given a reuse identifier returns a tuple of a view and a reconfigure closure.
     ///     The reconfigure closure passes preceding (if any) and current item to be used to configure the cell.
     ///     The disposable returned from the configure closure will be disposed before reusage.
     /// - Returns: A cell with the view embedded in.
     /// - Note: See `Reusable` for more info about reconfigure.
-    func dequeueCell<Item>(forItem item: Item, at indexPath: IndexPath, contentViewAndReconfigure: () -> (UIView, (Item?, Item) -> Disposable), _ noTrailingClosure: Void = ()) -> UICollectionViewCell {
-        let reuseIdentifier = String(describing: Item.self)
-
+    func dequeueCell<Item>(forItem item: Item, at indexPath: IndexPath, reuseIdentifier: String = String(describing: Item.self), contentViewAndReconfigure: () -> (UIView, (Item?, Item) -> Disposable), _ noTrailingClosure: Void = ()) -> UICollectionViewCell {
         register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         let cell = dequeueCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
