@@ -61,12 +61,12 @@ public extension MixedReusable {
     /// Creates a new instance holding `value`
     ///   - identifier: Closure returning unique identity for a given value
     init<Value: Reusable & Equatable>(_ value: Value, identifier: @escaping (Value) -> AnyHashable) where Value.ReuseType: ViewRepresentable {
-        self.init(value, identifier: identifier, needsUpdate: ==)
+        self.init(value, identifier: identifier, needsUpdate: !=)
     }
 
     /// Creates a new instance holding `value`
     init<Value: Reusable & Hashable>(_ value: Value) where Value.ReuseType: ViewRepresentable {
-        self.init(value, identifier: { $0 }, needsUpdate: ==)
+        self.init(value, identifier: { $0 }, needsUpdate: !=)
     }
 }
 
