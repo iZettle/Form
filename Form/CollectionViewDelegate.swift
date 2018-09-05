@@ -19,6 +19,7 @@ import Flow
 /// - Note: Even though you can use an instance of `self` by itself, you would most likely use it indirectly via a `CollectionKit` instance.
 public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UICollectionViewDelegate {
     public var table: Table<Section, Row>
+    public let reordering = Delegate<(source: TableIndex, proposed: TableIndex), TableIndex>()
     private let didSelectCallbacker = Callbacker<TableIndex>()
 
     public var shouldAutomaticallyDeselect = true
@@ -35,6 +36,15 @@ public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UIC
         if shouldAutomaticallyDeselect {
             collectionView.deselectItem(at: indexPath, animated: true)
         }
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, targetIndexPathForMoveFromItemAt originalIndexPath: IndexPath, toProposedIndexPath proposedIndexPath: IndexPath) -> IndexPath {
+        let source = TableIndex(section: originalIndexPath.section, row: originalIndexPath.row)
+        let proposed = TableIndex(section: proposedIndexPath.section, row: proposedIndexPath.row)
+        guard let index = reordering.call((source, proposed)), let indexPath = IndexPath(index, in: self.table) else {
+            return proposedIndexPath
+        }
+        return indexPath
     }
 }
 
