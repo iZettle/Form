@@ -130,8 +130,8 @@ public final class TableKit<Section, Row> {
 
             view.sectionHeaderHeight = UITableViewAutomaticDimension
             view.sectionFooterHeight = UITableViewAutomaticDimension
-            view.estimatedSectionHeaderHeight = style.fixedHeaderHeight ?? 32
-            view.estimatedSectionFooterHeight = style.fixedFooterHeight ?? 32
+            view.estimatedSectionHeaderHeight = style.fixedHeaderHeight ?? UITableViewAutomaticDimension
+            view.estimatedSectionFooterHeight = style.fixedFooterHeight ?? UITableViewAutomaticDimension
 
             if view.autoResizingTableHeaderView === tableHeader {
                tableHeaderConstraint.constant = style.form.insets.top
