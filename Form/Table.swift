@@ -253,3 +253,15 @@ extension TableIndex: Comparable {
 extension Table {
     public subscript (position: IndexPath) -> Row? { return TableIndex(position, in: self).map { self[$0] } }
 }
+
+extension Table: Equatable where Section: Equatable, Row: Equatable {
+    public static func == (lhs: Table, rhs: Table) -> Bool {
+        return lhs.sections == rhs.sections
+    }
+}
+
+extension TableSection: Equatable where Section: Equatable, Row: Equatable {
+    public static func == (lhs: TableSection, rhs: TableSection) -> Bool {
+        return lhs.value == rhs.value && lhs.slice == rhs.slice
+    }
+}

@@ -315,6 +315,22 @@ extension TableKit: TableAnimatable {
         changesCallbacker.callAll(with: changes)
         callbacker.callAll(with: table)
     }
+
+    /// Applies given changes to the Table and animates the changes using the provided parameters.
+    /// - Parameters:
+    ///   - changes: Array of `ChangeStep`
+    ///   - animation: How updates should be animated
+    public func apply(changes: [TableChange<Section, Row>], animation: TableAnimation = TableKit.defaultAnimation) {
+        var table = self.table
+        table.apply(changes)
+        dataSource.table = table
+        delegate.table = table
+
+        view.animate(changes: changes, animation: animation)
+
+        changesCallbacker.callAll(with: changes)
+        callbacker.callAll(with: table)
+    }
 }
 
 public extension TableKit {

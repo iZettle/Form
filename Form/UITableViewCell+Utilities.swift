@@ -171,7 +171,7 @@ extension UITableViewCell {
 
 extension UITableViewCell {
     func reconfigure<Item>(old: Item?, new: Item) {
-        let (reconfigure, bag) = reconfigureAndBag(Item.self)!
+        guard let (reconfigure, bag) = reconfigureAndBag(Item.self) else { return }
         bag.dispose()
         bag += reconfigure(old, new)
     }

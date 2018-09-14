@@ -73,6 +73,23 @@ class TableChangeTests: XCTestCase {
         test(from: [("A", [1]), ("B", [3, 4])], to: [("B", [3])])
     }
 
+    func testApplyChanges<S: Hashable, R: Equatable, I: Hashable>(from: [(S, [R])], to: [(S, [R])], identifier: (R) -> I) {
+        let fromTable = Table(sections: from)
+        let toTable = Table(sections: to)
+        let changes = fromTable.changes(toBuild: toTable, sectionIdentifier: { $0 }, sectionNeedsUpdate: !=, rowIdentifier: identifier, rowNeedsUpdate: !=)
+        var newTable = fromTable
+        newTable.apply(changes)
+        XCTAssertEqual(newTable, toTable)
+    }
+
+    func testSectionAndRowInsertAndRemoveApplyChanges() {
+        testApplyChanges(from: [("A", [1])], to: [("A", [1, 2]), ("B", [1])], identifier: { $0 })
+        testApplyChanges(from: [("A", [2])], to: [("A", [1, 2]), ("B", [1])], identifier: { $0 })
+        testApplyChanges(from: [("A", [1, 2, 3])], to: [("A", [3, 2, 1]), ("B", [1])], identifier: { $0 })
+        testApplyChanges(from: [("A", [1, 2]), ("B", [3, 4])], to: [("A", [1]), ("B", [2, 3, 4])], identifier: { $0 })
+        testApplyChanges(from: [("A", [1]), ("B", [3, 4])], to: [("B", [3])], identifier: { $0 })
+    }
+
     func testReconfigure() {
         let bag = DisposeBag()
         var rows = [(1, 4), (2, 5)].map(ReconfigureItem.init)
