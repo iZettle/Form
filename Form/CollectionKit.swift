@@ -16,7 +16,6 @@ import Flow
 public final class CollectionKit<Section, Row> {
     private let callbacker = Callbacker<Table>()
     private let changesCallbacker = Callbacker<[TableChange<Section, Row>]>()
-    private var _table: Table
 
     public typealias Table = Form.Table<Section, Row>
 
@@ -27,9 +26,8 @@ public final class CollectionKit<Section, Row> {
     // swiftlint:enable weak_delegate
 
     public var table: Table {
-        get { return _table }
+        get { return dataSource.table }
         set {
-            _table = newValue
             dataSource.table = table
             delegate.table = table
             view.reloadData()
@@ -43,7 +41,6 @@ public final class CollectionKit<Section, Row> {
     ///   - bag: A bag used to add collection kit activities.
     public init(table: Table = Table(), layout: UICollectionViewLayout, bag: DisposeBag, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
         self.view = UICollectionView.defaultCollection(withLayout: layout)
-        _table = table
 
         dataSource.table = table
         delegate.table = table
@@ -96,7 +93,6 @@ extension CollectionKit: TableAnimatable {
                                                                           rowIdentifier: (Row) -> RowIdentifier,
                                                                           rowNeedsUpdate: ((Row, Row) -> Bool)?) {
         let from = self.table
-        _table = table
 
         delegate.table = table
         dataSource.table = table
