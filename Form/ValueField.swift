@@ -105,7 +105,9 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
         addSubview(cursor)
         cursor.translatesAutoresizingMaskIntoConstraints = false
 
-        activate(constraints + leftTextAlignmentConstraints + rightTextAlignmentConstraints + leftPlaceholderAlignmentConstraints + rightPlaceholderAlignmentConstraints)
+        activate(constraints)
+        activate(leftTextAlignmentConstraints + rightTextAlignmentConstraints)
+        activate(leftPlaceholderAlignmentConstraints + rightPlaceholderAlignmentConstraints)
 
         applyStyle()
         updateText()
