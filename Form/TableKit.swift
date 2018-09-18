@@ -16,7 +16,6 @@ import Flow
 public final class TableKit<Section, Row> {
     private let callbacker = Callbacker<Table>()
     private let changesCallbacker = Callbacker<[TableChange<Section, Row>]>()
-    private var _table: Table
 
     public typealias Table = Form.Table<Section, Row>
 
@@ -28,9 +27,8 @@ public final class TableKit<Section, Row> {
     public let style: DynamicTableViewFormStyle
 
     public var table: Table {
-        get { return _table }
+        get { return dataSource.table }
         set {
-            _table = newValue
             dataSource.table = table
             delegate.table = table
             view.reloadData()
@@ -95,7 +93,6 @@ public final class TableKit<Section, Row> {
         let view = view ?? UITableView.defaultTable(for: style.tableStyle)
         self.view = view
         self.style = style
-        _table = table
 
         dataSource.table = table
         delegate.table = table
@@ -279,7 +276,6 @@ extension TableKit: TableAnimatable {
                                                                           rowNeedsUpdate: ((Row, Row) -> Bool)? = { _, _ in true }) {
 
         let from = self.table
-        _table = table
         dataSource.table = table
         delegate.table = table
 
@@ -315,6 +311,22 @@ extension TableKit: TableAnimatable {
             view.beginUpdates()
             view.endUpdates()
         }
+
+        changesCallbacker.callAll(with: changes)
+        callbacker.callAll(with: table)
+    }
+
+    /// Applies given changes to the Table and animates the changes using the provided parameters.
+    /// - Parameters:
+    ///   - changes: Array of `ChangeStep`
+    ///   - animation: How updates should be animated
+    public func apply(changes: [TableChange<Section, Row>], animation: TableAnimation = TableKit.defaultAnimation) {
+        var table = self.table
+        table.apply(changes)
+        dataSource.table = table
+        delegate.table = table
+
+        view.animate(changes: changes, animation: animation)
 
         changesCallbacker.callAll(with: changes)
         callbacker.callAll(with: table)

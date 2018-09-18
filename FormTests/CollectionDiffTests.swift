@@ -9,31 +9,6 @@
 import XCTest
 @testable import Form
 
-/// Applies given changes to a given array and returns resulting array
-///
-/// - Parameters:
-///   - changes: Array of `ChangeStep`
-///   - array: Array to apply changes to
-/// - Returns: Resulting array
-func apply<T: Hashable>(changes: [ChangeStep<T, Int>], to array: [T]) -> [T] {
-    var copy = array
-
-    changes.enumerated().forEach { step, change in
-        switch change {
-        case let .insert(element, index):
-            copy.insert(element, at: index)
-        case let .delete(_, index):
-            copy.remove(at: index)
-        case let .move(element, fromIndex, toIndex):
-            copy.remove(at: fromIndex)
-            copy.insert(element, at: toIndex)
-        case let.update(element, index):
-            copy[index] = element
-        }
-    }
-    return copy
-}
-
 /// Returns changes from the `old` array to the `new` array based on the diffing complexity
 func changes<T: Hashable>(from old: [T], to new: [T]) -> [ChangeStep<T, Int>] {
     return old.changes(toBuild: new)
@@ -121,6 +96,20 @@ class DiffTests: XCTestCase {
         XCTAssert(changes[3] == assumedChanges[3])
     }
 
+    func testMovesAndUpdatesDontCollide() {
+        let old = [TestRow(identifier: 0, value: "0"), TestRow(identifier: 1, value: "1"), TestRow(identifier: 2, value: "2")]
+        let new = [TestRow(identifier: 0, value: "0"), TestRow(identifier: 2, value: "3"), TestRow(identifier: 1, value: "4")]
+
+        let changes = old.notFullyOrderedChanges(toBuild: new, identifier: { $0.identifier }, needsUpdate: !=)
+        for change in changes {
+            if case .update = change { XCTAssertTrue(false, "There should not be moves and updates at the same index") }
+        }
+
+        var newArray = old
+        newArray.apply(changes)
+        XCTAssertEqual(newArray, new)
+    }
+
     func testMixed() {
         let old = ["a", "b", "a", "c", "d", "e"]
         let new = ["g", "e", "a", "b"]
@@ -155,16 +144,24 @@ class DiffTests: XCTestCase {
         measure {
             changes = old.changes(toBuild: new)
         }
-
-        XCTAssertEqual(apply(changes: changes, to: old), new)
+        var newArray = old
+        newArray.apply(changes)
+        XCTAssertEqual(newArray, new)
     }
 }
 
 extension DiffTests {
     func testChanges<T: Hashable>(from old: [T], to new: [T]) {
         let changeSteps = changes(from: old, to: new)
-        let newArray = apply(changes: changeSteps, to: old)
+        var newArray = old
+        newArray.apply(changeSteps)
+        XCTAssertEqual(newArray, new)
 
         XCTAssertEqual(new, newArray)
     }
+}
+
+private struct TestRow: Hashable, Equatable {
+    var identifier: Int
+    var value: String
 }

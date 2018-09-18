@@ -200,13 +200,11 @@ extension Collection where Index == Int {
                 steps.append(.insert(item: other[index], at: index))
                 runningOffset = runningOffset + 1
             case .index(let oldIndex):
-                if needsUpdate(self[oldIndex], other[index]) {
-                    steps.append(.update(item: other[index], at: index))
-                }
-
                 let deleteOffset = deleteOffsets[oldIndex]
                 if (oldIndex - deleteOffset + runningOffset) != index {
                     steps.append(.move(item: other[index], from: oldIndex, to: index))
+                } else if needsUpdate(self[oldIndex], other[index]) {
+                    steps.append(.update(item: other[index], at: index))
                 }
             }
         }
@@ -248,6 +246,66 @@ extension ChangeStep {
             return try .move(item: item, from: transform(fromIndex), to: transform(toIndex))
         case let .update(item, index):
             return try .update(item: item, at: transform(index))
+        }
+    }
+}
+
+public extension MutableCollection where Self: RangeReplaceableCollection {
+    /// Applies given changes to a given array
+    ///
+    /// - Parameters:
+    ///   - changes: Array of `ChangeStep`
+    mutating func apply(_ changes: [ChangeStep<Element, Index>]) {
+        let sortedChanges = changes.sortedForBatchUpdate()
+
+        for change in sortedChanges {
+            switch change {
+            case let .insert(item, index): insert(item, at: index)
+            case let .delete(_, index): remove(at: index)
+            case let .update(item, index): self[index] = item
+            case .move: break // no moves
+            }
+        }
+    }
+}
+
+private extension Collection {
+    /// Sorts a Collection of `ChangeStep`s to have deletes coming first
+    func sortedForBatchUpdate<Item, Index>() -> [ChangeStep<Item, Index>] where Element == ChangeStep<Item, Index>, Index: Comparable {
+        var insertions = [ChangeStep<Item, Index>]()
+        var deletions = [ChangeStep<Item, Index>]()
+        var updates = [ChangeStep<Item, Index>]()
+
+        for change in self {
+            switch change {
+            case .insert:
+                insertions.append(change)
+            case .delete:
+                deletions.append(change)
+            case let .move(item, fromIndex, toIndex):
+                deletions.append(.delete(item: item, at: fromIndex))
+                insertions.append(.insert(item: item, at: toIndex))
+            case .update:
+                updates.append(change)
+
+            }
+        }
+        deletions.sort { $0.index > $1.index }
+        insertions.sort { $0.index < $1.index }
+
+        // Deletes are processed before inserts in batch operations. This means the indexes for the deletions are processed relative to the indexes of the collection view’s state before the batch operation, and the indexes for the insertions are processed relative to the indexes of the state after all the deletions in the batch operation.
+        let sortedChanges = deletions + insertions + updates
+        return sortedChanges
+    }
+}
+
+internal extension ChangeStep {
+    var index: Index {
+        switch self {
+        case let .insert(_, index): return index
+        case let .delete(_, index): return index
+        case let .move(_, fromIndex, _): return fromIndex
+        case let .update(_, index): return index
         }
     }
 }

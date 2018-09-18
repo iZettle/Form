@@ -16,7 +16,6 @@ import Flow
 public final class CollectionKit<Section, Row> {
     private let callbacker = Callbacker<Table>()
     private let changesCallbacker = Callbacker<[TableChange<Section, Row>]>()
-    private var _table: Table
 
     public typealias Table = Form.Table<Section, Row>
 
@@ -27,9 +26,8 @@ public final class CollectionKit<Section, Row> {
     // swiftlint:enable weak_delegate
 
     public var table: Table {
-        get { return _table }
+        get { return dataSource.table }
         set {
-            _table = newValue
             dataSource.table = table
             delegate.table = table
             view.reloadData()
@@ -43,7 +41,6 @@ public final class CollectionKit<Section, Row> {
     ///   - bag: A bag used to add collection kit activities.
     public init(table: Table = Table(), layout: UICollectionViewLayout, bag: DisposeBag, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
         self.view = UICollectionView.defaultCollection(withLayout: layout)
-        _table = table
 
         dataSource.table = table
         delegate.table = table
@@ -91,21 +88,36 @@ extension CollectionKit: TableAnimatable {
     ///   - rowNeedsUpdate: Optional closure indicating whether two rows with equal identifiers have any updates.
     ///           Defaults to true. If provided, unnecessary reconfigure calls to visible rows could be avoided.
     public func set<SectionIdentifier: Hashable, RowIdentifier: Hashable>(_ table: Table,
-                                                                          animation: CollectionAnimation = CollectionKit.defaultAnimation,
-                                                                          sectionIdentifier: (Section) -> SectionIdentifier,
-                                                                          rowIdentifier: (Row) -> RowIdentifier,
-                                                                          rowNeedsUpdate: ((Row, Row) -> Bool)?) {
+                                                                           animation: CollectionAnimation = CollectionKit.defaultAnimation,
+                                                                           sectionIdentifier: (Section) -> SectionIdentifier,
+                                                                           rowIdentifier: (Row) -> RowIdentifier,
+                                                                           rowNeedsUpdate: ((Row, Row) -> Bool)?) {
         let from = self.table
-        _table = table
-
-        delegate.table = table
         dataSource.table = table
+        delegate.table = table
 
         let changes = from.changes(toBuild: table,
                                    sectionIdentifier: sectionIdentifier,
                                    sectionNeedsUpdate: { _, _ in false },
                                    rowIdentifier: rowIdentifier,
-                                   rowNeedsUpdate: rowNeedsUpdate ?? { (_, _)  in false })
+                                   rowNeedsUpdate: rowNeedsUpdate ?? { _, _ in false })
+
+        view.animate(changes: changes, animation: animation)
+
+        changesCallbacker.callAll(with: changes)
+        callbacker.callAll(with: table)
+    }
+
+    /// Applies given changes to the Table and animates the changes using the provided parameters.
+    /// - Parameters:
+    ///   - changes: Array of `ChangeStep`
+    ///   - animation: How updates should be animated
+    public func apply(changes: [TableChange<Section, Row>], animation: CollectionAnimation = CollectionKit.defaultAnimation) {
+        var table = self.table
+        table.apply(changes)
+
+        dataSource.table = table
+        delegate.table = table
 
         view.animate(changes: changes, animation: animation)
 

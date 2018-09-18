@@ -63,6 +63,11 @@ public extension Table {
             })
         }
 
+        for insertedSectionIndex in Set(insertIndices(in: sectionChanges)) {
+            let toSection = other.sections[insertedSectionIndex]
+            changes += toSection.enumerated().map { rowIndex, section in .row(.insert(item: section, at: TableIndex(section: insertedSectionIndex, row: rowIndex))) }
+        }
+
         return changes
     }
 }
@@ -79,6 +84,77 @@ public extension RangeReplaceableCollection {
             let element = remove(at: fromIndex)
             insert(element, at: toIndex)
         }
+    }
+}
+
+public extension Table {
+    mutating func apply(_ changes: [TableChange<Section, Row>]) {
+
+        let sortedChanges = changes.sortedForBatchUpdate()
+
+        var flatTable: [(section: Section, rows: [Row])] = sections.map { ($0.value, Array($0)) }
+
+        for change in sortedChanges {
+            switch change {
+            case let .section(.insert(item, index)): flatTable.insert((section: item, rows: []), at: index)
+            case let .section(.delete(_, index)): flatTable.remove(at: index)
+            case let .section(.update(item, index)): flatTable[index].section = item
+            case .section(.move): break // no moves
+            case let .row(.insert(item, index)): flatTable[index.section].rows.insert(item, at: index.row)
+            case let .row(.delete(_, index)): flatTable[index.section].rows.remove(at: index.row)
+            case let .row(.update(item, index)): flatTable[index.section].rows[index.row] = item
+            case .row(.move): break // no moves
+            }
+        }
+
+        self = Table(sections: flatTable)
+    }
+}
+
+private extension Collection {
+    /// Sorts a Collection of `ChangeStep`s to have deletes coming first
+    func sortedForBatchUpdate<Section, Row>() -> [TableChange<Section, Row>] where Element == TableChange<Section, Row> {
+        var insertions = [TableChange<Section, Row>]()
+        var deletions = [TableChange<Section, Row>]()
+        var updates = [TableChange<Section, Row>]()
+
+        for change in self {
+            switch change {
+            case .section(.delete): deletions.append(change)
+            case .row(.delete): deletions.append(change)
+            case .section(.insert): insertions.append(change)
+            case .row(.insert): insertions.append(change)
+            case .section(.update): updates.append(change)
+            case .row(.update): updates.append(change)
+            case let .section(.move(item, fromIndex, toIndex)):
+                deletions.append(.section(.delete(item: item, at: fromIndex)))
+                insertions.append(.section(.insert(item: item, at: toIndex)))
+            case let .row(.move(item, fromIndex, toIndex)):
+                deletions.append(.row(.delete(item: item, at: fromIndex)))
+                insertions.append(.row(.insert(item: item, at: toIndex)))
+
+            }
+        }
+        deletions.sort {
+            switch ($0, $1) {
+            case let (.section(leftStep), .section(rightStep)): return leftStep.index > rightStep.index
+            case let (.row(leftStep), .row(rightStep)): return leftStep.index > rightStep.index
+            case (.section, .row): return false
+            case (.row, .section): return true
+            }
+        }
+        insertions.sort {
+            switch ($0, $1) {
+            case let (.section(leftStep), .section(rightStep)): return leftStep.index < rightStep.index
+            case let (.row(leftStep), .row(rightStep)): return leftStep.index < rightStep.index
+            case (.section, .row): return true
+            case (.row, .section): return false
+            }
+        }
+
+        // Deletes are processed before inserts in batch operations. This means the indexes for the deletions are processed relative to the indexes of the collection view’s state before the batch operation, and the indexes for the insertions are processed relative to the indexes of the state after all the deletions in the batch operation.
+        let sortedChanges = deletions + insertions + updates
+        return sortedChanges
     }
 }
 

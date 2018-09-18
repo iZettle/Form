@@ -35,7 +35,7 @@ extension UIViewController {
         return Future { completion in
             let bag = DisposeBag()
 
-            bag += isValid.atOnce().bindTo(save, \.enabled)
+            bag += isValid.atOnce().bindTo(save, \.isEnabled)
 
             bag += save.onValue {
                 let message = Message(title: title.value, body: body.value)
