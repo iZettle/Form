@@ -1,3 +1,11 @@
+## 1.3
+
+- Added reordering delegate `reordering` to `CollectionViewDelegate`.
+- Added `apply(changes:)` to `MutableCollection`, `TableKit` and `CollectionKit`.
+
+- Fixed a `TableKit` crash on iOS 9.
+- Fixed a compiler "unable to type-check this expression in reasonable time" on Swift 4.2.
+
 ## 1.2
 
 - Added `reuseIdentifier` to the `Reusable` protocol to allow better handling of tables with mixed types.
