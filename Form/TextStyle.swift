@@ -66,7 +66,7 @@ public extension TextStyle {
     }
 
     var highlightedColor: UIColor {
-        get { return attribute(for: .highlightedColor) ?? .black }
+        get { return attribute(for: .highlightedColor) ?? self.color }
         set { setAttribute(newValue, for: .highlightedColor) }
     }
 }
