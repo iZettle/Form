@@ -112,15 +112,24 @@ var keyboardFrame: CGRect?
 private extension Notification {
     var keyboardAnimation: KeyboardAnimation? {
         guard let duration = userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double,
-            let intCurve = userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? Int,
-            let curve = UIViewAnimationCurve(rawValue: intCurve)
+            let intCurve = userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? Int
             else { return nil }
 
-        return KeyboardAnimation(duration: duration, curve: curve)
+        // UIKeyboardAnimationCurveUserInfoKey might sometimes include values outside of UIViewAnimationCurve
+        return KeyboardAnimation(duration: duration, curve: UIViewAnimationCurve(keyboardRawValue: intCurve) ?? .easeInOut)
     }
 
     var endFrame: CGRect? {
         return (userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+    }
+}
+
+private extension UIViewAnimationCurve {
+    init?(keyboardRawValue: Int) {
+        guard let curve = UIViewAnimationCurve(rawValue: keyboardRawValue) else { return nil }
+        let allCases: [UIViewAnimationCurve] = [.easeInOut, .easeInOut, .easeOut, .linear]
+        guard allCases.contains(curve) else { return nil }
+        self = curve
     }
 }
 
