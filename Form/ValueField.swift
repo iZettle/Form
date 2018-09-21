@@ -180,6 +180,7 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
         cursor.isHidden = false
         installAnimation()
         sendActions(for: .editingDidBegin)
+        NotificationCenter.default.post(name: .UITextFieldTextDidBeginEditing, object: self)
 
         return true
     }
@@ -191,6 +192,7 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
         editor.value = editor.value
         updateText()
         sendActions(for: .editingDidEnd)
+        NotificationCenter.default.post(name: .UITextFieldTextDidEndEditing, object: self)
 
         return true
     }
@@ -313,6 +315,7 @@ private extension ValueField {
         invalidateIntrinsicContentSize()
 
         sendActions(for: .editingChanged)
+        NotificationCenter.default.post(name: .UITextFieldTextDidChange, object: self)
     }
 
     func updateAlignmentConstraints() {
