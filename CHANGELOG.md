@@ -1,3 +1,9 @@
+## 1.3.1
+
+- Bugfix: Fixed issue where out of range `UIViewAnimationCurve` enum values caused a crash running on Xcode 10 and iOS 12.
+- Bugfix: `TextStyle`: Don't change text color on highlight if `highlightedColor` is not set explicitly.
+- Bugfix: Updated `ValueField` to post `UITextField` notifications to better participate in e.g. keyboard avoidance.
+
 ## 1.3
 
 - Added reordering delegate `reordering` to `CollectionViewDelegate`.
