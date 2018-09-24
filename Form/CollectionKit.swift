@@ -54,6 +54,16 @@ public final class CollectionKit<Section, Row> {
             // Auto update the table
             self.table.moveElement(from: source, to: destination)
         }
+
+        bag += delegate.didEndDisplayingCell.onValue { cell in
+            cell.releaseBag(forType: Row.self)
+        }
+
+        bag += {
+            for cell in self.view.visibleCells {
+                cell.releaseBag(forType: Row.self)
+            }
+        }
     }
 }
 
@@ -123,6 +133,30 @@ extension CollectionKit: TableAnimatable {
 
         changesCallbacker.callAll(with: changes)
         callbacker.callAll(with: table)
+    }
+}
+
+public extension CollectionKit {
+    func registerViewForSupplementaryElement<S: Reusable>(item: @escaping (TableIndex) -> (S)) -> Disposable where S.ReuseType: ViewRepresentable {
+        let kind = String(describing: S.self)
+        let bag = DisposeBag()
+        bag += dataSource.supplementaryElement(for: kind).set { index -> UICollectionReusableView in
+            guard let indexPath = IndexPath(index, in: self.table) else {
+                return UICollectionReusableView()
+            }
+            let item = item(index)
+            let view = self.view.dequeueSupplementaryView(forItem: item, kind: kind, at: indexPath)
+            return view
+        }
+        bag += {
+            for cell in self.view.visibleSupplementaryViews(ofKind: kind) {
+                cell.releaseBag(forType: S.self)
+            }
+        }
+        bag += delegate.didEndDisplayingSupplementaryView(forKind: kind).onValue { view in
+            view.releaseBag(forType: S.self)
+        }
+        return bag
     }
 }
 

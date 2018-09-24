@@ -177,7 +177,7 @@ extension UITableViewCell {
     }
 
     func releaseBag<Item>(forType: Item.Type) {
-        let (_, bag) = reconfigureAndBag(Item.self)!
+        guard let (_, bag) = reconfigureAndBag(Item.self) else { return }
         bag.dispose()
     }
 

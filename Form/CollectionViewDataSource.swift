@@ -22,6 +22,7 @@ public final class CollectionViewDataSource<Section, Row>: NSObject, UICollectio
 
     public var table: Table<Section, Row>
     public var cellForIndex = Delegate<TableIndex, UICollectionViewCell>()
+    public var viewsForSupplementaryElement = [String: Delegate<TableIndex, UICollectionReusableView>]()
 
     public init(table: Table<Section, Row> = Table()) {
         self.table = table
@@ -46,6 +47,21 @@ public final class CollectionViewDataSource<Section, Row>: NSObject, UICollectio
 
     public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         didReorderCallbacker.callAll(with: (TableIndex(section: sourceIndexPath.section, row: sourceIndexPath.row), TableIndex(section: destinationIndexPath.section, row: destinationIndexPath.row)))
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        return viewsForSupplementaryElement[kind]?.call(TableIndex(section: indexPath.section, row: indexPath.row)) ?? UICollectionReusableView()
+    }
+}
+
+public extension CollectionViewDataSource {
+    func supplementaryElement(for kind: String) -> Delegate<TableIndex, UICollectionReusableView> {
+        let delegate = viewsForSupplementaryElement[kind] ?? {
+            let delegate = Delegate<TableIndex, UICollectionReusableView>()
+            viewsForSupplementaryElement[kind] = delegate
+            return delegate
+        }()
+        return delegate
     }
 }
 

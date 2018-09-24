@@ -21,6 +21,8 @@ public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UIC
     public var table: Table<Section, Row>
     public let reordering = Delegate<(source: TableIndex, proposed: TableIndex), TableIndex>()
     private let didSelectCallbacker = Callbacker<TableIndex>()
+    private let didEndDisplayingCellCallbacker = Callbacker<UICollectionViewCell>()
+    private let didEndDisplayingSupplementaryViewCallbacker = Callbacker<(kind: String, view: UICollectionReusableView)>()
 
     public var shouldAutomaticallyDeselect = true
 
@@ -46,6 +48,14 @@ public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UIC
         }
         return indexPath
     }
+
+    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        didEndDisplayingCellCallbacker.callAll(with: cell)
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+        didEndDisplayingSupplementaryViewCallbacker.callAll(with: (elementKind, view))
+    }
 }
 
 public extension CollectionViewDelegate {
@@ -55,5 +65,13 @@ public extension CollectionViewDelegate {
 
     var didSelectRow: Signal<Row> {
         return didSelect.map { self.table[$0] }
+    }
+
+    var didEndDisplayingCell: Signal<UICollectionViewCell> {
+        return Signal(callbacker: didEndDisplayingCellCallbacker)
+    }
+
+    func didEndDisplayingSupplementaryView(forKind kind: String) -> Signal<UICollectionReusableView> {
+        return Signal(callbacker: didEndDisplayingSupplementaryViewCallbacker).compactMap { $0.kind == kind ? $0.view : nil }
     }
 }
