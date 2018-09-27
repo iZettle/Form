@@ -204,7 +204,7 @@ extension Collection where Index == Int {
                 if (oldIndex - deleteOffset + runningOffset) != index {
                     steps.append(.move(item: other[index], from: oldIndex, to: index))
                 } else if needsUpdate(self[oldIndex], other[index]) {
-                    steps.append(.update(item: other[index], at: index))
+                    steps.append(.update(item: other[index], at: oldIndex))
                 }
             }
         }
@@ -293,8 +293,8 @@ private extension Collection {
         deletions.sort { $0.index > $1.index }
         insertions.sort { $0.index < $1.index }
 
-        // Deletes are processed before inserts in batch operations. This means the indexes for the deletions are processed relative to the indexes of the collection view’s state before the batch operation, and the indexes for the insertions are processed relative to the indexes of the state after all the deletions in the batch operation.
-        let sortedChanges = deletions + insertions + updates
+        // Deletes and Updates are processed before inserts in batch operations. This means the indexes for the deletions are processed relative to the indexes of the collection view’s state before the batch operation, and the indexes for the insertions are processed relative to the indexes of the state after all the deletions in the batch operation.
+        let sortedChanges = updates + deletions + insertions
         return sortedChanges
     }
 }

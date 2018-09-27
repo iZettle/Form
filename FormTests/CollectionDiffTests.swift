@@ -98,12 +98,44 @@ class DiffTests: XCTestCase {
 
     func testMovesAndUpdatesDontCollide() {
         let old = [TestRow(identifier: 0, value: "0"), TestRow(identifier: 1, value: "1"), TestRow(identifier: 2, value: "2")]
-        let new = [TestRow(identifier: 0, value: "0"), TestRow(identifier: 2, value: "3"), TestRow(identifier: 1, value: "4")]
+        let new = [TestRow(identifier: 0, value: "0"), TestRow(identifier: 2, value: "2'"), TestRow(identifier: 1, value: "1'")]
 
         let changes = old.notFullyOrderedChanges(toBuild: new, identifier: { $0.identifier }, needsUpdate: !=)
         for change in changes {
             if case .update = change { XCTAssertTrue(false, "There should not be moves and updates at the same index") }
         }
+
+        var newArray = old
+        newArray.apply(changes)
+        XCTAssertEqual(newArray, new)
+    }
+
+    func testUpdatesSpecifiedInTheOriginalTable() {
+        let old = [TestRow(identifier: 0, value: "0"), TestRow(identifier: 1, value: "1"), TestRow(identifier: 2, value: "2")]
+        let new = [TestRow(identifier: 0, value: "0"), TestRow(identifier: 2, value: "2'")]
+
+        let changes = old.notFullyOrderedChanges(toBuild: new, identifier: { $0.identifier }, needsUpdate: !=)
+        let updates = changes.compactMap { change -> Int? in
+            guard case let .update(item: _, at: index) = change else { return nil }
+            return index
+        }
+        XCTAssertEqual(updates, [2])
+
+        var newArray = old
+        newArray.apply(changes)
+        XCTAssertEqual(newArray, new)
+    }
+
+    func testInsertsWithUpdatesSpecifiedInTheOriginalTable() {
+        let old = [TestRow(identifier: 0, value: "0"), TestRow(identifier: 1, value: "1"), TestRow(identifier: 2, value: "2")]
+        let new = [TestRow(identifier: 0, value: "0"), TestRow(identifier: 3, value: "3"), TestRow(identifier: 1, value: "1"), TestRow(identifier: 2, value: "2'")]
+
+        let changes = old.notFullyOrderedChanges(toBuild: new, identifier: { $0.identifier }, needsUpdate: !=)
+        let updates = changes.compactMap { change -> Int? in
+            guard case let .update(item: _, at: index) = change else { return nil }
+            return index
+        }
+        XCTAssertEqual(updates, [2])
 
         var newArray = old
         newArray.apply(changes)

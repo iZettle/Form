@@ -12,13 +12,49 @@ import Flow
 
 // swiftlint:disable identifier_name
 class TableChangeTests: XCTestCase {
+    var window: UIWindow!
+    let bag = DisposeBag()
+
+    override func setUp() {
+        super.setUp()
+        window = UIWindow(frame: UIScreen.main.bounds)
+    }
+
+    override func tearDown() {
+        super.tearDown()
+        window = nil
+        bag.dispose()
+    }
 
     func test<R: Hashable, S: Hashable>(from: Table<R, S>, to: Table<R, S>) {
-        let bag = DisposeBag()
+
         let tableView = TableKit(table: from, bag: bag) { _, _ in UITableViewCell() }
-        UIWindow().addSubview(tableView.view)
+        tableView.view.frame = window.bounds
+        window.addSubview(tableView.view)
         tableView.view.reloadData()
+
+        let collectionView = CollectionKit(table: from, layout: UICollectionViewFlowLayout(), bag: bag) { (view, row, index) -> UICollectionViewCell in
+            view.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "id")
+            return view.dequeueCell(withReuseIdentifier: "id", for: IndexPath(row: index.row, section: index.section))
+        }
+        collectionView.view.frame = window.bounds
+        window.addSubview(collectionView.view)
+        collectionView.view.reloadData()
+
+        let nextRunLoop = expectation(description: "tableview did layout")
+        DispatchQueue.main.async {
+            nextRunLoop.fulfill()
+        }
+        wait(for: [nextRunLoop], timeout: 0.5)
+
         tableView.set(to, sectionIdentifier: { $0 }, rowIdentifier: { $0 }, rowNeedsUpdate: { _, _ in true })
+        collectionView.set(to, sectionIdentifier: { $0 }, rowIdentifier: { $0 }, rowNeedsUpdate: { _, _ in true })
+
+        let secondNextRunLoop = expectation(description: "tableview did layout")
+        DispatchQueue.main.async {
+            secondNextRunLoop.fulfill()
+        }
+        wait(for: [secondNextRunLoop], timeout: 0.5)
     }
 
     func test<R: Hashable, S: Hashable, T: Sequence, I: Sequence>(from: T, to: T) where T.Iterator.Element == (S, I), I.Iterator.Element == R {
