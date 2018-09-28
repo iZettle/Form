@@ -55,7 +55,7 @@ public extension UIView {
                 return
             }
 
-            UIView.animate(withDuration: 0.3, animations: {
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.allowUserInteraction, .curveEaseInOut], animations: {
                 self[keyPath: keyPath] = newValue
             })
         }
