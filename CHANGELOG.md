@@ -2,6 +2,7 @@
 
 - Bugfix: Fixed issue where update indices in `TableChange` and `ChangeStep` were specified in the new array rather than the orignal array
 - Bugfix: Fixed crash in UICollectoinView when animating section and row changes at the same time
+- Bugfix: Make sure `[animated keyPath:]` is animated with `.allowUserInteraction`.
 
 ## 1.3.1
 
