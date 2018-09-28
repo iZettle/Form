@@ -1,3 +1,8 @@
+## 1.3.2
+
+- Bugfix: Fixed issue where update indices in `TableChange` and `ChangeStep` were specified in the new array rather than the orignal array
+- Bugfix: Fixed crash in UICollectoinView when animating section and row changes at the same time
+
 ## 1.3.1
 
 - Bugfix: Fixed issue where out of range `UIViewAnimationCurve` enum values caused a crash running on Xcode 10 and iOS 12.
