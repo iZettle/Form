@@ -1,3 +1,7 @@
+## 1.3.2
+
+Bugfix: Make sure `[animated keyPath:]` is animated with `.allowUserInteraction`.
+
 ## 1.3.1
 
 - Bugfix: Fixed issue where out of range `UIViewAnimationCurve` enum values caused a crash running on Xcode 10 and iOS 12.
