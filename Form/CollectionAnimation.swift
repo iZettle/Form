@@ -24,7 +24,7 @@ public extension UICollectionView {
     func animate<Section, Row>(changes: [TableChange<Section, Row>], animation: CollectionAnimation = .default) {
         guard !changes.isEmpty else { return }
 
-        guard animation != .none, window != nil else {
+        guard animation != .none, window != nil, canAnimateUpdates(with: changes) else {
             reloadData()
             return
         }
@@ -61,5 +61,20 @@ public extension UICollectionView {
             }
 
         }, completion: nil)
+    }
+}
+
+private extension UICollectionView {
+    func canAnimateUpdates<Section, Row>(with changes: [TableChange<Section, Row>]) -> Bool {
+        for change in changes {
+            switch change {
+            case .section(.insert), .section(.delete), .section(.move):
+                // Disabling animation if the sections are changing since this leads to crashes when combined with row changes in those sections
+                return false
+            default:
+                continue
+            }
+        }
+        return true
     }
 }
