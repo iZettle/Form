@@ -11,12 +11,12 @@ Pod::Spec.new do |s|
   s.author       = { 'iZettle AB' => 'hello@izettle.com' }
 
   s.ios.deployment_target = "9.0"
-  s.dependency 'FlowFramework', '~> 1.2.1'
+  s.dependency 'FlowFramework', '~> 1.3'
   s.default_subspec = 'Form'
 
   s.subspec 'Form' do |form|
   # empty subspec for users who don't want to have additional dependency on PresentationFramework
-  # we decided to make it the default one since we consider PresentationFramework more of a nice addition than part of Form's functionality 
+  # we decided to make it the default one since we consider PresentationFramework more of a nice addition than part of Form's functionality
   end
 
   s.subspec 'Presentation' do |presentation|
