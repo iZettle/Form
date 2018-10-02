@@ -15,14 +15,17 @@ cat << EOF
 Usage: sh $0 command
   [Building]
 
-  iOS           Build iOS framework
-  examples		Build examples
-  clean         Clean up all un-neccesary files
+  iOS           	Build iOS framework
+  examples			Build examples
+  clean         	Clean up all un-neccesary files
 
   [Testing]
 
-  test-iOS      Run tests on iOS host
-  test-native	Run tests using `swift test`
+  test-iOS      	Run tests on iOS host
+  test-native		Run tests using `swift test`
+
+  [Release]
+  bump <version>	Bumps podspec and xcodeproject to specified version
 EOF
 }
 
@@ -78,10 +81,25 @@ case "$COMMAND" in
   ;;
 
   "test-native")
-    swift package clean
+  	swift package clean
     swift build
     swift test
     exit 0;
+  ;;
+
+  "bump")
+  VERSION="$2"
+
+	if [ -z $VERSION ]
+    then
+      echo "Version parameter is not set. \nExample: sh build.sh bump 1.3.0"
+      exit 0;
+	 fi
+
+   fastlane run version_bump_podspec version_number:$VERSION
+   fastlane run increment_version_number version_number:$VERSION
+
+	exit 0;
   ;;
 esac
 
