@@ -454,7 +454,6 @@
 				F6A9D5D91C1728BA009A0EEB /* Sources */,
 				F6A9D5DB1C1728BA009A0EEB /* Headers */,
 				F6A9D5DC1C1728BA009A0EEB /* Resources */,
-				72325A6F20E6991D006DEC75 /* Copy Flow */,
 			);
 			buildRules = (
 			);
@@ -534,22 +533,6 @@
 			name = "Copy Flow";
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		72325A6F20E6991D006DEC75 /* Copy Flow */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Flow.framework",
-			);
-			name = "Copy Flow";
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Flow.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
