@@ -187,3 +187,7 @@ We highly recommend that you also check out the [Presentation framework](https:/
 ## Field tested
 
 Form was developed, evolved and field-tested over the course of several years, and is pervasively used in [iZettle](https://izettle.com)'s highly acclaimed point of sales app.
+
+## Collaborate
+
+You can collaborate with us on our Slack workspace. Ask questions, share ideas or may be just participate in ongoing discussions. To get an invitation, write to us at [ios-oss@izettle.com](mailto:ios-oss@izettle.com)
