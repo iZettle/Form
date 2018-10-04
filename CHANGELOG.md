@@ -1,3 +1,7 @@
+## 1.3.3
+
+ - Updated dependencies on Flow and Form to be at least `>=` instead of compatiblie with version `~=`.
+
 ## 1.3.2
 
 - Bugfix: Fixed issue where update indices in `TableChange` and `ChangeStep` were specified in the new array rather than the orignal array
