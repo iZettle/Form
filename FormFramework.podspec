@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "FormFramework"
-  s.version      = "1.3.2"
+  s.version      = "1.3.3"
   s.module_name  = "Form"
   s.summary      = "Powerful iOS layout and styling"
   s.description  = <<-DESC
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.author       = { 'iZettle AB' => 'hello@izettle.com' }
 
   s.ios.deployment_target = "9.0"
-  s.dependency 'FlowFramework', '~> 1.3'
+  s.dependency 'FlowFramework', '>= 1.3'
   s.default_subspec = 'Form'
 
   s.subspec 'Form' do |form|
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Presentation' do |presentation|
-    presentation.dependency 'PresentationFramework', '~> 1.1'
+    presentation.dependency 'PresentationFramework', '>= 1.1'
   end
 
   s.source       = { :git => "https://github.com/iZettle/Form.git", :tag => "#{s.version}" }
