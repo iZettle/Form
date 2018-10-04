@@ -1,6 +1,6 @@
 ## 1.3.3
 
- - Updated dependencies on Flow and Form to be at least `>=` instead of compatiblie with version `~=`.
+ - Updated dependencies on Flow and Form to be at least `>=` instead of compatible with version `~=`.
 
 ## 1.3.2
 
