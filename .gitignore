@@ -6,4 +6,4 @@ xcuserdata
 *.xccheckout
 
 # ignore all Carthage output
- Carthage/
+Carthage/
