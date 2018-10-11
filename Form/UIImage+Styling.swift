@@ -64,11 +64,9 @@ extension UIImage {
         let ceiledTopSeparatorHeight = ceil(topSeparatorHeight)
 
         // Computing the smallest rect possible to draw this image
-        let stretchableSize: CGFloat = cornerRadius >= 8 ? 0 : 1 // From a radius of curvature of 8px it seems that the line next to the border is straight enough to be sretched to a line, so no need for an additional 1px
-        let rectWidth = stretchableSize + max(max(cornerRadius, ceiledBorderWidths.left), bottomSeparatorInsets.left, topSeparatorInsets.left) + max(max(cornerRadius, ceiledBorderWidths.right), bottomSeparatorInsets.right, topSeparatorInsets.right)
-        let rectHeight = stretchableSize + max(max(cornerRadius, ceiledBorderWidths.top), ceiledSeparatorHeight) + max(max(cornerRadius, ceiledBorderWidths.bottom), ceiledTopSeparatorHeight)
-
-        let rect = CGRect(x: 0, y: 0, width: rectWidth, height: rectHeight)
+        let rectWidth = max(cornerRadius + ceiledBorderWidths.left, bottomSeparatorInsets.left, topSeparatorInsets.left) + max(cornerRadius + ceiledBorderWidths.right, bottomSeparatorInsets.right, topSeparatorInsets.right)
+        let rectHeight = max(cornerRadius + ceiledBorderWidths.top, ceiledSeparatorHeight) + max(cornerRadius + ceiledBorderWidths.bottom, ceiledTopSeparatorHeight)
+        let rect = CGRect(x: 0, y: 0, width: max(1, rectWidth), height: max(1, rectHeight))
 
         let isOpaque: Bool
         switch (position, cornerRadius != 0, background.isOpaque) {
