@@ -11,6 +11,16 @@ public class ScrollViewDelegate: NSObject, UIScrollViewDelegate {
     private let willBeginDeceleratingCallbacker = Callbacker<()>()
     private let willBeginDraggingCallbacker = Callbacker<()>()
     private let didZoomCallbacker = Callbacker<()>()
+    private let willEndDraggingCallbacker = Callbacker<(CGPoint, UnsafeMutablePointer<CGPoint>)>()
+    private let didEndDraggingCallbacker = Callbacker<Bool>()
+    private let didEndScrollingAnimationCallbacker = Callbacker<()>()
+    private let willBeginZoomingCallbacker = Callbacker<UIView?>()
+    private let didEndZoomingCallbacker = Callbacker<(UIView?, CGFloat)>()
+    private let didScrollToTopCallbacker = Callbacker<()>()
+    private let didChangeAdjustedContentInsetCallbacker = Callbacker<()>()
+
+    public let shouldScrollToTop = Delegate<(), Bool>()
+    public let viewForZooming = Delegate<(), UIView?>()
 
     public func scrollViewDidZoom(_ scrollView: UIScrollView) {
         didZoomCallbacker.callAll()
@@ -30,6 +40,42 @@ public class ScrollViewDelegate: NSObject, UIScrollViewDelegate {
 
     public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         willBeginDeceleratingCallbacker.callAll()
+    }
+
+    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        willEndDraggingCallbacker.callAll(with: (velocity, targetContentOffset))
+    }
+
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        didEndDraggingCallbacker.callAll(with: decelerate)
+    }
+
+    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        didEndScrollingAnimationCallbacker.callAll()
+    }
+
+    public func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return viewForZooming.call().flatMap { $0 }
+    }
+
+    public func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+        willBeginZoomingCallbacker.callAll(with: view)
+    }
+
+    public func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        didEndZoomingCallbacker.callAll(with: (view, scale))
+    }
+
+    public func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        return shouldScrollToTop.call() ?? false
+    }
+
+    public func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        didScrollToTopCallbacker.callAll()
+    }
+
+    public func scrollViewDidChangeAdjustedContentInset(_ scrollView: UIScrollView) {
+        didChangeAdjustedContentInsetCallbacker.callAll()
     }
 }
 
@@ -53,4 +99,33 @@ public extension ScrollViewDelegate {
     var willBeginDragging: Signal<()> {
         return Signal(callbacker: willBeginDraggingCallbacker)
     }
+
+    var willEndDragging: Signal<(CGPoint, UnsafeMutablePointer<CGPoint>)> {
+        return Signal(callbacker: willEndDraggingCallbacker)
+    }
+
+    var didEndDragging: Signal<Bool> {
+        return Signal(callbacker: didEndDraggingCallbacker)
+    }
+
+    var didEndScrollingAnimation: Signal<()> {
+        return Signal(callbacker: didEndScrollingAnimationCallbacker)
+    }
+
+    var willBeginZooming: Signal<UIView?> {
+        return Signal(callbacker: willBeginZoomingCallbacker)
+    }
+
+    var didEndZooming: Signal<(UIView?, CGFloat)> {
+        return Signal(callbacker: didEndZoomingCallbacker)
+    }
+
+    var didScrollToTop: Signal<()> {
+        return Signal(callbacker: didScrollToTopCallbacker)
+    }
+
+    var didChangeAdjustedContentInset: Signal<()> {
+        return Signal(callbacker: didChangeAdjustedContentInsetCallbacker)
+    }
 }
+
