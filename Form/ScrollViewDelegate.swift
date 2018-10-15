@@ -11,11 +11,11 @@ public class ScrollViewDelegate: NSObject, UIScrollViewDelegate {
     private let willBeginDeceleratingCallbacker = Callbacker<()>()
     private let willBeginDraggingCallbacker = Callbacker<()>()
     private let didZoomCallbacker = Callbacker<()>()
-    private let willEndDraggingCallbacker = Callbacker<(CGPoint, UnsafeMutablePointer<CGPoint>)>()
+    private let willEndDraggingCallbacker = Callbacker<(velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)>()
     private let didEndDraggingCallbacker = Callbacker<Bool>()
     private let didEndScrollingAnimationCallbacker = Callbacker<()>()
     private let willBeginZoomingCallbacker = Callbacker<UIView?>()
-    private let didEndZoomingCallbacker = Callbacker<(UIView?, CGFloat)>()
+    private let didEndZoomingCallbacker = Callbacker<(view: UIView?, scale: CGFloat)>()
     private let didScrollToTopCallbacker = Callbacker<()>()
     private let didChangeAdjustedContentInsetCallbacker = Callbacker<()>()
 
@@ -43,7 +43,7 @@ public class ScrollViewDelegate: NSObject, UIScrollViewDelegate {
     }
 
     public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        willEndDraggingCallbacker.callAll(with: (velocity, targetContentOffset))
+        willEndDraggingCallbacker.callAll(with: (velocity: velocity, targetContentOffset: targetContentOffset))
     }
 
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -63,7 +63,7 @@ public class ScrollViewDelegate: NSObject, UIScrollViewDelegate {
     }
 
     public func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        didEndZoomingCallbacker.callAll(with: (view, scale))
+        didEndZoomingCallbacker.callAll(with: (view: view, scale: scale))
     }
 
     public func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
@@ -100,7 +100,7 @@ public extension ScrollViewDelegate {
         return Signal(callbacker: willBeginDraggingCallbacker)
     }
 
-    var willEndDragging: Signal<(CGPoint, UnsafeMutablePointer<CGPoint>)> {
+    var willEndDraggingWithVelocity: Signal<(CGPoint, UnsafeMutablePointer<CGPoint>)> {
         return Signal(callbacker: willEndDraggingCallbacker)
     }
 
@@ -116,7 +116,7 @@ public extension ScrollViewDelegate {
         return Signal(callbacker: willBeginZoomingCallbacker)
     }
 
-    var didEndZooming: Signal<(UIView?, CGFloat)> {
+    var didEndZooming: Signal<(view: UIView?, scale: CGFloat)> {
         return Signal(callbacker: didEndZoomingCallbacker)
     }
 
