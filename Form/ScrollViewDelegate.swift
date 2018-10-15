@@ -11,14 +11,17 @@ public class ScrollViewDelegate: NSObject, UIScrollViewDelegate {
     private let willBeginDeceleratingCallbacker = Callbacker<()>()
     private let willBeginDraggingCallbacker = Callbacker<()>()
     private let didZoomCallbacker = Callbacker<()>()
-    private let willEndDraggingCallbacker = Callbacker<(velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)>()
+    private let willEndDraggingCallbacker = Callbacker<CGPoint>()
     private let didEndDraggingCallbacker = Callbacker<Bool>()
     private let didEndScrollingAnimationCallbacker = Callbacker<()>()
     private let willBeginZoomingCallbacker = Callbacker<UIView?>()
     private let didEndZoomingCallbacker = Callbacker<(view: UIView?, scale: CGFloat)>()
     private let didScrollToTopCallbacker = Callbacker<()>()
     private let didChangeAdjustedContentInsetCallbacker = Callbacker<()>()
+    private let willEndDraggingCallbacker = Callbacker<(CGPoint)>()
 
+
+    public let targetContentOffsetFromVelocity = Delegate<CGPoint, CGPoint?>()
     public let shouldScrollToTop = Delegate<(), Bool>()
     public let viewForZooming = Delegate<(), UIView?>()
 
@@ -43,7 +46,10 @@ public class ScrollViewDelegate: NSObject, UIScrollViewDelegate {
     }
 
     public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        willEndDraggingCallbacker.callAll(with: (velocity: velocity, targetContentOffset: targetContentOffset))
+        if let target = targetContentOffsetFromVelocity.call(velocity) {
+            targetContentOffset.pointee = target
+        }
+        willEndDraggingCallbacker.callAll(with: velocity)
     }
 
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
