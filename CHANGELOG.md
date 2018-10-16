@@ -1,3 +1,8 @@
+## 1.3.3
+- Bugfix: Remove hardcoded value used for determing smallest resizable image size causing not smooth borders of rounded images
+- Bugfix: Fix a bug where highligted segment turns gray if it's also selected
+- Bugfix: Add extra space to the resizable image rect to prevent the border taking the whole image
+
 ## 1.3.2
 
 - Bugfix: Fixed issue where update indices in `TableChange` and `ChangeStep` were specified in the new array rather than the orignal array
