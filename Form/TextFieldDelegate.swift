@@ -42,22 +42,22 @@ public final class TextFieldDelegate: NSObject, UITextFieldDelegate {
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return shouldReturn.call(textField.value) ?? true
     }
-
-    /// Return true whether the proposed updated text should be accepted or not.
-    /// - Note: Is based on `shouldChangeCharacters` so only one of the two can be used at a time.
-    public lazy var shouldChangeToProposedText = Delegate<String, Bool> { [weak self] isValidNewString in
-        guard let `self` = self else { return NilDisposer() }
-
-        return self.shouldChangeCharacters.set { text, range, replacementString in
-            let proposedText = text.replacingCharacters(in: range, with: replacementString)
-            return isValidNewString(proposedText)
-        }
-    }
 }
 
 public extension TextFieldDelegate {
     var didEndEditing: Signal<()> {
         return Signal(callbacker: didEndEditingCallbacker)
+    }
+
+    /// Return true whether the proposed updated text should be accepted or not.
+    /// - Note: Is based on `shouldChangeCharacters` so only one of the two can be used at a time.
+    public var shouldChangeToProposedText: Delegate<String, Bool> {
+        return Delegate { isValidNewString in
+            self.shouldChangeCharacters.set { text, range, replacementString in
+                let proposedText = text.replacingCharacters(in: range, with: replacementString)
+                return isValidNewString(proposedText)
+            }
+        }
     }
 }
 
