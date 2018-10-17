@@ -1,3 +1,8 @@
+## 1.4
+
+- Added `TextFieldDelegate` similar to `ScrollViewDelegate` and friends.
+- Added `UITextField` and `UIScrollView` `install()` delegate helpers.
+
 ## 1.3.3
 - Bugfix: Remove hardcoded value used for determing smallest resizable image size causing not smooth borders of rounded images
 - Bugfix: Fix a bug where highligted segment turns gray if it's also selected
