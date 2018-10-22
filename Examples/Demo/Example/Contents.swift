@@ -40,7 +40,13 @@ extension UIViewController {
         let label = UILabel(value: "Hello")
         stylingSection.appendRow(title: "Label").append(label)
 
-        let textRow = stylingSection.appendRow(title: "TextField").append(UITextField(value: "Hello", placeholder: "PlaceHolder"))
+        let textField = UITextField(value: "Hello", placeholder: "PlaceHolder")
+        let textDelegate = TextFieldDelegate()
+        bag += textField.install(textDelegate)
+
+        bag += textDelegate.shouldChangeToProposedText.set { $0.count < 10 }
+
+        let textRow = stylingSection.appendRow(title: "TextField").append(textField)
         bag += textRow.atOnce().map { $0 }.bindTo(label, \.value)
 
         let buttonRow = stylingSection.appendRow(title: "Button").append(UIButton(title: "Hello"))
