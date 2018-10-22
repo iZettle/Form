@@ -76,6 +76,7 @@
 		F6A326EA1F94935200C3A692 /* UILabel+Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A326E91F94935200C3A692 /* UILabel+Styling.swift */; };
 		F6A326EC1F9493B200C3A692 /* TextStyle+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A326EB1F9493B200C3A692 /* TextStyle+Utilities.swift */; };
 		F6B143341FCC3FA900B63D0F /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B143331FCC3FA900B63D0F /* Constraints.swift */; };
+		F6B66F6F2177786C0072FAB5 /* TextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B66F6E2177786B0072FAB5 /* TextFieldDelegate.swift */; };
 		F6B81B9420CA906000B6AC39 /* NumberEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B81B9320CA906000B6AC39 /* NumberEditorTests.swift */; };
 		F6BFAFA72090719F00CBA6B1 /* UITextField+Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BFAFA62090719F00CBA6B1 /* UITextField+Styling.swift */; };
 		F6BFAFAD2090746C00CBA6B1 /* BarButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BFAFAC2090746C00CBA6B1 /* BarButtonStyle.swift */; };
@@ -190,6 +191,7 @@
 		F6A326EB1F9493B200C3A692 /* TextStyle+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TextStyle+Utilities.swift"; path = "Form/TextStyle+Utilities.swift"; sourceTree = "<group>"; };
 		F6A9D5DE1C1728BA009A0EEB /* Form.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Form.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6B143331FCC3FA900B63D0F /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Constraints.swift; path = Form/Constraints.swift; sourceTree = "<group>"; };
+		F6B66F6E2177786B0072FAB5 /* TextFieldDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextFieldDelegate.swift; path = Form/TextFieldDelegate.swift; sourceTree = "<group>"; };
 		F6B81B9320CA906000B6AC39 /* NumberEditorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberEditorTests.swift; sourceTree = "<group>"; };
 		F6BFAFA62090719F00CBA6B1 /* UITextField+Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UITextField+Styling.swift"; path = "Form/UITextField+Styling.swift"; sourceTree = "<group>"; };
 		F6BFAFAC2090746C00CBA6B1 /* BarButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BarButtonStyle.swift; path = Form/BarButtonStyle.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 				F67D378D1C7B2EDD00A35BD4 /* TextEditor.swift */,
 				F684BF17209350B60018EDE9 /* ValueEditor.swift */,
 				F666BB8E20BE9741006D2507 /* NumberEditor.swift */,
+				F6B66F6E2177786B0072FAB5 /* TextFieldDelegate.swift */,
 			);
 			name = Values;
 			sourceTree = "<group>";
@@ -597,6 +600,7 @@
 				F63863122090B73F00A43824 /* RowView.swift in Sources */,
 				F65A9FB21C7B216F007007B4 /* UIEdgeInsets+Utilities.swift in Sources */,
 				21A79B6D1DBF5D84000D1231 /* BackgroundStyle.swift in Sources */,
+				F6B66F6F2177786C0072FAB5 /* TextFieldDelegate.swift in Sources */,
 				F6DC567F208F464100F2DF3C /* BorderStyle.swift in Sources */,
 				F684BF18209350B60018EDE9 /* ValueEditor.swift in Sources */,
 				F66835D62091CC32002D2676 /* UIResponders+Utilities.swift in Sources */,
