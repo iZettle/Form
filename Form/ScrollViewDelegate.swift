@@ -135,3 +135,12 @@ public extension ScrollViewDelegate {
     }
 }
 
+public extension UIScrollView {
+    func install(_ delegate: UIScrollViewDelegate) -> Disposable {
+        self.delegate = delegate
+        return Disposer {
+            _ = delegate // Hold on to
+            self.delegate = nil
+        }
+    }
+}
