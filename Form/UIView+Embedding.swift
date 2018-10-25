@@ -31,8 +31,9 @@ public extension UIView {
         var constraints = [NSLayoutConstraint]()
 
         if pinToEdges.intersection([.left, .right]).isEmpty { // Center X
-            constraints += [view.centerXAnchor == layoutGuide.centerXAnchor + insets.left - insets.right,
-                   view.widthAnchor <= layoutGuide.widthAnchor - (insets.left + insets.right)]
+            let centerXConstraint = view.centerXAnchor == layoutGuide.centerXAnchor + insets.left - insets.right
+            let widthConstraint = view.widthAnchor <= layoutGuide.widthAnchor - (insets.left + insets.right)
+            constraints += [centerXConstraint, widthConstraint]
 
         } else {
             if pinToEdges.contains(.left) {
@@ -49,8 +50,9 @@ public extension UIView {
         }
 
         if pinToEdges.intersection([.top, .bottom]).isEmpty { // Center Y
-            constraints += [view.centerYAnchor == layoutGuide.centerYAnchor + insets.top - insets.bottom,
-                   view.heightAnchor <= layoutGuide.heightAnchor - (insets.top + insets.bottom)]
+            let centerYConstraint = view.centerYAnchor == layoutGuide.centerYAnchor + insets.top - insets.bottom
+            let heightConstraint = view.heightAnchor <= layoutGuide.heightAnchor - (insets.top + insets.bottom)
+            constraints += [centerYConstraint, heightConstraint]
 
         } else {
             if pinToEdges.contains(.top) {
