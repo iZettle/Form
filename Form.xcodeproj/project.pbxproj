@@ -78,6 +78,7 @@
 		F6B143341FCC3FA900B63D0F /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B143331FCC3FA900B63D0F /* Constraints.swift */; };
 		F6B66F6F2177786C0072FAB5 /* TextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B66F6E2177786B0072FAB5 /* TextFieldDelegate.swift */; };
 		F6B81B9420CA906000B6AC39 /* NumberEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B81B9320CA906000B6AC39 /* NumberEditorTests.swift */; };
+		F6BD2DF42182EFFE00273092 /* GestureRecognizerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BD2DF32182EFFE00273092 /* GestureRecognizerDelegate.swift */; };
 		F6BFAFA72090719F00CBA6B1 /* UITextField+Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BFAFA62090719F00CBA6B1 /* UITextField+Styling.swift */; };
 		F6BFAFAD2090746C00CBA6B1 /* BarButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BFAFAC2090746C00CBA6B1 /* BarButtonStyle.swift */; };
 		F6BFAFAF2090768B00CBA6B1 /* SectionStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BFAFAE2090768B00CBA6B1 /* SectionStyle.swift */; };
@@ -193,6 +194,7 @@
 		F6B143331FCC3FA900B63D0F /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Constraints.swift; path = Form/Constraints.swift; sourceTree = "<group>"; };
 		F6B66F6E2177786B0072FAB5 /* TextFieldDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextFieldDelegate.swift; path = Form/TextFieldDelegate.swift; sourceTree = "<group>"; };
 		F6B81B9320CA906000B6AC39 /* NumberEditorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberEditorTests.swift; sourceTree = "<group>"; };
+		F6BD2DF32182EFFE00273092 /* GestureRecognizerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GestureRecognizerDelegate.swift; path = Form/GestureRecognizerDelegate.swift; sourceTree = "<group>"; };
 		F6BFAFA62090719F00CBA6B1 /* UITextField+Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UITextField+Styling.swift"; path = "Form/UITextField+Styling.swift"; sourceTree = "<group>"; };
 		F6BFAFAC2090746C00CBA6B1 /* BarButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BarButtonStyle.swift; path = Form/BarButtonStyle.swift; sourceTree = "<group>"; };
 		F6BFAFAE2090768B00CBA6B1 /* SectionStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SectionStyle.swift; path = Form/SectionStyle.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				1C1EEE0C1F3308C400DFFDFE /* Selectable.swift */,
 				F6C0AD3C1F3DBE8300D92CDE /* Highlightable.swift */,
 				F62278DE1D707B9800CABE5E /* AssociatedValues.swift */,
+				F6BD2DF32182EFFE00273092 /* GestureRecognizerDelegate.swift */,
 				215D10681DCB80A400504923 /* Utilities.h */,
 				215D10691DCB80A400504923 /* Utilities.m */,
 				F65A9F7F1C7B1E8F007007B4 /* Form.h */,
@@ -608,6 +611,7 @@
 				F6C2E5F21C69FA5A00453548 /* TableViewDelegate.swift in Sources */,
 				21A79B701DBF5DE9000D1231 /* TableViewFormStyle.swift in Sources */,
 				F62278DF1D707B9800CABE5E /* AssociatedValues.swift in Sources */,
+				F6BD2DF42182EFFE00273092 /* GestureRecognizerDelegate.swift in Sources */,
 				F684BF09209348F30018EDE9 /* KeyboardAnimation.swift in Sources */,
 				F66835CB2091B6DF002D2676 /* UIView+Embedding.swift in Sources */,
 				F6A326EC1F9493B200C3A692 /* TextStyle+Utilities.swift in Sources */,
