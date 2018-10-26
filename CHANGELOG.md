@@ -3,6 +3,7 @@
 - Added `TextFieldDelegate` similar to `ScrollViewDelegate` and friends.
 - Added `UITextField` and `UIScrollView` `install()` delegate helpers.
 - Added remaining methods to `ScrollViewDelegete`.
+- Added `GestureRecognizerDelegate`.
 
 ## 1.3.3
 - Bugfix: Remove hardcoded value used for determing smallest resizable image size causing not smooth borders of rounded images
