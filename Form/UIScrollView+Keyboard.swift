@@ -164,9 +164,7 @@ private extension UIScrollView {
     func adjustContentOffset(_ adjustInsets: (UIView) -> UIEdgeInsets) {
         guard let firstResponder = firstResponder as? UIView else { return }
 
-        var bounds = frame // Can't use a scroll views bounds directly.
-        bounds.origin = .zero
-        let viewRect = UIEdgeInsetsInsetRect(bounds, contentInset)
+        let viewRect = UIEdgeInsetsInsetRect(frame, contentInset)
         let firstBounds = UIEdgeInsetsInsetRect(firstResponder.bounds, adjustInsets(firstResponder))
         let firstFrame = convert(firstBounds, from: firstResponder)
 
