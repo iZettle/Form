@@ -1,3 +1,16 @@
+## 1.4
+
+- Added `TextFieldDelegate` similar to `ScrollViewDelegate` and friends.
+- Added `UITextField` and `UIScrollView` `install()` delegate helpers.
+- Added remaining methods to `ScrollViewDelegete`.
+- Added `GestureRecognizerDelegate`.
+- Fixed a bug in `UIScrollView.adjustContentOffset` for scrollviews with a non-zero `frame.origin.y`.
+
+## 1.3.3
+- Bugfix: Remove hardcoded value used for determing smallest resizable image size causing not smooth borders of rounded images
+- Bugfix: Fix a bug where highligted segment turns gray if it's also selected
+- Bugfix: Add extra space to the resizable image rect to prevent the border taking the whole image
+
 ## 1.3.2
 
 - Bugfix: Fixed issue where update indices in `TableChange` and `ChangeStep` were specified in the new array rather than the orignal array

@@ -54,7 +54,8 @@ public extension UIBarMetrics {
 }
 
 public extension UIControlState {
-    static let standardStates: [UIControlState] = [.normal, .highlighted, .disabled, .selected]
+    static let selectedAndHighlighted: UIControlState = [.selected, .highlighted]
+    static let standardStates: [UIControlState] = [.normal, .highlighted, .disabled, .selected, selectedAndHighlighted]
     static let standardStatesNoSelected: [UIControlState] = [.normal, .highlighted, .disabled]
 }
 
@@ -65,6 +66,7 @@ public extension Dictionary where Key == UIControlState {
         self[.highlighted] = highlighted
         self[.disabled] = disabled
         self[.selected] = selected
+        self[.selectedAndHighlighted] = highlighted ?? selected
     }
 }
 
