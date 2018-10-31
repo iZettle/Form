@@ -62,7 +62,7 @@ public protocol Reusable {
 public extension Reusable {
     static func makeAndConfigure() -> (make: ReuseType, configure: (Self) -> Disposable) {
         let (resuseType, reconfigure) = makeAndReconfigure()
-        var prevValue: Self? = nil
+        var prevValue: Self?
         return (resuseType, {
             let bag = reconfigure(prevValue, $0)
             prevValue = $0

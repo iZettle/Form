@@ -142,7 +142,7 @@ public func deactivate(_ constraints: NSLayoutConstraint...) {
     deactivate(constraints)
 }
 
-public func -(lhs: UILayoutPriority, rhs: Float) -> UILayoutPriority {
+public func - (lhs: UILayoutPriority, rhs: Float) -> UILayoutPriority {
     return UILayoutPriority(rawValue: lhs.rawValue - rhs)
 }
 
@@ -150,7 +150,7 @@ public func -= (lhs: inout UILayoutPriority, rhs: Float) {
     lhs = lhs-rhs
 }
 
-public func +(lhs: UILayoutPriority, rhs: Float) -> UILayoutPriority {
+public func + (lhs: UILayoutPriority, rhs: Float) -> UILayoutPriority {
     return UILayoutPriority(rawValue: lhs.rawValue + rhs)
 }
 

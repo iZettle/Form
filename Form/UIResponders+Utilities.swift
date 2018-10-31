@@ -66,7 +66,7 @@ public func chainResponders(_ controls: [UIControl], shouldLoop: Bool = false, r
 
     let shouldLoop = shouldLoop && controls.count > 1
 
-    var previousControl: UIControl? = nil
+    var previousControl: UIControl?
     for control in controls {
         bag += previousControl?.setNextResponder(control)
         previousControl = control

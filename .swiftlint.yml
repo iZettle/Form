@@ -1,0 +1,27 @@
+disabled_rules:
+  - file_length
+  - line_length
+  - function_body_length
+
+  - nesting
+  - cyclomatic_complexity
+  - todo
+
+  - force_try
+  - force_cast
+  - void_return
+  - trailing_comma
+  - shorthand_operator
+
+included:
+  - Form
+  - FormTests
+  - Examples
+
+identifier_name:
+  excluded: [id, i, vc, at, to, l, r, j,
+shouldRecognizeSimultaneouslyWithOtherGestureRecognizer,
+shouldRequireFailureOtherGestureRecognizer,
+shouldBeRequiredToFailByOtherGestureRecognizer,
+didEndDisplayingSupplementaryViewCallbacker]
+  severity: warning

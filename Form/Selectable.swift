@@ -48,7 +48,7 @@ public extension Collection where Iterator.Element == ReadWriteSignal<Bool> {
             }
         }
         for isSelected in self {
-            bag += isSelected.distinct().onValue { selected in
+            bag += isSelected.distinct().onValue { _ in
                 enforceOneSelection(fromSelection: isSelected)
             }
         }

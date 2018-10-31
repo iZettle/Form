@@ -10,7 +10,6 @@ import XCTest
 import Form
 import Flow
 
-// swiftlint:disable identifier_name
 class TableChangeTests: XCTestCase {
     var window: UIWindow!
     let bag = DisposeBag()

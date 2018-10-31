@@ -148,7 +148,7 @@ public extension TextStyle {
 }
 
 extension TextStyle: Equatable {
-    public static func ==(lhs: TextStyle, rhs: TextStyle) -> Bool {
+    public static func == (lhs: TextStyle, rhs: TextStyle) -> Bool {
         // fast-path
         guard lhs.changeIndex != rhs.changeIndex else {
             return true

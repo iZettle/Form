@@ -47,7 +47,6 @@ public extension UICollectionView {
         return cell
     }
 
-
     /// Dequeues (reuses) or creates a new view and using the `item`'s conformance to `Reusable` to create and configure the view to embed in the returned cell.
     func dequeueCell<Item: Reusable>(forItem item: Item, at indexPath: IndexPath) -> UICollectionViewCell where Item.ReuseType: ViewRepresentable {
         return dequeueCell(forItem: item, at: indexPath, reuseIdentifier: item.reuseIdentifier, contentViewAndConfigure: {
@@ -98,7 +97,6 @@ public extension UICollectionView {
         return supplementaryView
     }
 
-
     /// Dequeues (reuses) or creates a new view and using the `item`'s conformance to `Reusable` to create and configure the view to embed in the returned cell.
     func dequeueSupplementaryView<Item: Reusable>(forItem item: Item, kind: String = String(describing: Item.self), at indexPath: IndexPath) -> UICollectionReusableView where Item.ReuseType: ViewRepresentable {
         return dequeueSupplementaryView(forItem: item, at: indexPath, kind: kind, reuseIdentifier: item.reuseIdentifier, contentViewAndConfigure: {
@@ -143,7 +141,6 @@ private extension UICollectionReusableView {
     }
 }
 private var collectionConfigureKey = false
-
 
 private extension UICollectionReusableView {
     func setItem<Item>(_ item: Item, contentViewAndReconfigure: () -> (UIView, (Item?, Item) -> Disposable)) {

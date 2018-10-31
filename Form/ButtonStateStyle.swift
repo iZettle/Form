@@ -35,7 +35,7 @@ public extension ButtonStateStyle {
 }
 
 extension UIControlState: Equatable {
-    public static func ==(lhs: UIControlState, rhs: UIControlState) -> Bool {
+    public static func == (lhs: UIControlState, rhs: UIControlState) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
 }
