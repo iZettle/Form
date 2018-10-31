@@ -247,6 +247,7 @@ private class CellBackgroundView: UIView, DynamicStylable {
         backgrounImageView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(backgrounImageView)
         activate(left, right, backgrounImageView.topAnchor == topAnchor, backgrounImageView.bottomAnchor == bottomAnchor)
+        applyStylingIfNeeded()
     }
 
     required init?(coder aDecoder: NSCoder) {
