@@ -19,9 +19,6 @@ included:
   - Examples
 
 identifier_name:
-  excluded: [id, i, vc, at, to, l, r, j,
-shouldRecognizeSimultaneouslyWithOtherGestureRecognizer,
-shouldRequireFailureOtherGestureRecognizer,
-shouldBeRequiredToFailByOtherGestureRecognizer,
-didEndDisplayingSupplementaryViewCallbacker]
+  excluded: [id, i, vc, at, to, l, r, j]
   severity: warning
+  max_length: 55
