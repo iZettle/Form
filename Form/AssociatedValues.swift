@@ -22,6 +22,10 @@ extension NSObject {
         return val
     }
 
+    func setWeakAssociatedValue<T>(_ val: T?, forKey key: UnsafeRawPointer) {
+        objc_setAssociatedObject(self, key, val, .OBJC_ASSOCIATION_ASSIGN)
+    }
+
     func setAssociatedValue<T>(_ val: T?, forKey key: UnsafeRawPointer) {
         objc_setAssociatedObject(self, key, val, .OBJC_ASSOCIATION_RETAIN)
     }

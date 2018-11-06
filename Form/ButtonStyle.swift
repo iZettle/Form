@@ -11,19 +11,21 @@ import UIKit
 public struct ButtonStyle: Style {
     public var buttonType: UIButtonType
     public var contentInsets: UIEdgeInsets
+    public var minimumWidth: CGFloat?
     public var alignment: UIControlContentHorizontalAlignment
     public var states: [UIControlState: ButtonStateStyle]
 
-    public init(buttonType: UIButtonType = .custom, contentInsets: UIEdgeInsets = UIEdgeInsets.zero, alignment: UIControlContentHorizontalAlignment = .center, states: [UIControlState: ButtonStateStyle]) {
+    public init(buttonType: UIButtonType = .custom, contentInsets: UIEdgeInsets = .zero, minimumWidth: CGFloat? = nil, alignment: UIControlContentHorizontalAlignment = .center, states: [UIControlState: ButtonStateStyle]) {
         self.buttonType = buttonType
         self.contentInsets = contentInsets
+        self.minimumWidth = minimumWidth
         self.alignment =  alignment
         self.states = states
     }
 }
 
 public extension ButtonStyle {
-    init(buttonType: UIButtonType = .custom, contentInsets: UIEdgeInsets = .zero, alignment: UIControlContentHorizontalAlignment = .center, normal: ButtonStateStyle? = nil, highlighted: ButtonStateStyle? = nil, disabled: ButtonStateStyle? = nil, selected: ButtonStateStyle? = nil) {
+    init(buttonType: UIButtonType = .custom, contentInsets: UIEdgeInsets = .zero, minimumWidth: CGFloat? = nil, alignment: UIControlContentHorizontalAlignment = .center, normal: ButtonStateStyle? = nil, highlighted: ButtonStateStyle? = nil, disabled: ButtonStateStyle? = nil, selected: ButtonStateStyle? = nil) {
         self.init(buttonType: buttonType, contentInsets: contentInsets, alignment: alignment, states: .init(normal: normal, highlighted: highlighted, disabled: disabled, selected: selected))
     }
 }
@@ -120,6 +122,7 @@ private extension UIButton {
         setAssociatedValue(style, forKey: &styleKey)
         self.contentEdgeInsets = style.contentInsets
         self.contentHorizontalAlignment = style.alignment
+        updateMinimumWidth(style.minimumWidth)
 
         for state in UIControlState.standardStates {
             let stateStyle = style.states[state]
@@ -142,6 +145,17 @@ private extension UIButton {
             }
         }
     }
+
+    func updateMinimumWidth(_ minimumWidth: CGFloat?) {
+        if let constraint: NSLayoutConstraint = associatedValue(forKey: &widthConstraintKey) {
+            constraint.constant = minimumWidth ?? 0
+            constraint.isActive = (minimumWidth != nil)
+        } else if let minimumWidth = minimumWidth {
+            let constraint = activate(self.widthAnchor >= minimumWidth)
+            setWeakAssociatedValue(constraint, forKey: &widthConstraintKey)
+        }
+    }
 }
 
 private var styleKey = 0
+private var widthConstraintKey = 0
