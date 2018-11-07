@@ -60,7 +60,7 @@ public final class TableKit<Section, Row> {
             let bag = DisposeBag()
             guard let `self` = self else { return bag }
 
-            var currentView: UIView? = nil
+            var currentView: UIView?
             bag += self.atOnce().onValue { table in
                 if let prevView = currentView {
                     currentView = nil

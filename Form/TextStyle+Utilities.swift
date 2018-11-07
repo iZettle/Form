@@ -114,7 +114,7 @@ private extension NSAttributedString {
     func map(_ transform: (String) -> String) -> NSAttributedString {
         let result = NSMutableAttributedString()
 
-        self.enumerateAttributes(in: NSMakeRange(0, self.string.count), options: []) { attributes, range, _ in
+        self.enumerateAttributes(in: NSRange(location: 0, length: self.string.count), options: []) { attributes, range, _ in
             let substring = (self.string as NSString).substring(with: range)
             result.append(NSAttributedString(string: transform(substring), attributes: attributes))
         }

@@ -154,7 +154,7 @@ extension Collection where Index == Int {
         }
 
         var i = 1
-        while (i < newEntries.count - 1) {
+        while i < newEntries.count - 1 {
             if case .index(let j) = newEntries[i], j + 1 < oldEntries.count {
                 if case .symbol(let newEntry) = newEntries[i + 1],
                     case .symbol(let oldEntry) = oldEntries[j + 1],
@@ -167,7 +167,7 @@ extension Collection where Index == Int {
         }
 
         i = newEntries.count - 1
-        while (i > 0) {
+        while i > 0 {
             if case .index(let j) = newEntries[i], j - 1 >= 0 {
                 if case .symbol(let newEntry) = newEntries[i - 1],
                     case .symbol(let oldEntry) = oldEntries[j - 1],

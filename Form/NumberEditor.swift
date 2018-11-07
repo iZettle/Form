@@ -265,7 +265,7 @@ private extension NumberFormatter {
 
 private extension NumberFormatter {
     func value(forFormattedValue value: NSDecimalNumber) -> NSDecimalNumber {
-        switch (numberStyle) {
+        switch numberStyle {
         case .percent:
             return value.multiplying(byPowerOf10: -2)
         default:
@@ -274,7 +274,7 @@ private extension NumberFormatter {
     }
 
     func formattedValue(for value: NSDecimalNumber) -> NSDecimalNumber {
-        switch (numberStyle) {
+        switch numberStyle {
         case .percent:
             return value.multiplying(byPowerOf10: 2)
         default:
@@ -298,10 +298,10 @@ extension NSCopying where Self: NSObject {
     }
 }
 
-func <(lhs: NSDecimalNumber, rhs: NSDecimalNumber) -> Bool {
+func < (lhs: NSDecimalNumber, rhs: NSDecimalNumber) -> Bool {
     return lhs.compare(rhs) == .orderedAscending
 }
 
-func >(lhs: NSDecimalNumber, rhs: NSDecimalNumber) -> Bool {
+func > (lhs: NSDecimalNumber, rhs: NSDecimalNumber) -> Bool {
     return lhs.compare(rhs) == .orderedDescending
 }

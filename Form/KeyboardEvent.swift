@@ -134,7 +134,7 @@ private extension UIViewAnimationCurve {
 }
 
 private typealias ViewOrderedValue = (view: UIView, prio: Int)
-private func <(_ lhs: ViewOrderedValue, _ rhs: ViewOrderedValue) -> Bool {
+private func < (_ lhs: ViewOrderedValue, _ rhs: ViewOrderedValue) -> Bool {
     if lhs.view == rhs.view {
         return lhs.prio > rhs.prio
     }

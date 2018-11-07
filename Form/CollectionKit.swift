@@ -98,10 +98,10 @@ extension CollectionKit: TableAnimatable {
     ///   - rowNeedsUpdate: Optional closure indicating whether two rows with equal identifiers have any updates.
     ///           Defaults to true. If provided, unnecessary reconfigure calls to visible rows could be avoided.
     public func set<SectionIdentifier: Hashable, RowIdentifier: Hashable>(_ table: Table,
-                                                                           animation: CollectionAnimation = CollectionKit.defaultAnimation,
-                                                                           sectionIdentifier: (Section) -> SectionIdentifier,
-                                                                           rowIdentifier: (Row) -> RowIdentifier,
-                                                                           rowNeedsUpdate: ((Row, Row) -> Bool)?) {
+                                                                          animation: CollectionAnimation = CollectionKit.defaultAnimation,
+                                                                          sectionIdentifier: (Section) -> SectionIdentifier,
+                                                                          rowIdentifier: (Row) -> RowIdentifier,
+                                                                          rowNeedsUpdate: ((Row, Row) -> Bool)?) {
         let from = self.table
         dataSource.table = table
         delegate.table = table

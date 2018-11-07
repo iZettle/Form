@@ -159,7 +159,7 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
         get { return .no }
         set { /* ignore */ }
     }
-    
+
     public dynamic var keyboardType: UIKeyboardType = .default
 
     public override var intrinsicContentSize: CGSize {

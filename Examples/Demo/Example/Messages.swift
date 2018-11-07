@@ -98,4 +98,3 @@ let testMessages: [Message] = {
     let decoder = JSONDecoder()
     return try! decoder.decode([Message].self, from: messagesJSON.data(using: .utf8)!)
 }()
-

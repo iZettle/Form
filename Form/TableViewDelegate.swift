@@ -138,7 +138,7 @@ public extension TableViewDelegate {
     func installAction(title: DisplayableString, style: UITableViewRowActionStyle = .normal, backgroundColor: UIColor? = nil, isVisibleAt: @escaping (TableIndex) -> Bool = { _ in true }) -> Signal<TableIndex> {
         return Signal { callback in
             let callbacker = Callbacker<TableIndex>()
-            let action = UITableViewRowAction(title: title, style: style, handler: { (action, indexPath) in
+            let action = UITableViewRowAction(title: title, style: style, handler: { (_, indexPath) in
                 guard let tableIndex = TableIndex(indexPath, in: self.table) else { return }
                 callbacker.callAll(with: tableIndex)
             })

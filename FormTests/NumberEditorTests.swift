@@ -162,7 +162,6 @@ class DecimalEditorTests: XCTestCase {
         formatter.maximumFractionDigits = 3
         let editor = NumberEditor(formatter: formatter)
 
-
         test(editor, "-.", "-0.", 0, 0)
         test(editor, ".-", "-0.", 0, 0)
         test(editor, "-.<", "-0", 0, 0)

@@ -63,7 +63,7 @@ public extension Table {
     init<S: Sequence>(rows: S, sectionValue: (Row) -> Section?) where S.Iterator.Element == Row {
         let rows = Array(rows)
 
-        var prev: Section? = nil
+        var prev: Section?
         var sectionStart = 0
         var sections = [(Section, Range<Int>)]()
         for (index, row) in rows.enumerated() {
@@ -110,7 +110,7 @@ public extension Table where Section: Equatable {
     ///
     ///     Table(rows: 0..<100) { row in "\(row/5)" }
     init<S: Sequence>(rows: S, sectionValue: (Row) -> Section) where S.Iterator.Element == Row {
-        var prev: Section? = nil
+        var prev: Section?
         self.init(rows: rows) { row -> Section? in
             let section = sectionValue(row)
             guard section != prev else { return nil }
@@ -237,11 +237,11 @@ public struct TableIndex {
 }
 
 extension TableIndex: Comparable {
-    public static func ==(lhs: TableIndex, rhs: TableIndex) -> Bool {
+    public static func == (lhs: TableIndex, rhs: TableIndex) -> Bool {
         return lhs.section == rhs.section && lhs.row == rhs.row
     }
 
-    public static func <(lhs: TableIndex, rhs: TableIndex) -> Bool {
+    public static func < (lhs: TableIndex, rhs: TableIndex) -> Bool {
         return lhs.section == rhs.section ? lhs.row < rhs.row : lhs.section < rhs.section
     }
 
