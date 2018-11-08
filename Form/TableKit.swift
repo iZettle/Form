@@ -110,9 +110,15 @@ public final class TableKit<Section, Row> {
 
         let tableHeader = UIView()
         let tableHeaderConstraint = activate(tableHeader.heightAnchor == 0)
+        if view.tableHeaderView == nil {
+            view.autoResizingTableHeaderView = tableHeader
+        }
 
         let tableFooter = UIView()
         let tableFooterConstraint = activate(tableFooter.heightAnchor == 0)
+        if view.tableFooterView == nil {
+            view.autoResizingTableFooterView = tableFooter
+        }
 
         bag += view.traitCollectionWithFallbackSignal.distinct().atOnce().onValue { traits in
             let style = style.style(from: traits)
@@ -143,14 +149,6 @@ public final class TableKit<Section, Row> {
             if self.delegate.footerHeight == 0 { // 0 has special meaning, not what we want
                 self.delegate.footerHeight = .headerFooterAlmostZero
             }
-        }
-
-        if view.tableHeaderView == nil {
-            view.autoResizingTableHeaderView = tableHeader
-        }
-
-        if view.tableFooterView == nil {
-            view.autoResizingTableFooterView = tableFooter
         }
 
         bag += dataSource.cellForIndex.set { index in
