@@ -113,7 +113,10 @@ public extension UITableView {
 
 public extension UITableViewCell {
     func applyFormStyle(_ style: TableViewFormStyle) {
-        let (embeddedView, heightConstraint, _, updateInsets) = (associatedValue(forKey: &tableFormKey) as (UIView, NSLayoutConstraint, DisposeBag, (UIEdgeInsets) -> ())?)!
+
+        guard let (embeddedView, heightConstraint, _, updateInsets) = (associatedValue(forKey: &tableFormKey) as (UIView, NSLayoutConstraint, DisposeBag, (UIEdgeInsets) -> ())?) else {
+            return
+        }
 
         heightConstraint.constant = style.section.minRowHeight
 
