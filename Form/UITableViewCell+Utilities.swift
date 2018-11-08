@@ -114,6 +114,24 @@ public extension UITableView {
 public extension UITableViewCell {
     func applyFormStyle(_ style: TableViewFormStyle) {
 
+        contentView.backgroundColor = .clear
+
+        // Workaround for the reorder icon
+        let reorderViewTag = 473659834
+        if let reorderControlView = reorderControlView {
+            let resizedGripView = viewWithTag(reorderViewTag) ?? TapThroughView()
+            resizedGripView.frame = bounds
+            resizedGripView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            resizedGripView.backgroundColor = .clear
+            resizedGripView.tag = reorderViewTag
+            resizedGripView.addSubview(reorderControlView)
+            addSubview(resizedGripView)
+        }
+
+        if let resizedGripView = viewWithTag(reorderViewTag) {
+            resizedGripView.transform = CGAffineTransform(translationX: -style.form.insets.right, y: 0)
+        }
+
         guard let (embeddedView, heightConstraint, _, updateInsets) = (associatedValue(forKey: &tableFormKey) as (UIView, NSLayoutConstraint, DisposeBag, (UIEdgeInsets) -> ())?) else {
             return
         }
@@ -132,24 +150,6 @@ public extension UITableViewCell {
         if let stack = embeddedView as? UIStackView {
             stack.edgeInsets = style.section.rowInsets
             stack.spacing = style.section.itemSpacing
-        }
-
-        contentView.backgroundColor = .clear
-
-        // Workaround for the reorder icon
-        let reorderViewTag = 473659834
-        if let reorderControlView = reorderControlView {
-            let resizedGripView = viewWithTag(reorderViewTag) ?? TapThroughView()
-            resizedGripView.frame = bounds
-            resizedGripView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            resizedGripView.backgroundColor = .clear
-            resizedGripView.tag = reorderViewTag
-            resizedGripView.addSubview(reorderControlView)
-            addSubview(resizedGripView)
-        }
-
-        if let resizedGripView = viewWithTag(reorderViewTag) {
-            resizedGripView.transform = CGAffineTransform(translationX: -style.form.insets.right, y: 0)
         }
     }
 }
