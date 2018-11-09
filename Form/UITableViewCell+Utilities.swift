@@ -113,23 +113,6 @@ public extension UITableView {
 
 public extension UITableViewCell {
     func applyFormStyle(_ style: TableViewFormStyle) {
-        let (embeddedView, heightConstraint, _, updateInsets) = (associatedValue(forKey: &tableFormKey) as (UIView, NSLayoutConstraint, DisposeBag, (UIEdgeInsets) -> ())?)!
-
-        heightConstraint.constant = style.section.minRowHeight
-
-        var insets = style.form.insets
-        insets.top = 0
-        insets.bottom = 0
-        updateInsets(insets)
-
-        if let row = embeddedView as? SectionRowStylable {
-            row.apply(rowInsets: style.section.rowInsets, itemSpacing: style.section.itemSpacing)
-        }
-
-        if let stack = embeddedView as? UIStackView {
-            stack.edgeInsets = style.section.rowInsets
-            stack.spacing = style.section.itemSpacing
-        }
 
         contentView.backgroundColor = .clear
 
@@ -147,6 +130,26 @@ public extension UITableViewCell {
 
         if let resizedGripView = viewWithTag(reorderViewTag) {
             resizedGripView.transform = CGAffineTransform(translationX: -style.form.insets.right, y: 0)
+        }
+
+        guard let (embeddedView, heightConstraint, _, updateInsets) = (associatedValue(forKey: &tableFormKey) as (UIView, NSLayoutConstraint, DisposeBag, (UIEdgeInsets) -> ())?) else {
+            return
+        }
+
+        heightConstraint.constant = style.section.minRowHeight
+
+        var insets = style.form.insets
+        insets.top = 0
+        insets.bottom = 0
+        updateInsets(insets)
+
+        if let row = embeddedView as? SectionRowStylable {
+            row.apply(rowInsets: style.section.rowInsets, itemSpacing: style.section.itemSpacing)
+        }
+
+        if let stack = embeddedView as? UIStackView {
+            stack.edgeInsets = style.section.rowInsets
+            stack.spacing = style.section.itemSpacing
         }
     }
 }
