@@ -1,3 +1,9 @@
+## 1.4.1
+- Fix a bug that avoids the crash when styling is tried on UITableViewCell that was created without the associated variable
+- Revert a fix for `estimatedSectionHeaderHeight` / `estimatedSectionFooterHeight` that caused bug in Form insets.
+- Fix cell background missing issue when inserting cell on iOS 9
+
+
 ## 1.4
 
 - Added `TextFieldDelegate` similar to `ScrollViewDelegate` and friends.
