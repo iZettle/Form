@@ -13,20 +13,17 @@ extension NSObject {
         return objc_getAssociatedObject(self, key) as? T
     }
 
-    func associatedValue<T>(forKey key: UnsafeRawPointer,
-                            shouldRetainInitial: Bool = true,
-                            initial: @autoclosure () throws -> T) rethrows -> T {
+    func associatedValue<T>(forKey key: UnsafeRawPointer, initial: @autoclosure () throws -> T) rethrows -> T {
         if let val: T = associatedValue(forKey: key) {
             return val
         }
         let val = try initial()
-        setAssociatedValue(val, forKey: key, shouldBeRetained: shouldRetainInitial)
+        setAssociatedValue(val, forKey: key)
         return val
     }
 
-    func setAssociatedValue<T>(_ val: T?, forKey key: UnsafeRawPointer, shouldBeRetained: Bool = true) {
-        let associationPolicy: objc_AssociationPolicy = shouldBeRetained ? .OBJC_ASSOCIATION_RETAIN : .OBJC_ASSOCIATION_ASSIGN
-        objc_setAssociatedObject(self, key, val, associationPolicy)
+    func setAssociatedValue<T>(_ val: T?, forKey key: UnsafeRawPointer) {
+        objc_setAssociatedObject(self, key, val, .OBJC_ASSOCIATION_RETAIN)
     }
 
     func clearAssociatedValue(forKey key: UnsafeRawPointer) {
