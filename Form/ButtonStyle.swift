@@ -147,14 +147,16 @@ private extension UIButton {
     }
 
     func updateMinimumSize(_ minimumSize: MinimumSize) {
-        setConstraintConstant(minimumSize.width, forKey: &widthConstraintKey) { return self.widthAnchor >= $0 }
-        setConstraintConstant(minimumSize.height, forKey: &heightConstraintKey) { return self.heightAnchor >= $0 }
+        updateConstraint(for: widthAnchor, with: minimumSize.width, constraintKey: &widthConstraintKey)
+        updateConstraint(for: heightAnchor, with: minimumSize.height, constraintKey: &heightConstraintKey)
     }
 
-    func setConstraintConstant(_ constant: CGFloat?, forKey key: UnsafeRawPointer, createConstraint: (CGFloat) -> NSLayoutConstraint) {
-        let constraint = associatedValue(forKey: key, shouldRetainInitial: false, initial: createConstraint(constant ?? 0))
-        constraint.constant = constant ?? 0
-        constraint.isActive = (constant != nil)
+    func updateConstraint(for anchor: NSLayoutDimension, with dimension: MinimumSize.Dimension?, constraintKey key: UnsafeRawPointer) {
+        let constant = dimension?.value ?? 0
+        let constraint = associatedValue(forKey: key, initial: anchor >= constant)
+        constraint.priority = dimension?.priority ?? .defaultLow
+        constraint.constant = constant
+        constraint.isActive = (dimension != nil)
     }
 }
 
