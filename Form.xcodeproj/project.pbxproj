@@ -28,6 +28,7 @@
 		21A79B701DBF5DE9000D1231 /* TableViewFormStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A79B6F1DBF5DE9000D1231 /* TableViewFormStyle.swift */; };
 		21D7D99F1E1CE95200CB0FE9 /* ValueLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7D99E1E1CE95200CB0FE9 /* ValueLabel.swift */; };
 		3156BAED2139366B00ECC2EC /* MixedReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3156BAEC2139366B00ECC2EC /* MixedReusable.swift */; };
+		721954D821A44E450090F9E3 /* MinimumSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721954D721A44E450090F9E3 /* MinimumSize.swift */; };
 		7270AFB0201FAB7C004DAAA3 /* ViewLayoutArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7270AFAF201FAB7C004DAAA3 /* ViewLayoutArea.swift */; };
 		B35F8AEE1F36676D00904E37 /* Collection+Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F8AED1F36676D00904E37 /* Collection+Changes.swift */; };
 		B35F8B4C1F3783E400904E37 /* CollectionDiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F8B4B1F3783E400904E37 /* CollectionDiffTests.swift */; };
@@ -132,6 +133,7 @@
 		21A79B6F1DBF5DE9000D1231 /* TableViewFormStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewFormStyle.swift; path = Form/TableViewFormStyle.swift; sourceTree = "<group>"; };
 		21D7D99E1E1CE95200CB0FE9 /* ValueLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ValueLabel.swift; path = Form/ValueLabel.swift; sourceTree = "<group>"; };
 		3156BAEC2139366B00ECC2EC /* MixedReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MixedReusable.swift; path = Form/MixedReusable.swift; sourceTree = "<group>"; };
+		721954D721A44E450090F9E3 /* MinimumSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MinimumSize.swift; path = Form/MinimumSize.swift; sourceTree = "<group>"; };
 		7270AFAF201FAB7C004DAAA3 /* ViewLayoutArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewLayoutArea.swift; path = Form/ViewLayoutArea.swift; sourceTree = "<group>"; };
 		B35F8AED1F36676D00904E37 /* Collection+Changes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Collection+Changes.swift"; path = "Form/Collection+Changes.swift"; sourceTree = "<group>"; };
 		B35F8B4B1F3783E400904E37 /* CollectionDiffTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDiffTests.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				F6BFAFA62090719F00CBA6B1 /* UITextField+Styling.swift */,
 				F6DD5CB220A0408000975242 /* ButtonStateStyle.swift */,
 				F64C27EB1C7B2C5B003CC378 /* ButtonStyle.swift */,
+				721954D721A44E450090F9E3 /* MinimumSize.swift */,
 				F6BFAFAC2090746C00CBA6B1 /* BarButtonStyle.swift */,
 				CA6755E91D4B6F1C000662FF /* SegmentedControlStyle.swift */,
 				1C4BA2C11E76E5D2001C0DCD /* SwitchStyle.swift */,
@@ -610,6 +613,7 @@
 				1C1EEE0D1F3308C400DFFDFE /* Selectable.swift in Sources */,
 				1CEED6D021341FF300893573 /* ScrollViewDelegate.swift in Sources */,
 				F6C0AD3D1F3DBE8300D92CDE /* Highlightable.swift in Sources */,
+				721954D821A44E450090F9E3 /* MinimumSize.swift in Sources */,
 				F65A9F9B1C7B1EC6007007B4 /* SelectView.swift in Sources */,
 				F6C2086B2099BE660068A5F3 /* NavigationBarPosition.swift in Sources */,
 				CD49499B1C199520000176D3 /* (null) in Sources */,
