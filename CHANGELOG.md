@@ -1,3 +1,6 @@
+## 1.5.0
+- Add optional preferred minimum size to ButtonStyle
+
 ## 1.4.1
 - Fix a bug that avoids the crash when styling is tried on UITableViewCell that was created without the associated variable
 - Revert a fix for `estimatedSectionHeaderHeight` / `estimatedSectionFooterHeight` that caused bug in Form insets.
