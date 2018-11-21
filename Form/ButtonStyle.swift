@@ -11,22 +11,22 @@ import UIKit
 public struct ButtonStyle: Style {
     public var buttonType: UIButtonType
     public var contentInsets: UIEdgeInsets
-    public var minimumSize: MinimumSize
+    public var preferredMinimumSize: MinimumSize
     public var alignment: UIControlContentHorizontalAlignment
     public var states: [UIControlState: ButtonStateStyle]
 
-    public init(buttonType: UIButtonType = .custom, contentInsets: UIEdgeInsets = .zero, minimumSize: MinimumSize = .none, alignment: UIControlContentHorizontalAlignment = .center, states: [UIControlState: ButtonStateStyle]) {
+    public init(buttonType: UIButtonType = .custom, contentInsets: UIEdgeInsets = .zero, preferredMinimumSize: MinimumSize = .none, alignment: UIControlContentHorizontalAlignment = .center, states: [UIControlState: ButtonStateStyle]) {
         self.buttonType = buttonType
         self.contentInsets = contentInsets
-        self.minimumSize = minimumSize
+        self.preferredMinimumSize = preferredMinimumSize
         self.alignment =  alignment
         self.states = states
     }
 }
 
 public extension ButtonStyle {
-    init(buttonType: UIButtonType = .custom, contentInsets: UIEdgeInsets = .zero, minimumSize: MinimumSize = .none, alignment: UIControlContentHorizontalAlignment = .center, normal: ButtonStateStyle? = nil, highlighted: ButtonStateStyle? = nil, disabled: ButtonStateStyle? = nil, selected: ButtonStateStyle? = nil) {
-        self.init(buttonType: buttonType, contentInsets: contentInsets, minimumSize: minimumSize, alignment: alignment, states: .init(normal: normal, highlighted: highlighted, disabled: disabled, selected: selected))
+    init(buttonType: UIButtonType = .custom, contentInsets: UIEdgeInsets = .zero, preferredMinimumSize: MinimumSize = .none, alignment: UIControlContentHorizontalAlignment = .center, normal: ButtonStateStyle? = nil, highlighted: ButtonStateStyle? = nil, disabled: ButtonStateStyle? = nil, selected: ButtonStateStyle? = nil) {
+        self.init(buttonType: buttonType, contentInsets: contentInsets, preferredMinimumSize: preferredMinimumSize, alignment: alignment, states: .init(normal: normal, highlighted: highlighted, disabled: disabled, selected: selected))
     }
 }
 
@@ -122,7 +122,7 @@ private extension UIButton {
         setAssociatedValue(style, forKey: &styleKey)
         self.contentEdgeInsets = style.contentInsets
         self.contentHorizontalAlignment = style.alignment
-        updateMinimumSize(style.minimumSize)
+        updateMinimumSize(style.preferredMinimumSize)
 
         for state in UIControlState.standardStates {
             let stateStyle = style.states[state]
@@ -151,12 +151,12 @@ private extension UIButton {
         updateConstraint(for: heightAnchor, with: minimumSize.height, constraintKey: &heightConstraintKey)
     }
 
-    func updateConstraint(for anchor: NSLayoutDimension, with dimension: MinimumSize.Dimension?, constraintKey key: UnsafeRawPointer) {
-        let constant = dimension?.value ?? 0
+    func updateConstraint(for anchor: NSLayoutDimension, with value: CGFloat?, constraintKey key: UnsafeRawPointer) {
+        let constant = value ?? 0
         let constraint = associatedValue(forKey: key, initial: anchor >= constant)
-        constraint.priority = dimension?.priority ?? .defaultLow
+        constraint.priority = .defaultHigh
         constraint.constant = constant
-        constraint.isActive = (dimension != nil)
+        constraint.isActive = (value != nil)
     }
 }
 

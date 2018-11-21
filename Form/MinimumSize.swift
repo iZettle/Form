@@ -8,31 +8,12 @@
 import Foundation
 
 public struct MinimumSize: Style {
-    public var width: Dimension?
-    public var height: Dimension?
+    public var width: CGFloat?
+    public var height: CGFloat?
 
-    public init(width: Dimension? = nil, height: Dimension? = nil) {
+    public init(width: CGFloat? = nil, height: CGFloat? = nil) {
         self.width = width
         self.height = height
-    }
-}
-
-public extension MinimumSize {
-    struct Dimension {
-        let value: CGFloat
-        let priority: UILayoutPriority
-
-        public init(_ value: CGFloat, priority: UILayoutPriority = .required) {
-            self.value = value
-            self.priority = priority
-        }
-    }
-}
-
-public extension MinimumSize {
-    public init(width: CGFloat?, height: CGFloat?) {
-        self.width = width.flatMap { Dimension($0) }
-        self.height = height.flatMap { Dimension($0) }
     }
 }
 
