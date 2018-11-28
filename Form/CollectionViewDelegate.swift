@@ -23,7 +23,6 @@ public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UIC
     private let didSelectCallbacker = Callbacker<TableIndex>()
     private let didEndDisplayingCellCallbacker = Callbacker<UICollectionViewCell>()
     private let didEndDisplayingSupplementaryViewCallbacker = Callbacker<(kind: String, view: UICollectionReusableView)>()
-    
     public var sizeForItemAt = Delegate<TableIndex, CGSize>()
     public var shouldAutomaticallyDeselect = true
 
@@ -57,9 +56,7 @@ public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UIC
     public func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
         didEndDisplayingSupplementaryViewCallbacker.callAll(with: (elementKind, view))
     }
-    
-    /// MARK: UICollectionViewDelegateFlowLayout (compiler complains if moved to separate extension)
-    
+    /// MARK: UICollectionViewDelegateFlowLayout (compiler complains if moved to separate extension)    
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let collectionViewFlowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
             return collectionViewLayout.collectionViewContentSize
