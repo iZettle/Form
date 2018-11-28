@@ -17,13 +17,14 @@ import Flow
 ///     bag += delegate.didSelectRow.onValue { row in ... }
 ///
 /// - Note: Even though you can use an instance of `self` by itself, you would most likely use it indirectly via a `CollectionKit` instance.
-public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UICollectionViewDelegate {
+public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     public var table: Table<Section, Row>
     public let reordering = Delegate<(source: TableIndex, proposed: TableIndex), TableIndex>()
     private let didSelectCallbacker = Callbacker<TableIndex>()
     private let didEndDisplayingCellCallbacker = Callbacker<UICollectionViewCell>()
     private let didEndDisplayingSupplementaryViewCallbacker = Callbacker<(kind: String, view: UICollectionReusableView)>()
-
+    
+    public var sizeForItemAt = Delegate<TableIndex, CGSize>()
     public var shouldAutomaticallyDeselect = true
 
     public init(table: Table<Section, Row> = Table()) {
@@ -55,6 +56,17 @@ public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UIC
 
     public func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
         didEndDisplayingSupplementaryViewCallbacker.callAll(with: (elementKind, view))
+    }
+    
+    /// MARK: UICollectionViewDelegateFlowLayout (compiler complains if moved to separate extension)
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let collectionViewFlowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
+            return collectionViewLayout.collectionViewContentSize
+        }
+        let fallbackSize = collectionViewFlowLayout.itemSize
+        guard let tableIndex = TableIndex(indexPath, in: table) else { return fallbackSize }
+        return sizeForItemAt.call(tableIndex) ?? fallbackSize
     }
 }
 
