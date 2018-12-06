@@ -74,6 +74,16 @@ public extension UIStackView {
     }
 }
 
+public extension UIStackView {
+    public static func += (left: inout UIStackView, right: UIView) {
+        left.addArrangedSubview(right)
+    }
+
+    public static func += (left: inout UIStackView, right: [UIView]) {
+        right.forEach { view in left.addArrangedSubview(view) }
+    }
+}
+
 extension UIStackView: SubviewOrderable {
     public var orderedViews: [UIView] {
         get { return arrangedSubviews }
