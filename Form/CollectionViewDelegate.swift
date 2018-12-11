@@ -57,11 +57,13 @@ public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UIC
     public func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
         didEndDisplayingSupplementaryViewCallbacker.callAll(with: (elementKind, view))
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         willDisplayCellCallbacker.callAll(with: cell)
     }
-    /// MARK: UICollectionViewDelegateFlowLayout (compiler complains if moved to separate extension)    
+
+    /// MARK: UICollectionViewDelegateFlowLayout (compiler complains if moved to separate extension)
+
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let collectionViewFlowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
             return collectionViewLayout.collectionViewContentSize
@@ -84,7 +86,7 @@ public extension CollectionViewDelegate {
     var didEndDisplayingCell: Signal<UICollectionViewCell> {
         return Signal(callbacker: didEndDisplayingCellCallbacker)
     }
-    
+
     var willDisplayCell: Signal<UICollectionViewCell> {
         return Signal(callbacker: willDisplayCellCallbacker)
     }
