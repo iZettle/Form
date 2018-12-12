@@ -23,7 +23,7 @@ public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UIC
     private let didSelectCallbacker = Callbacker<TableIndex>()
     private let didEndDisplayingCellCallbacker = Callbacker<UICollectionViewCell>()
     private let didEndDisplayingSupplementaryViewCallbacker = Callbacker<(kind: String, view: UICollectionReusableView)>()
-    private let willDisplayCellCallbacker = Callbacker<UICollectionViewCell>()
+    private let willDisplayCellCallbacker = Callbacker<(UICollectionViewCell, TableIndex)>()
     public var sizeForItemAt = Delegate<TableIndex, CGSize>()
     public var shouldAutomaticallyDeselect = true
 
@@ -59,7 +59,8 @@ public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UIC
     }
 
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        willDisplayCellCallbacker.callAll(with: cell)
+        guard let tableIndex = TableIndex(indexPath, in: table) else { return }
+        willDisplayCellCallbacker.callAll(with: (cell, tableIndex))
     }
 
     /// MARK: UICollectionViewDelegateFlowLayout (compiler complains if moved to separate extension)
@@ -87,7 +88,7 @@ public extension CollectionViewDelegate {
         return Signal(callbacker: didEndDisplayingCellCallbacker)
     }
 
-    var willDisplayCell: Signal<UICollectionViewCell> {
+    var willDisplayCell: Signal<(UICollectionViewCell, TableIndex)> {
         return Signal(callbacker: willDisplayCellCallbacker)
     }
 
