@@ -31,7 +31,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: test native
+          name: examples
           command: |
             set -o pipefail
             xcodebuild -version
