@@ -37,6 +37,7 @@ jobs:
             xcodebuild -version
             xcodebuild -showsdks
             swift -version
+            curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cfk
             sh build.sh examples
 
 workflows:
