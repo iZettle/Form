@@ -13,7 +13,7 @@ jobs:
 
   test-iOS:
     macos:
-      xcode: "9.3.0"
+      xcode: "10.1.0"
     steps:
       - checkout
       - run:
@@ -27,7 +27,7 @@ jobs:
 
   examples:
     macos:
-      xcode: "9.3.0"
+      xcode: "10.1.0"
     steps:
       - checkout
       - run:
