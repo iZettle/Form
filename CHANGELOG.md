@@ -1,3 +1,7 @@
+## 1.6.0
+- Add sizeForItemAt for CollectionViewDelegate
+- Bugfix: Fix table view cells reorder control position to respect insets
+
 ## 1.5.0
 - Add optional preferred minimum size to ButtonStyle
 
