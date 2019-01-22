@@ -120,6 +120,7 @@ public extension UITableViewCell {
         let reorderViewTag = 473659834
         if let reorderControlView = reorderControlView {
             let resizedGripView = viewWithTag(reorderViewTag) ?? TapThroughView()
+            resizedGripView.transform = .identity
             resizedGripView.frame = bounds
             resizedGripView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             resizedGripView.backgroundColor = .clear
