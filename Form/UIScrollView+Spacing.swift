@@ -52,6 +52,10 @@ public extension UIScrollView {
             bottom.constant = $0
         }
 
+        // The added constraints need to be activated before any calls to `layoutIfNeeded` because the layout might be unsatisfiable otherwise
+        activate(constraints)
+        disembedBag += { deactivate(constraints) }
+
         // .equalSpacing gives ambigious layout on iOS < 11, help out by calculating spacing manually.
         if #available(iOS 11, *) {} else if orderedViews.count > 0 {
             let contentHeight = signal(for: \.contentSize)[\.height].toVoid().atValue {
@@ -72,9 +76,6 @@ public extension UIScrollView {
                     self.layoutIfNeeded()
             }
         }
-
-        activate(constraints)
-        disembedBag += { deactivate(constraints) }
 
         return bag
     }
