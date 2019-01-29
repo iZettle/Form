@@ -236,7 +236,7 @@ private extension UIScrollView {
         // The parent moved between views when being presented and dismissed etc.
         // This mean we have to re-pin if that happens.
         // FIXME: In iOS 11 we should be able to use contentLayoutGuide instead of parent to setup our constraints and be able to remove this hack.
-        bag += combineLatest(parent.subviewsSignal.plain(), windowSignal.plain()).onValue { [weak parent] _ in
+        bag += combineLatest(parent.subviewsSignal, windowSignal).onValue { [weak parent] _ in
             guard let superView = self.superview, superView != parent else { return }
 
             let offset = self.contentOffset.y
