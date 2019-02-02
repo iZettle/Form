@@ -157,6 +157,7 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
     /// Always use `.no` autocorrection as the system keyboard will be confused if it is used.
     public dynamic var autocorrectionType: UITextAutocorrectionType {
         get { return .no }
+        //swiftlint:disable:next unused_setter_value
         set { /* ignore */ }
     }
 

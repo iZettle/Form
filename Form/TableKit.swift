@@ -29,10 +29,10 @@ public final class TableKit<Section, Row> {
     public var table: Table {
         get { return dataSource.table }
         set {
-            dataSource.table = table
-            delegate.table = table
+            dataSource.table = newValue
+            delegate.table = newValue
             view.reloadData()
-            callbacker.callAll(with: table)
+            callbacker.callAll(with: newValue)
         }
     }
 
