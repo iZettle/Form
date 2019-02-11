@@ -1,5 +1,5 @@
 ## 1.7
-- Add optional minimum scaling factor for UIButton titleLabel to ButtonStyle
+- Add minimum scaling factor for UIButton titleLabel to ButtonStyle
 
 ## 1.6.1
 - Bugfix: Fix layout problem caused by pinning a view to UITransitionView that is no longer shown on iOS 9/10
