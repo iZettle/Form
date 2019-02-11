@@ -13,20 +13,22 @@ public struct ButtonStyle: Style {
     public var contentInsets: UIEdgeInsets
     public var preferredMinimumSize: MinimumSize
     public var alignment: UIControlContentHorizontalAlignment
+    public var minimumScalingFactor: CGFloat
     public var states: [UIControlState: ButtonStateStyle]
 
-    public init(buttonType: UIButtonType = .custom, contentInsets: UIEdgeInsets = .zero, preferredMinimumSize: MinimumSize = .none, alignment: UIControlContentHorizontalAlignment = .center, states: [UIControlState: ButtonStateStyle]) {
+    public init(buttonType: UIButtonType = .custom, contentInsets: UIEdgeInsets = .zero, preferredMinimumSize: MinimumSize = .none, minimumScalingFactor: CGFloat = 1.0, alignment: UIControlContentHorizontalAlignment = .center, states: [UIControlState: ButtonStateStyle]) {
         self.buttonType = buttonType
         self.contentInsets = contentInsets
         self.preferredMinimumSize = preferredMinimumSize
+        self.minimumScalingFactor = minimumScalingFactor
         self.alignment =  alignment
         self.states = states
     }
 }
 
 public extension ButtonStyle {
-    init(buttonType: UIButtonType = .custom, contentInsets: UIEdgeInsets = .zero, preferredMinimumSize: MinimumSize = .none, alignment: UIControlContentHorizontalAlignment = .center, normal: ButtonStateStyle? = nil, highlighted: ButtonStateStyle? = nil, disabled: ButtonStateStyle? = nil, selected: ButtonStateStyle? = nil) {
-        self.init(buttonType: buttonType, contentInsets: contentInsets, preferredMinimumSize: preferredMinimumSize, alignment: alignment, states: .init(normal: normal, highlighted: highlighted, disabled: disabled, selected: selected))
+    init(buttonType: UIButtonType = .custom, contentInsets: UIEdgeInsets = .zero, preferredMinimumSize: MinimumSize = .none, minimumScalingFactor: CGFloat = 1.0, alignment: UIControlContentHorizontalAlignment = .center, normal: ButtonStateStyle? = nil, highlighted: ButtonStateStyle? = nil, disabled: ButtonStateStyle? = nil, selected: ButtonStateStyle? = nil) {
+        self.init(buttonType: buttonType, contentInsets: contentInsets, preferredMinimumSize: preferredMinimumSize, minimumScalingFactor: minimumScalingFactor, alignment: alignment, states: .init(normal: normal, highlighted: highlighted, disabled: disabled, selected: selected))
     }
 }
 
@@ -123,6 +125,7 @@ private extension UIButton {
         self.contentEdgeInsets = style.contentInsets
         self.contentHorizontalAlignment = style.alignment
         updateMinimumSize(style.preferredMinimumSize)
+        titleLabel?.minimumScaleFactor = style.minimumScalingFactor
 
         for state in UIControlState.standardStates {
             let stateStyle = style.states[state]
