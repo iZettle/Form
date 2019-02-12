@@ -11,6 +11,8 @@ import Form
 
 class TextStyleTests: XCTestCase {
 
+    let textSytle = TextStyle(font: .systemFont(ofSize: 14.0), color: .red, minimumScalingFactor: 0.5)
+
     func testTextStyleEquality() {
         let textStyle1 = TextStyle(font: .systemFont(ofSize: 14.0), color: .red, alignment: .left, lineBreakMode: .byWordWrapping)
         let textStyle2 = TextStyle(font: .systemFont(ofSize: 14.0), color: .red, alignment: .left, lineBreakMode: .byWordWrapping)
@@ -22,5 +24,18 @@ class TextStyleTests: XCTestCase {
         XCTAssertNotEqual(textStyle1, textStyle3)
         XCTAssertNotEqual(textStyle1, textStyle4)
         XCTAssertNotEqual(textStyle1, textStyle5)
+    }
+
+    func testTextStyleMinimumScalingFactor() {
+        let textStyle1 = TextStyle(font: .systemFont(ofSize: 14.0), color: .red)
+        XCTAssertEqual(textStyle1.minimumScalingFactor, 1.0)
+
+        let textStyle2 = TextStyle(font: .systemFont(ofSize: 14.0), color: .red, minimumScalingFactor: 0.5)
+        XCTAssertEqual(textStyle2.minimumScalingFactor, 0.5)
+    }
+
+    func testUILabelStyling() {
+        let label = UILabel(value: "Lorem ipsum", style: textSytle)
+        XCTAssertEqual(label.minimumScaleFactor, textSytle.minimumScalingFactor)
     }
 }

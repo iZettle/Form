@@ -71,6 +71,7 @@ private extension UILabel {
             numberOfLines = style.numberOfLines
             textAlignment = style.alignment
             lineBreakMode = style.lineBreakMode
+            minimumScaleFactor = style.minimumScalingFactor
         }
 
         let displayValue = styledText.text.displayValue
