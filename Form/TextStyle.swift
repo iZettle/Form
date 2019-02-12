@@ -19,13 +19,14 @@ public struct TextStyle: Style {
 }
 
 public extension TextStyle {
-    public init(font: UIFont, color: UIColor, alignment: NSTextAlignment = .natural, numberOfLines: Int = 1, lineBreakMode: NSLineBreakMode = .byTruncatingMiddle) {
+    public init(font: UIFont, color: UIColor, alignment: NSTextAlignment = .natural, numberOfLines: Int = 1, lineBreakMode: NSLineBreakMode = .byTruncatingMiddle, minimumScalingFactor: CGFloat = 1.0) {
         // Don't set attributes directly to make sure lookups such as equatableForAttribute is being correctly updated.
         self.font = font
         self.color = color
         self.numberOfLines = numberOfLines
         self.alignment = alignment
         self.lineBreakMode = lineBreakMode
+        self.minimumScalingFactor = minimumScalingFactor
     }
 }
 
@@ -68,6 +69,11 @@ public extension TextStyle {
     var highlightedColor: UIColor {
         get { return attribute(for: .highlightedColor) ?? self.color }
         set { setAttribute(newValue, for: .highlightedColor) }
+    }
+
+    var minimumScalingFactor: CGFloat {
+        get { return attribute(for: .minimumScalingFactor) ?? 1.0 }
+        set { setAttribute(newValue, for: .minimumScalingFactor)}
     }
 }
 
@@ -243,6 +249,7 @@ extension NSAttributedStringKey {
     static let lineBreakMode = NSAttributedStringKey(rawValue: "_lineBreakMode")
     static let lineSpacing = NSAttributedStringKey(rawValue: "_lineSpacing")
     static let textAlignment = NSAttributedStringKey(rawValue: "_textAligment")
+    static let minimumScalingFactor = NSAttributedStringKey(rawValue: "_minimumScalingFactor")
 }
 
 extension TextStyle {
