@@ -136,6 +136,11 @@ public extension TextStyle {
         var style = ((self.attribute(for: .paragraphStyle) as NSParagraphStyle?)?.mutableCopy() as? NSMutableParagraphStyle) ?? NSMutableParagraphStyle()
         update(&style)
         attributes[.paragraphStyle] = style
+
+        if equatableForAttribute[.paragraphStyle] == nil {
+            equatableForAttribute[.paragraphStyle] = { $0 as! NSMutableParagraphStyle == $1 as! NSMutableParagraphStyle }
+        }
+
     }
 
     /// Register a custom `transfrom` for `attribute`
@@ -159,7 +164,7 @@ extension TextStyle: Equatable {
         }
 
         for (attribute, left) in lhs.attributes {
-            guard let right = rhs.attributes[attribute], attribute != .paragraphStyle else {
+            guard let right = rhs.attributes[attribute] else {
                 return false
             }
 
