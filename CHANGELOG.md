@@ -1,5 +1,5 @@
 ## 1.6.2
-- Bugfix: Setting `table` direclty on `TableKit` or `CollectionKit` did not reload the view correctly with the updated table.
+- Bugfix: Setting `table` direclty on `TableKit` or `CollectionKit` did not reload the view correctly with the provided table.
 
 ## 1.6.1
 - Bugfix: Fix layout problem caused by pinning a view to UITransitionView that is no longer shown on iOS 9/10
