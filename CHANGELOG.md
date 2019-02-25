@@ -1,3 +1,6 @@
+## 1.6.3
+- Performace. Added custom `count` implementation for `TableSection` to improve performance of e.g. `Table.isValidIndex` that might be called a lot for large tables.
+
 ## 1.6.2
 - Bugfix: Setting `table` direclty on `TableKit` or `CollectionKit` did not reload the view correctly with the updated table.
 
