@@ -23,4 +23,38 @@ class TextStyleTests: XCTestCase {
         XCTAssertNotEqual(textStyle1, textStyle4)
         XCTAssertNotEqual(textStyle1, textStyle5)
     }
+
+    func testCustomLineHeightIsSet_biggerThanFontLineHeight() {
+        let font = UIFont.systemFont(ofSize: 14.0)
+        let textStyle = TextStyle(font: font, color: .red).restyled { $0.lineHeight = 30.0 }
+        XCTAssertEqual(textStyle.lineHeight, 30.0)
+    }
+
+    func testCustomLineHeightIsSet_smallerThanFontLineHeight_biggerThanFontSize() {
+        let font = UIFont.systemFont(ofSize: 14.0)
+        let textStyle = TextStyle(font: font, color: .red).restyled { $0.lineHeight = 15.0 }
+        XCTAssertEqual(textStyle.lineHeight, 15.0)
+    }
+
+    func testCustomLineHeightIsCorrectedToFontSize_smallerThanFontSize() {
+        let font = UIFont.systemFont(ofSize: 14.0)
+        let textStyle = TextStyle(font: font, color: .red).restyled { $0.lineHeight = 13.0 }
+        XCTAssertEqual(textStyle.lineHeight, 14.0)
+    }
+
+    func testIncreasingLineSpacingIncreasesLineHeight() {
+        let font = UIFont.systemFont(ofSize: 14.0)
+        var textStyle = TextStyle(font: font, color: .red)
+        let initialLineHeight = textStyle.lineHeight
+        textStyle.lineSpacing = 2.0
+        XCTAssertTrue(textStyle.lineHeight > initialLineHeight)
+    }
+
+    func testIncreasingLineHeightIncreasesLineSpacing() {
+        let font = UIFont.systemFont(ofSize: 14.0)
+        var textStyle = TextStyle(font: font, color: .red)
+        let initialLineSpacing = textStyle.lineSpacing
+        textStyle.lineHeight += 2.0
+        XCTAssertTrue(textStyle.lineSpacing > initialLineSpacing)
+    }
 }

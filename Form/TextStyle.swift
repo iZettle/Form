@@ -50,12 +50,20 @@ public extension TextStyle {
         set { setParagraphAttribute(newValue, for: .lineBreakMode, defaultValue: .byTruncatingTail) { $0.lineBreakMode = newValue } }
     }
 
+    /// The amount of space between text's bounding boxes.
     var lineSpacing: CGFloat {
         get { return attribute(for: .lineSpacing) ?? 0 }
         set { setParagraphAttribute(newValue, for: .lineSpacing, defaultValue: 0) { $0.lineSpacing = newValue } }
     }
 
     var kerning: Float {
+    /// The amount of space between baselines in a block of text. It is affected by `font` and `lineSpacing` updates.
+    /// - Note: The line height can't be set smaller than the font size to prevent overlap of characters.
+    var lineHeight: CGFloat {
+        get { return (attribute(for: .lineSpacing) ?? 0) + font.lineHeight }
+        set { setParagraphAttribute(max(newValue, font.pointSize) - font.lineHeight, for: .lineSpacing, defaultValue: 0) { $0.lineSpacing = newValue } }
+    }
+
         get { return attribute(for: .kern) ?? 0 }
         set { setAttribute(newValue, for: .kern, defaultValue: 0) }
     }
