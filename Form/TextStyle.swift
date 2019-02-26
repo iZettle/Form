@@ -50,14 +50,30 @@ public extension TextStyle {
         set { setParagraphAttribute(newValue, for: .lineBreakMode, defaultValue: .byTruncatingTail) { $0.lineBreakMode = newValue } }
     }
 
+    /// The amount of space between text's bounding boxes.
     var lineSpacing: CGFloat {
         get { return attribute(for: .lineSpacing) ?? 0 }
         set { setParagraphAttribute(newValue, for: .lineSpacing, defaultValue: 0) { $0.lineSpacing = newValue } }
     }
 
-    var kerning: Float {
+    /// The amount of space between baselines in a block of text.
+    /// - Note: The line height can't be set smaller than the font size to prevent overlap of characters.
+    /// - Note: The line height can be affected by `font` and `lineSpacing` updates.
+    var lineHeight: CGFloat {
+        get { return (attribute(for: .lineSpacing) ?? 0) + font.lineHeight }
+        set { setParagraphAttribute(max(newValue, font.pointSize) - font.lineHeight, for: .lineSpacing, defaultValue: 0) { $0.lineSpacing = newValue } }
+    }
+
+    /// The uniform adjustment of the space between letters in text. Also referred to as tracking.
+    var letterSpacing: Float {
         get { return attribute(for: .kern) ?? 0 }
         set { setAttribute(newValue, for: .kern, defaultValue: 0) }
+    }
+
+    @available(*, deprecated, renamed: "letterSpacing")
+    var kerning: Float {
+        get { return letterSpacing }
+        set { letterSpacing = newValue }
     }
 
     var numberOfLines: Int {

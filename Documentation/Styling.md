@@ -111,14 +111,14 @@ let image = UIImage(image: background)
 `TextStyle` supports the same styling as attributed strings. Not all attributes are exposed as convenience properties though. You can still set these using:
 
 ```swift
-textStyle.setAttribute(kerning, for: .kern)
+textStyle.setAttribute(letterSpacing, for: .kern)
 ```
 
 But preferably you should add helpers instead:
 
 ```swift
 extension TextStyle {
-  var kerning: Float {
+  var letterSpacing: Float {
     get { return attribute(for: .kern) ?? 0 }
     set { setAttribute(newValue, for: .kern, defaultValue: 0) }
   } 
