@@ -195,6 +195,21 @@ extension UIViewController {
 
         return bag
     }
+
+    func presentTableUsingKitAndSectionReusable(style: DynamicTableViewFormStyle) -> Disposable {
+        displayableTitle = "TableKit and SectionReusable"
+        let bag = DisposeBag()
+
+        let tableKit = TableKit(table: sectionTable, style: style, bag: bag)
+        bag += self.install(tableKit.view)
+
+        bag += self.navigationItem.addItem(UIBarButtonItem(title: "Swap"), position: .right).onValue {
+            swap(&sectionTable, &swapSectionTable)
+            tableKit.set(sectionTable)
+        }
+
+        return bag
+    }
 }
 
 private var table = Table(sections: [("Header 1", 0..<5), ("Header 2", 5..<10)])
@@ -220,3 +235,7 @@ extension Double: Reusable {
         })
     }
 }
+
+private var sectionTable = Table(sections: [(Section(header: "Header 1", footer: "Footer 1"), 0..<5), (Section(header: "Header 2", footer: "Footer 2"), 5..<10)])
+private var swapSectionTable = Table(sections: [(Section(header: "Header 1", footer: "Footer 1"), 0..<2), (Section(header: "Header 1b", footer: "Footer 1b"), 3..<7), (Section(header: "Header 2", footer: "Footer 2"), 7..<10)])
+

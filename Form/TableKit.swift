@@ -251,6 +251,22 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable,
     }
 }
 
+public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable, Section: SectionReusable, Section.Header.ReuseType: ViewRepresentable, Section.Footer.ReuseType: ViewRepresentable {
+    /// Creates a new instance
+    /// - Parameters:
+    ///   - table: The initial table. Defaults to an empty table.
+    ///   - bag: A bag used to add table kit activities.
+    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag) {
+        self.init(table: table, style: style, view: view, bag: bag, headerForSection: { table, section in
+            table.dequeueHeaderFooterView(forItem: section.header, style: style.header, formStyle: style.form, reuseIdentifier: "header")
+        }, footerForSection: { table, section in
+            table.dequeueHeaderFooterView(forItem: section.footer, style: style.footer, formStyle: style.form, reuseIdentifier: "footer")
+        }, cellForRow: { table, row in
+            table.dequeueCell(forItem: row, style: style)
+        })
+    }
+}
+
 extension TableKit: SignalProvider {
     public var providedSignal: ReadWriteSignal<Table> {
         return ReadSignal(capturing: self.table, callbacker: callbacker).writable(signalOnSet: true) { self.table = $0 }

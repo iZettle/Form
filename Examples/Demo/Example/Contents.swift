@@ -116,6 +116,10 @@ extension UIViewController {
             bag += section.appendRow(title: "TableKit and Nested Either Reusable").append(.chevron).onValueDisposePrevious {
                 present { $0.presentTableUsingKitAndNestedEitherReusable(style: style) }
             }
+
+            bag += section.appendRow(title: "TableKit and SectionReusable").append(.chevron).onValueDisposePrevious {
+                present { $0.presentTableUsingKitAndSectionReusable(style: style) }
+            }
         }
 
         bag += self.install(form)

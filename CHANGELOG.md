@@ -1,3 +1,7 @@
+## 1.7.0
+
+- Adds new `SectionReusable` protocol to allow providing separate `Reusable` types for rendering a section's header and footer.
+
 ## 1.6.3
 - Performace. Added custom `count` implementation for `TableSection` to improve performance of e.g. `Table.isValidIndex` that might be called a lot for large tables.
 
