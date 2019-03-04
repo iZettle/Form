@@ -65,7 +65,7 @@ public extension TextStyle {
     }
 
     /// The amount of space between baselines in a block of text.
-    /// - Note: The line height can't be set smaller than the font size to prevent overlap of characters.
+    /// - Note: The line height can't be set smaller than the font size. Beaware that setting smaller line height than the font line height may result in overlapping characters.
     /// - Note: The line height can be affected by `font` and `lineSpacing` updates.
     var lineHeight: CGFloat {
         get { return (attribute(for: .lineSpacing) ?? 0) + font.lineHeight }
