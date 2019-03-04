@@ -69,7 +69,7 @@ public extension TextStyle {
     /// - Note: The line height can be affected by `font` and `lineSpacing` updates.
     var lineHeight: CGFloat {
         get { return (attribute(for: .lineSpacing) ?? 0) + font.lineHeight }
-        set { setParagraphAttribute(max(newValue, font.pointSize) - font.lineHeight, for: .lineSpacing, defaultValue: 0) { $0.lineSpacing = newValue } }
+        set { lineSpacing = max(newValue, font.pointSize) - font.lineHeight }
     }
 
     /// The uniform adjustment of the space between letters in text. Also referred to as tracking.
