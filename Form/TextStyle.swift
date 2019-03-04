@@ -53,7 +53,15 @@ public extension TextStyle {
     /// The amount of space between text's bounding boxes.
     var lineSpacing: CGFloat {
         get { return attribute(for: .lineSpacing) ?? 0 }
-        set { setParagraphAttribute(newValue, for: .lineSpacing, defaultValue: 0) { $0.lineSpacing = newValue } }
+        set {
+            /// We are currently not restricting line spacing to nonnegative values.
+            /// Even though the docs say "This value is always nonnegative", it can be negative and there are fonts that can benefit such corection.
+            /// However, the text position is not calculated properly with negative line spacing unless the `baselineOffset` is set.
+            if attribute(for: .baselineOffset) == nil {
+                setAttribute(0, for: .baselineOffset)
+            }
+            setParagraphAttribute(newValue, for: .lineSpacing, defaultValue: 0) { $0.lineSpacing = newValue }
+        }
     }
 
     /// The amount of space between baselines in a block of text.
