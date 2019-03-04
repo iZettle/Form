@@ -46,8 +46,8 @@ class TextStyleTests: XCTestCase {
         let font = UIFont.systemFont(ofSize: 14.0)
         var textStyle = TextStyle(font: font, color: .red)
         let initialLineHeight = textStyle.lineHeight
-        textStyle.lineSpacing = 2.0
-        XCTAssertTrue(textStyle.lineHeight > initialLineHeight)
+        textStyle.lineSpacing += 2.0
+        XCTAssertGreaterThan(textStyle.lineHeight, initialLineHeight)
     }
 
     func testIncreasingLineHeightIncreasesLineSpacing() {
@@ -55,6 +55,6 @@ class TextStyleTests: XCTestCase {
         var textStyle = TextStyle(font: font, color: .red)
         let initialLineSpacing = textStyle.lineSpacing
         textStyle.lineHeight += 2.0
-        XCTAssertTrue(textStyle.lineSpacing > initialLineSpacing)
+        XCTAssertGreaterThan(textStyle.lineSpacing, initialLineSpacing)
     }
 }
