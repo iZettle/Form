@@ -53,15 +53,23 @@ public extension TextStyle {
     /// The amount of space between text's bounding boxes.
     var lineSpacing: CGFloat {
         get { return attribute(for: .lineSpacing) ?? 0 }
-        set { setParagraphAttribute(newValue, for: .lineSpacing, defaultValue: 0) { $0.lineSpacing = newValue } }
+        set {
+            /// We are currently not restricting line spacing to nonnegative values.
+            /// Even though the docs say "This value is always nonnegative", it can be negative and there are fonts that can benefit such corection.
+            /// However, the text position is not calculated properly with negative line spacing unless the `baselineOffset` is set.
+            if attribute(for: .baselineOffset) == nil {
+                setAttribute(0, for: .baselineOffset)
+            }
+            setParagraphAttribute(newValue, for: .lineSpacing, defaultValue: 0) { $0.lineSpacing = newValue }
+        }
     }
 
     /// The amount of space between baselines in a block of text.
-    /// - Note: The line height can't be set smaller than the font size to prevent overlap of characters.
+    /// - Note: The line height can't be set smaller than the font size. Beaware that setting smaller line height than the font line height may result in overlapping characters.
     /// - Note: The line height can be affected by `font` and `lineSpacing` updates.
     var lineHeight: CGFloat {
         get { return (attribute(for: .lineSpacing) ?? 0) + font.lineHeight }
-        set { setParagraphAttribute(max(newValue, font.pointSize) - font.lineHeight, for: .lineSpacing, defaultValue: 0) { $0.lineSpacing = newValue } }
+        set { lineSpacing = max(newValue, font.pointSize) - font.lineHeight }
     }
 
     /// The uniform adjustment of the space between letters in text. Also referred to as tracking.
