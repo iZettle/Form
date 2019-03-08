@@ -12,7 +12,7 @@ public class ScrollViewDelegate: NSObject, UIScrollViewDelegate {
     private let willBeginDeceleratingCallbacker = Callbacker<()>()
     private let willBeginDraggingCallbacker = Callbacker<()>()
     private let didZoomCallbacker = Callbacker<()>()
-    private let willEndDraggingCallbacker = Callbacker<CGPoint>()
+    private let willEndDraggingCallbacker = Callbacker<(velocity: CGPoint, targetContentOffset: CGPoint?)>()
     private let didEndDraggingCallbacker = Callbacker<Bool>()
     private let didEndScrollingAnimationCallbacker = Callbacker<()>()
     private let willBeginZoomingCallbacker = Callbacker<UIView?>()
@@ -47,8 +47,11 @@ public class ScrollViewDelegate: NSObject, UIScrollViewDelegate {
     public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         if let target = targetContentOffsetFromVelocity.call(velocity), let point = target {
             targetContentOffset.pointee = point
+            willEndDraggingCallbacker.callAll(with: (velocity, point))
+        } else {
+            let point: CGPoint = targetContentOffset.pointee
+            willEndDraggingCallbacker.callAll(with: (velocity, point))
         }
-        willEndDraggingCallbacker.callAll(with: velocity)
     }
 
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -105,7 +108,12 @@ public extension ScrollViewDelegate {
         return Signal(callbacker: willBeginDraggingCallbacker)
     }
 
+    @available(*, deprecated, renamed: "willEndDragging")
     var willEndDraggingWithVelocity: Signal<CGPoint> {
+        return willEndDragging.map { $0.velocity }
+    }
+
+    var willEndDragging: Signal<(velocity: CGPoint, targetContentOffset: CGPoint?)> {
         return Signal(callbacker: willEndDraggingCallbacker)
     }
 
