@@ -215,6 +215,7 @@ extension TableSection: MutableCollection {
 
     public var startIndex: Index { return 0 }
     public var endIndex: Index { return slice.count }
+    public var count: Int { return slice.count }
 
     public subscript (position: Index) -> Row {
         get { return slice[slice.startIndex + position] }
@@ -245,8 +246,9 @@ extension TableIndex: Comparable {
         return lhs.section == rhs.section ? lhs.row < rhs.row : lhs.section < rhs.section
     }
 
-    public var hashValue: Int {
-        return section.hashValue &+ row.hashValue
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(section)
+        hasher.combine(row)
     }
 }
 

@@ -63,6 +63,7 @@ public func isDigit(_ character: Character) -> Bool {
 public class AnyTextEditor<Value>: TextEditor {
     public var value: Value {
         get { fatalError() }
+        // swiftlint:disable:next unused_setter_value
         set { fatalError() }
     }
 

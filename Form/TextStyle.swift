@@ -50,14 +50,38 @@ public extension TextStyle {
         set { setParagraphAttribute(newValue, for: .lineBreakMode, defaultValue: .byTruncatingTail) { $0.lineBreakMode = newValue } }
     }
 
+    /// The amount of space between text's bounding boxes.
     var lineSpacing: CGFloat {
         get { return attribute(for: .lineSpacing) ?? 0 }
-        set { setParagraphAttribute(newValue, for: .lineSpacing, defaultValue: 0) { $0.lineSpacing = newValue } }
+        set {
+            /// We are currently not restricting line spacing to nonnegative values.
+            /// Even though the docs say "This value is always nonnegative", it can be negative and there are fonts that can benefit such corection.
+            /// However, the text position is not calculated properly with negative line spacing unless the `baselineOffset` is set.
+            if attribute(for: .baselineOffset) == nil {
+                setAttribute(0, for: .baselineOffset)
+            }
+            setParagraphAttribute(newValue, for: .lineSpacing, defaultValue: 0) { $0.lineSpacing = newValue }
+        }
     }
 
-    var kerning: Float {
+    /// The amount of space between baselines in a block of text.
+    /// - Note: The line height can't be set smaller than the font size. Beaware that setting smaller line height than the font line height may result in overlapping characters.
+    /// - Note: The line height can be affected by `font` and `lineSpacing` updates.
+    var lineHeight: CGFloat {
+        get { return (attribute(for: .lineSpacing) ?? 0) + font.lineHeight }
+        set { lineSpacing = max(newValue, font.pointSize) - font.lineHeight }
+    }
+
+    /// The uniform adjustment of the space between letters in text. Also referred to as tracking.
+    var letterSpacing: Float {
         get { return attribute(for: .kern) ?? 0 }
         set { setAttribute(newValue, for: .kern, defaultValue: 0) }
+    }
+
+    @available(*, deprecated, renamed: "letterSpacing")
+    var kerning: Float {
+        get { return letterSpacing }
+        set { letterSpacing = newValue }
     }
 
     var numberOfLines: Int {
@@ -136,6 +160,11 @@ public extension TextStyle {
         var style = ((self.attribute(for: .paragraphStyle) as NSParagraphStyle?)?.mutableCopy() as? NSMutableParagraphStyle) ?? NSMutableParagraphStyle()
         update(&style)
         attributes[.paragraphStyle] = style
+
+        if equatableForAttribute[.paragraphStyle] == nil {
+            equatableForAttribute[.paragraphStyle] = { $0 as! NSMutableParagraphStyle == $1 as! NSMutableParagraphStyle }
+        }
+
     }
 
     /// Register a custom `transfrom` for `attribute`
@@ -159,7 +188,7 @@ extension TextStyle: Equatable {
         }
 
         for (attribute, left) in lhs.attributes {
-            guard let right = rhs.attributes[attribute], attribute != .paragraphStyle else {
+            guard let right = rhs.attributes[attribute] else {
                 return false
             }
 
