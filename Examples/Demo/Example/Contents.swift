@@ -117,8 +117,8 @@ extension UIViewController {
                 present { $0.presentTableUsingKitAndNestedEitherReusable(style: style) }
             }
 
-            bag += section.appendRow(title: "TableKit and SectionReusable").append(.chevron).onValueDisposePrevious {
-                present { $0.presentTableUsingKitAndSectionReusable(style: style) }
+            bag += section.appendRow(title: "TableKit and HeaderFooterReusable").append(.chevron).onValueDisposePrevious {
+                present { $0.presentTableUsingKitAndHeaderFooterReusable(style: style) }
             }
         }
 

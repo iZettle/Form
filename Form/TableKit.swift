@@ -251,7 +251,7 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable,
     }
 }
 
-public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable, Section: SectionReusable, Section.Header.ReuseType: ViewRepresentable, Section.Footer.ReuseType: ViewRepresentable {
+public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable, Section: HeaderFooterReusable, Section.Header.ReuseType: ViewRepresentable, Section.Footer.ReuseType: ViewRepresentable {
     /// Creates a new instance
     /// - Parameters:
     ///   - table: The initial table. Defaults to an empty table.

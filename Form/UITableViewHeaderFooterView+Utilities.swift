@@ -146,7 +146,7 @@ extension String: Reusable {
     }
 }
 
-public struct Section: SectionReusable, Hashable {
+public struct HeaderFooter: HeaderFooterReusable, Hashable {
     public var header: String
     public var footer: String
 

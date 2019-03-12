@@ -77,23 +77,23 @@ If you are ok with losing type information you can also consider using the `Mixe
 var mixedTable = Table<(), MixedReusable>(rows: [.init(1), .init("A"), .init("B"), .init(2)])
 ```
 
-## SectionReusable
+## HeaderFooterReusable
 
-If you conform your `Table`'s `Section` type to `Reusable` a table's section will be rendered by the view provided by `makeAndConfigure()`. If you however you like to provide both a header and a footer view from your section model data, you can conform your `Section` type to `SectionReusable` and provide separate header and footer types for rendering:
+If you conform your `Table`'s `Section` type to `Reusable` a table's section will be rendered by the view provided by `makeAndConfigure()`. However if you like to provide both a header and a footer view from your section model data, you can conform your `Section` type to `HeaderFooterReusable` and provide separate header and footer types for rendering:
 
 ```swift
 struct MySection { ... } 
 
-extension MySection: SectionReusable {
+extension MySection: HeaderFooterReusable {
   var header: MyHeaderType { ... }
   var footer: MyFooterType { ... }
 }
 ```
 
-As it is common with header and footer that are just strings, Form includes the `Section` type for your convenience:
+As it is common with header and footer that are just strings, Form includes the `HeaderFooter` type for your convenience:
 
 ```swift
-struct Section: SectionReusable, Hashable {
+struct HeaderFooter: HeaderFooterReusable, Hashable {
   var header: String   
   var footer: String
 }

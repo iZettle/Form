@@ -196,8 +196,8 @@ extension UIViewController {
         return bag
     }
 
-    func presentTableUsingKitAndSectionReusable(style: DynamicTableViewFormStyle) -> Disposable {
-        displayableTitle = "TableKit and SectionReusable"
+    func presentTableUsingKitAndHeaderFooterReusable(style: DynamicTableViewFormStyle) -> Disposable {
+        displayableTitle = "TableKit and HeaderFooterReusable"
         let bag = DisposeBag()
 
         let tableKit = TableKit(table: sectionTable, style: style, bag: bag)
@@ -236,5 +236,5 @@ extension Double: Reusable {
     }
 }
 
-private var sectionTable = Table(sections: [(Section(header: "Header 1", footer: "Footer 1"), 0..<5), (Section(header: "Header 2", footer: "Footer 2"), 5..<10)])
-private var swapSectionTable = Table(sections: [(Section(header: "Header 1", footer: "Footer 1"), 0..<2), (Section(header: "Header 1b", footer: "Footer 1b"), 3..<7), (Section(header: "Header 2", footer: "Footer 2"), 7..<10)])
+private var sectionTable = Table(sections: [(HeaderFooter(header: "Header 1", footer: "Footer 1"), 0..<5), (HeaderFooter(header: "Header 2", footer: "Footer 2"), 5..<10)])
+private var swapSectionTable = Table(sections: [(HeaderFooter(header: "Header 1", footer: "Footer 1"), 0..<2), (HeaderFooter(header: "Header 1b", footer: "Footer 1b"), 3..<7), (HeaderFooter(header: "Header 2", footer: "Footer 2"), 7..<10)])
