@@ -146,6 +146,16 @@ extension String: Reusable {
     }
 }
 
+public struct HeaderFooter: HeaderFooterReusable, Hashable {
+    public var header: String
+    public var footer: String
+
+    public init(header: String, footer: String) {
+        self.header = header
+        self.footer = footer
+    }
+}
+
 public struct DateHeader: Equatable {
     public let date: Date
     public let dateFormatter: DateFormatter

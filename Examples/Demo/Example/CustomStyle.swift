@@ -86,7 +86,7 @@ extension TextStyle {
     static let regularButton = TextStyle(font: .regularButton, color: .mintGreenDark, alignment: .center)
     static let disabledButton = TextStyle(font: .regularButton, color: .textGray, alignment: .center)
     static let whiteButton = TextStyle(font: .regularButton, color: .white, alignment: .center)
-    static let headerText = TextStyle(font: .headerText, color: .textGray).restyled { $0.kerning = 0.8 }.uppercased
+    static let headerText = TextStyle(font: .headerText, color: .textGray).restyled { $0.letterSpacing = 0.8 }.uppercased
     static let footer = smallText.centerAligned.multilined()
     static let headerBlack = headerText.colored(.black).multilined()
     static let header = headerText.multilined()

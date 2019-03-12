@@ -147,3 +147,16 @@ extension Either: Reusable where Left: Reusable, Right: Reusable, Left.ReuseType
         }
     }
 }
+
+/// Conforming types specifies what `Reusable` conforming types to use for a section's header and footer.
+/// If you need both a header and footer you typically conforms your `Table`'s `Section` type to this protocol.
+public protocol HeaderFooterReusable {
+    associatedtype Header: Reusable
+    associatedtype Footer: Reusable
+
+    /// The value use to render a section's header
+    var header: Header { get }
+
+    /// The value use to render a section's footer
+    var footer: Footer { get }
+}

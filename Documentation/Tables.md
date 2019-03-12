@@ -77,6 +77,28 @@ If you are ok with losing type information you can also consider using the `Mixe
 var mixedTable = Table<(), MixedReusable>(rows: [.init(1), .init("A"), .init("B"), .init(2)])
 ```
 
+## HeaderFooterReusable
+
+If you conform your `Table`'s `Section` type to `Reusable` a table's section will be rendered by the view provided by `makeAndConfigure()`. However if you like to provide both a header and a footer view from your section model data, you can conform your `Section` type to `HeaderFooterReusable` and provide separate header and footer types for rendering:
+
+```swift
+struct MySection { ... } 
+
+extension MySection: HeaderFooterReusable {
+  var header: MyHeaderType { ... }
+  var footer: MyFooterType { ... }
+}
+```
+
+As it is common with header and footer that are just strings, Form includes the `HeaderFooter` type for your convenience:
+
+```swift
+struct HeaderFooter: HeaderFooterReusable, Hashable {
+  var header: String   
+  var footer: String
+}
+```
+
 ## TableKit
 
 Once you have your data in a `Table` and your `Row` and `Section` types conforming to `Reusable`, you can construct a `TableKit` that will provide a `UITableView` set up with a proper data source and delegate:
