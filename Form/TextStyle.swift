@@ -242,6 +242,12 @@ public struct StyledText {
     }
 }
 
+extension StyledText: Equatable {
+    public static func == (lhs: StyledText, rhs: StyledText) -> Bool {
+        return lhs.text.displayValue == rhs.text.displayValue && lhs.style == rhs.style
+    }
+}
+
 public extension StyledText {
     func restyled(_ styler: (inout TextStyle) -> ()) -> StyledText {
         return StyledText(text: text, style: style.restyled(styler))
