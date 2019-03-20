@@ -91,7 +91,7 @@ private extension UILabel {
         let displayValue = styledText.text.displayValue
         if style.isPlain {
             text = displayValue
-        } else if prevStyledText == styledText, text == displayValue {
+        } else if let prev = prevStyledText, prev.text.displayValue == displayValue, prev.style == style, text == displayValue {
             // The persisted style and the visible text are up-to-date
             // Skipping the recreation of string attributes and applying them
             // If the text attributes were modified manually (they shouldn't be) they won't be reset until the text or the style changes
