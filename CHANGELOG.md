@@ -1,5 +1,7 @@
-## 1.7.0
+## 1.7.1
+- Bugfix: Fix UILabel styling bug when a styled label's text is set to nil and then updating its value does nothing.
 
+## 1.7.0
 - Adds new `HeaderFooterReusable` protocol to allow providing separate `Reusable` types for rendering a section's header and footer.
 - Adds letter spacing and line height to `TextStyle`.
 - Adds target offset to `willEndDragging` signal of `ScrollViewDelegate`.
