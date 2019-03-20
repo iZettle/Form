@@ -10,12 +10,27 @@ import UIKit
 import Flow
 
 public extension UILabel {
+
+    /// Convenience initializer for labels which appearance is controlled by a `TextStyle`.
+    ///
+    /// - Parameter styledText: The text to be presented in the label and the style controlling its appearance
+    ///
+    /// - Note: When using a label with a `TextStyle` you should set all appearance cusomizations through the style,
+    /// e.g color, numberOfLines, attributes etc, to avoid your customizations being overriden by the style and other unexpected results.
     convenience init(styledText: StyledText) {
         self.init()
         setContentHuggingPriority(.required, for: .horizontal)
         setStyledText(styledText)
     }
 
+    /// Convenience initializer for labels which appearance is controlled by a `TextStyle`.
+    ///
+    /// - Parameters:
+    ///   - value: The text to be presented in the label
+    ///   - style: The style controlling the appearance of the label.
+    ///
+    /// - Note: When using a label with a `TextStyle` you should set all appearance cusomizations through the style,
+    /// e.g color, numberOfLines, attributes etc, to avoid your customizations being overriden by the style and other unexpected results.
     convenience init(value: DisplayableString = "", style: TextStyle = .default) {
         self.init(styledText: StyledText(text: value, style: style))
     }
@@ -76,8 +91,10 @@ private extension UILabel {
         let displayValue = styledText.text.displayValue
         if style.isPlain {
             text = displayValue
-        } else if let prev = prevStyledText, displayValue == prev.text.displayValue, style == prev.style {
-            // No update needed
+        } else if let prev = prevStyledText, prev.text.displayValue == displayValue, prev.style == style, text == displayValue {
+            // The persisted style and the visible text are up-to-date
+            // Skipping the recreation of string attributes and applying them
+            // If the text attributes were modified manually (they shouldn't be) they won't be reset until the text or the style changes
         } else {
             attributedText = NSAttributedString(styledText: styledText)
         }

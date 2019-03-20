@@ -29,6 +29,7 @@
 		21D7D99F1E1CE95200CB0FE9 /* ValueLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7D99E1E1CE95200CB0FE9 /* ValueLabel.swift */; };
 		3156BAED2139366B00ECC2EC /* MixedReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3156BAEC2139366B00ECC2EC /* MixedReusable.swift */; };
 		721954D821A44E450090F9E3 /* MinimumSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721954D721A44E450090F9E3 /* MinimumSize.swift */; };
+		724EC30D2241513D001F3E11 /* UILabel+StylingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724EC30C2241513D001F3E11 /* UILabel+StylingTests.swift */; };
 		7270AFB0201FAB7C004DAAA3 /* ViewLayoutArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7270AFAF201FAB7C004DAAA3 /* ViewLayoutArea.swift */; };
 		B35F8AEE1F36676D00904E37 /* Collection+Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F8AED1F36676D00904E37 /* Collection+Changes.swift */; };
 		B35F8B4C1F3783E400904E37 /* CollectionDiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F8B4B1F3783E400904E37 /* CollectionDiffTests.swift */; };
@@ -135,6 +136,7 @@
 		21D7D99E1E1CE95200CB0FE9 /* ValueLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ValueLabel.swift; path = Form/ValueLabel.swift; sourceTree = "<group>"; };
 		3156BAEC2139366B00ECC2EC /* MixedReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MixedReusable.swift; path = Form/MixedReusable.swift; sourceTree = "<group>"; };
 		721954D721A44E450090F9E3 /* MinimumSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MinimumSize.swift; path = Form/MinimumSize.swift; sourceTree = "<group>"; };
+		724EC30C2241513D001F3E11 /* UILabel+StylingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+StylingTests.swift"; sourceTree = "<group>"; };
 		7270AFAF201FAB7C004DAAA3 /* ViewLayoutArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewLayoutArea.swift; path = Form/ViewLayoutArea.swift; sourceTree = "<group>"; };
 		B35F8AED1F36676D00904E37 /* Collection+Changes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Collection+Changes.swift"; path = "Form/Collection+Changes.swift"; sourceTree = "<group>"; };
 		B35F8B4B1F3783E400904E37 /* CollectionDiffTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDiffTests.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				B35F8B4B1F3783E400904E37 /* CollectionDiffTests.swift */,
 				F604260920B6A47E00BC4CAB /* ParentChildRelationalTests.swift */,
 				F6B81B9320CA906000B6AC39 /* NumberEditorTests.swift */,
+				724EC30C2241513D001F3E11 /* UILabel+StylingTests.swift */,
 				F62E45B81CABFB5300C6867E /* Info.plist */,
 			);
 			path = FormTests;
@@ -583,6 +586,7 @@
 				21367C6B1DACDF990021C98F /* TableChangeTests.swift in Sources */,
 				1C2881831F20EE2000666A21 /* SelectViewTests.swift in Sources */,
 				1CDD56AA1D9C10D7004B0CA9 /* TableTests.swift in Sources */,
+				724EC30D2241513D001F3E11 /* UILabel+StylingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
