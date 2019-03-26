@@ -22,15 +22,15 @@ public extension BarButtonStyle {
 }
 
 public extension BarButtonStyle {
-    public init(default: ButtonStatesStyle, compact: ButtonStatesStyle? = nil, defaultPrompt: ButtonStatesStyle? = nil, compactPrompt: ButtonStatesStyle? = nil) {
+    init(default: ButtonStatesStyle, compact: ButtonStatesStyle? = nil, defaultPrompt: ButtonStatesStyle? = nil, compactPrompt: ButtonStatesStyle? = nil) {
         self.init(states: .init(default: `default`, compact: compact, defaultPrompt: defaultPrompt, compactPrompt: compactPrompt))
     }
 
-    public init(states: ButtonStatesStyle) {
+    init(states: ButtonStatesStyle) {
         self.init(default: states, compact: states, defaultPrompt: states, compactPrompt: states)
     }
 
-    public init(normal: ButtonStateStyle, highlighted: ButtonStateStyle, disabled: ButtonStateStyle, selected: ButtonStateStyle) {
+    init(normal: ButtonStateStyle, highlighted: ButtonStateStyle, disabled: ButtonStateStyle, selected: ButtonStateStyle) {
         self.init(states: ButtonStatesStyle(normal: normal, highlighted: highlighted, disabled: disabled, selected: selected))
     }
 

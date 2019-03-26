@@ -11,13 +11,13 @@ import Flow
 
 public extension UITableView {
     /// Will wrap any provided view in a container view that will work correctly with auto resize for constraints changes.
-    public var autoResizingTableHeaderView: UIView? {
+    var autoResizingTableHeaderView: UIView? {
         get { return (tableHeaderView as? AutoResizingTableHeaderView)?.subviews.first }
         set { tableHeaderView = newValue.map { AutoResizingTableHeaderView(embeddedView: $0, tableView: self) } }
     }
 
     /// Will wrap any provided view in a container view that will work correctly with auto resize for constraints changes.
-    public var autoResizingTableFooterView: UIView? {
+    var autoResizingTableFooterView: UIView? {
         get { return (tableFooterView as? AutoResizingTableFooterView)?.subviews.first }
         set { tableFooterView = newValue.map { AutoResizingTableFooterView(embeddedView: $0, tableView: self) } }
     }

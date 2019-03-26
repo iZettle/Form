@@ -141,7 +141,7 @@ public extension UIView {
 }
 
 internal extension UIResponder {
-    @objc internal func formFindFirstResponder(sender: AnyObject) {
+    @objc func formFindFirstResponder(sender: AnyObject) {
         _currentFirstResponder = self
     }
 }
