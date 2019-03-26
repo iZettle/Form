@@ -94,6 +94,13 @@ public func chainResponders(_ controls: UIControl..., shouldLoop: Bool = false, 
     return chainResponders(controls, shouldLoop: shouldLoop, returnKey: returnKey)
 }
 
+public extension ParentChildRelational where Member: UIView, Self: UIView {
+    /// Returns whether `self` of any ancestors are hidden.
+    var isSelfOrAnyAncenstorHidden: Bool {
+        return self.isHidden || allAncestors.reduce(false) { $0 || $1.isHidden }
+    }
+}
+
 public extension UIView {
     /// Chain all `self`s `UIControl` descendants by setting up the control's next responder using `setNextResponder()`.
     /// The controls are chained in order top left to bottom right.
