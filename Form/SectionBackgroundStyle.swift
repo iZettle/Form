@@ -25,12 +25,12 @@ public struct SectionBackgroundStyle: Style {
 }
 
 public extension SectionBackgroundStyle {
-    public var border: BorderStyle {
+    var border: BorderStyle {
         get { return background.border }
         set { background.border = newValue }
     }
 
-    public var color: UIColor {
+    var color: UIColor {
         get { return background.color }
         set { background.color = newValue }
     }

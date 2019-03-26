@@ -10,12 +10,12 @@ import UIKit
 import Flow
 
 public extension UIScrollView {
-    public enum PinEdge {
+    enum PinEdge {
         case bottom
         case top
     }
 
-    public enum Pinning {
+    enum Pinning {
         case loose /// When scrolling the pinned view will follow along
         case spring /// As loose but the view won't create any gap between the edge and itself
         case fixed /// The pinned view will stay fixed at the top or bottom

@@ -51,7 +51,7 @@ public extension TextFieldDelegate {
 
     /// Return true whether the proposed updated text should be accepted or not.
     /// - Note: Is based on `shouldChangeCharacters` so only one of the two can be used at a time.
-    public var shouldChangeToProposedText: Delegate<String, Bool> {
+    var shouldChangeToProposedText: Delegate<String, Bool> {
         return Delegate { isValidNewString in
             self.shouldChangeCharacters.set { text, range, replacementString in
                 let proposedText = text.replacingCharacters(in: range, with: replacementString)

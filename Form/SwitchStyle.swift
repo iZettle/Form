@@ -23,8 +23,8 @@ public struct SwitchStyle: Style {
 }
 
 public extension SwitchStyle {
-    public static let system = SwitchStyle(switch: UISwitch())
-    public static var `default`: SwitchStyle { return DefaultStyling.current.switch }
+    static let system = SwitchStyle(switch: UISwitch())
+    static var `default`: SwitchStyle { return DefaultStyling.current.switch }
 }
 
 public extension UISwitch {

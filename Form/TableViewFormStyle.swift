@@ -20,22 +20,22 @@ public struct TableViewFormStyle: Style {
 
 public extension DynamicTableViewFormStyle {
     /// Returns the currently used form style.
-    public var form: DynamicFormStyle {
+    var form: DynamicFormStyle {
         return DynamicFormStyle { self.style(from: $0).form }
     }
 
     /// Returns the currently used section style.
-    public var section: DynamicSectionStyle {
+    var section: DynamicSectionStyle {
         return DynamicSectionStyle { self.style(from: $0).section }
     }
 
     /// Returns the currently used section header style.
-    public var header: DynamicHeaderFooterStyle {
+    var header: DynamicHeaderFooterStyle {
         return DynamicHeaderFooterStyle { self.style(from: $0).section.header }
     }
 
     /// Returns the currently used section footer style.
-    public var footer: DynamicHeaderFooterStyle {
+    var footer: DynamicHeaderFooterStyle {
         return DynamicHeaderFooterStyle { self.style(from: $0).section.footer }
     }
 }

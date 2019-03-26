@@ -354,7 +354,7 @@ public extension TableKit {
     /// - Parameter position: A constant that identifies a relative position in the table view (top, middle, bottom).
     /// - Parameter indexPath: Closure with the new inserted table indices as parameter and returning the table index to scroll to.
     ///     Defaults to scroll to the first inserted row.
-    public func scollToRevealInsertedRows(position: UITableViewScrollPosition = .none, indexPath: @escaping ([TableIndex]) -> TableIndex? = { return $0.first }) -> Disposable {
+    func scollToRevealInsertedRows(position: UITableViewScrollPosition = .none, indexPath: @escaping ([TableIndex]) -> TableIndex? = { return $0.first }) -> Disposable {
         // throttle 0 so it does not conflict with the insertion animation
         return Flow.combineLatest(view.hasWindowSignal.atOnce().plain(), changesSignal).compactMap { $0 ? $1 : nil }.debounce(0).onValue { (changes) in
             let insertions = changes.compactMap { change -> TableIndex? in

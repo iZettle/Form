@@ -101,14 +101,14 @@ public extension DynamicSectionStyle {
 }
 
 public extension SectionStyle.Background {
-    public init(all: UIImage?) {
+    init(all: UIImage?) {
         top = all
         middle = all
         bottom = all
         unique = all
     }
 
-    public init(style: SectionBackgroundStyle) {
+    init(style: SectionBackgroundStyle) {
         top = UIImage(style: style, position: .top)
         middle = UIImage(style: style, position: .middle)
         bottom = UIImage(style: style, position: .bottom)
