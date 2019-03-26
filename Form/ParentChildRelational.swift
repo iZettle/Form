@@ -112,20 +112,13 @@ public extension ParentChildRelational where Member: Equatable {
     func allAncestors(descendantsOf member: Member) -> AnySequence<Member>? {
         var found = false
         let result = allAncestors.prefix { found = $0 == member; return !found }
-        return found ? result : nil
+        return found ? AnySequence(result) : nil
     }
 
     /// Returns the closest common ancestor of `self` and `other` if any.
     func closestCommonAncestor(with other: Member) -> Member? {
         let common = self.allAncestors.filter(other.allAncestors.contains)
         return common.first
-    }
-}
-
-public extension ParentChildRelational where Member: UIView, Self: UIView {
-    /// Returns whether `self` of any ancestors are hidden.
-    var isSelfOrAnyAncenstorHidden: Bool {
-        return self.isHidden || allAncestors.reduce(false) { $0 || $1.isHidden }
     }
 }
 
