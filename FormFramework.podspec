@@ -26,5 +26,5 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/iZettle/Form.git", :tag => "#{s.version}" }
   s.source_files = "Form/*.{swift,m,h}"
   s.public_header_files = "Form/*.{h}"
-  s.swift_version = '4.1'
+  s.swift_version = '5.0'
 end
