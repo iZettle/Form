@@ -76,7 +76,7 @@ case "$COMMAND" in
     ONLY_ACTIVE_ARCH=YES \
     CODE_SIGNING_REQUIRED=NO \
     ENABLE_TESTABILITY=YES \
-    build test | xcpretty -c
+    build test > out.log
     exit 0;
   ;;
 
