@@ -45,7 +45,8 @@ private extension UILayoutGuide {
     convenience init(_ view: UIView) {
         self.init()
         view.addLayoutGuide(self)
-        activate(
+
+        let constraints: [NSLayoutConstraint] = [
             view.leadingAnchor == self.leadingAnchor,
             view.trailingAnchor == self.trailingAnchor,
             view.leftAnchor == self.leftAnchor,
@@ -56,7 +57,8 @@ private extension UILayoutGuide {
             view.heightAnchor == self.heightAnchor,
             view.centerXAnchor == self.centerXAnchor,
             view.centerYAnchor == self.centerYAnchor
-        )
+        ]
+        activate(constraints)
     }
 }
 
