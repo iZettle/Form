@@ -410,7 +410,7 @@ public extension MasterDetailSelection where Elements.Index == TableIndex {
             if let index = current?.index {
                 guard let indexPath = IndexPath(index, in: tableKit.table) else { return }
                 let isVisible = tableKit.view.indexPathsForVisibleRows?.contains(indexPath) ?? false
-                let scrollPosition: UITableViewScrollPosition
+                let scrollPosition: UITableView.ScrollPosition
                 if let prevIndex = prev?.index {
                     scrollPosition = (prevIndex < index ? .bottom : .top)
                 } else {
