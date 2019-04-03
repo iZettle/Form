@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import Flow
 
 public struct SegmentedControlStyle {
     public var states: [UIBarMetrics: ButtonStatesStyle]
     public var tintColor: UIColor?
 
     /// [metric: [left: [right: image]]], see `UISegmentedControl.setDividerImage()``
-    public typealias DividerImages = [UIBarMetrics: [UIControlState: [UIControlState: UIImage]]]
+    public typealias DividerImages = [UIBarMetrics: [UIControl.State: [UIControl.State: UIImage]]]
     public var dividerImages: DividerImages
 
     public init(states: [UIBarMetrics: ButtonStatesStyle], dividerImages: DividerImages = [:], tintColor: UIColor? = nil) {
@@ -52,7 +53,7 @@ public extension UISegmentedControl {
     func applyStyle(_ style: SegmentedControlStyle) {
         tintColor = style.tintColor
 
-        for state in UIControlState.standardStates {
+        for state in UIControl.State.standardStates {
             let attributes = style.states[.default]?[state]?.text.attributes
             setTitleTextAttributes(attributes, for: state)
 
@@ -60,7 +61,7 @@ public extension UISegmentedControl {
                 setBackgroundImage(style.states[metric]?[state]?.backgroundImage, for: state, barMetrics: metric)
 
                 let left = state
-                for right in UIControlState.standardStates {
+                for right in UIControl.State.standardStates {
                     setDividerImage(style.dividerImages[metric]?[left]?[right], forLeftSegmentState: left, rightSegmentState: right, barMetrics: metric)
                 }
             }

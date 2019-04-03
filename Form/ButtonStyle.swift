@@ -9,13 +9,13 @@
 import UIKit
 
 public struct ButtonStyle: Style {
-    public var buttonType: UIButtonType
+    public var buttonType: UIButton.ButtonType
     public var contentInsets: UIEdgeInsets
     public var preferredMinimumSize: MinimumSize
-    public var alignment: UIControlContentHorizontalAlignment
-    public var states: [UIControlState: ButtonStateStyle]
+    public var alignment: UIControl.ContentHorizontalAlignment
+    public var states: [UIControl.State: ButtonStateStyle]
 
-    public init(buttonType: UIButtonType = .custom, contentInsets: UIEdgeInsets = .zero, preferredMinimumSize: MinimumSize = .none, alignment: UIControlContentHorizontalAlignment = .center, states: [UIControlState: ButtonStateStyle]) {
+    public init(buttonType: UIButton.ButtonType = .custom, contentInsets: UIEdgeInsets = .zero, preferredMinimumSize: MinimumSize = .none, alignment: UIControl.ContentHorizontalAlignment = .center, states: [UIControl.State: ButtonStateStyle]) {
         self.buttonType = buttonType
         self.contentInsets = contentInsets
         self.preferredMinimumSize = preferredMinimumSize
@@ -25,7 +25,7 @@ public struct ButtonStyle: Style {
 }
 
 public extension ButtonStyle {
-    init(buttonType: UIButtonType = .custom, contentInsets: UIEdgeInsets = .zero, preferredMinimumSize: MinimumSize = .none, alignment: UIControlContentHorizontalAlignment = .center, normal: ButtonStateStyle? = nil, highlighted: ButtonStateStyle? = nil, disabled: ButtonStateStyle? = nil, selected: ButtonStateStyle? = nil) {
+    init(buttonType: UIButton.ButtonType = .custom, contentInsets: UIEdgeInsets = .zero, preferredMinimumSize: MinimumSize = .none, alignment: UIControl.ContentHorizontalAlignment = .center, normal: ButtonStateStyle? = nil, highlighted: ButtonStateStyle? = nil, disabled: ButtonStateStyle? = nil, selected: ButtonStateStyle? = nil) {
         self.init(buttonType: buttonType, contentInsets: contentInsets, preferredMinimumSize: preferredMinimumSize, alignment: alignment, states: .init(normal: normal, highlighted: highlighted, disabled: disabled, selected: selected))
     }
 }
@@ -54,28 +54,28 @@ public extension UIButton {
         }
     }
 
-    func setTitle(_ title: DisplayableString, for state: UIControlState = .normal) {
+    func setTitle(_ title: DisplayableString, for state: UIControl.State = .normal) {
         self.setTitle(title.displayValue as String?, for: state)
         accessibilityIdentifier = title.accessibilityIdentifier
         accessibilityLabel = title.displayValue
         setStyle(style)
     }
 
-    func clearTitle(for state: UIControlState = .normal) {
+    func clearTitle(for state: UIControl.State = .normal) {
         setTitle(nil, for: state)
         setStyle(style)
     }
 }
 
 extension ButtonStateStyle {
-    init(button: UIButton, state: UIControlState) {
+    init(button: UIButton, state: UIControl.State) {
         backgroundImage = button.backgroundImage(for: state)
         let attributes = button.attributedTitle(for: state)?.attributes(at: 0, effectiveRange: nil) ?? [:]
         text = TextStyle(font: attributes[.font] as? UIFont ?? button.titleLabel?.font ?? .systemFont(ofSize: 16), color: button.titleColor(for: state) ?? .black)
     }
 }
 
-extension Dictionary where Key == UIControlState, Value == ButtonStateStyle {
+extension Dictionary where Key == UIControl.State, Value == ButtonStateStyle {
     init(button: UIButton) {
         self.init(normal: .init(button: button, state: .normal),
                   highlighted: .init(button: button, state: .highlighted),
@@ -91,7 +91,7 @@ extension ButtonStyle {
 }
 
 private extension UIButton {
-    func applyStateStyle(_ style: ButtonStateStyle, forState state: UIControlState) {
+    func applyStateStyle(_ style: ButtonStateStyle, forState state: UIControl.State) {
         setBackgroundImage(style.backgroundImage, for: state)
         if style.text.isPlain {
             setTitleColor(style.text.color, for: state)
@@ -104,9 +104,9 @@ private extension UIButton {
         }
     }
 
-    func buttonStyle(for state: UIControlState) -> ButtonStateStyle? {
+    func buttonStyle(for state: UIControl.State) -> ButtonStateStyle? {
         switch state {
-        case UIControlState.normal, UIControlState.disabled, UIControlState.selected, UIControlState.highlighted: break
+        case UIControl.State.normal, UIControl.State.disabled, UIControl.State.selected, UIControl.State.highlighted: break
         default: fatalError("State not supported")
         }
 
@@ -124,7 +124,7 @@ private extension UIButton {
         self.contentHorizontalAlignment = style.alignment
         updateMinimumSize(style.preferredMinimumSize)
 
-        for state in UIControlState.standardStates {
+        for state in UIControl.State.standardStates {
             let stateStyle = style.states[state]
 
             setBackgroundImage(stateStyle?.backgroundImage, for: state)

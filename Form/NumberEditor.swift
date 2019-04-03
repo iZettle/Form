@@ -151,7 +151,7 @@ private extension NumberEditor {
         var chars = value.stringValue.map { character in character == "." ? decimalCharacter : character }
 
         if minFractionDigits > 0 {
-            if let i = chars.index(of: decimalCharacter) {
+            if let i = chars.firstIndex(of: decimalCharacter) {
                 let distance = i.distance(to: chars.endIndex) - 1
                 if distance < minFractionDigits {
                     chars += Array(repeating: "0", count: minFractionDigits - distance)
@@ -259,7 +259,7 @@ private extension NumberFormatter {
 
         guard let string1 = string(from: decimal1), let string2 = string(from: decimal2) else { return nil }
 
-        return zip(string1, string2).reversed().index { $0 != $1 }
+        return zip(string1, string2).reversed().firstIndex { $0 != $1 }
     }
 }
 

@@ -94,9 +94,9 @@ public extension TextStyle {
     var capitalized: TextStyle { return restyled { $0.textCase = .capitalized } }
 }
 
-extension NSAttributedStringKey {
-    public static let textCase: NSAttributedStringKey = {
-        let attribute = NSAttributedStringKey(rawValue: "TextCaseAttributeName")
+extension NSAttributedString.Key {
+    public static let textCase: NSAttributedString.Key = {
+        let attribute = NSAttributedString.Key(rawValue: "TextCaseAttributeName")
         TextStyle.registerCustomTransform(for: attribute) { string, argument in
             guard let stringCaseRaw: Int = argument as? Int, let stringCase = TextCase(rawValue: stringCaseRaw) else { return string }
             switch stringCase {

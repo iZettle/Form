@@ -28,7 +28,7 @@ public extension InsettedStyle where Style == SeparatorStyle {
 
 public extension UIView {
     /// Creates a new instance layed-out as a `axis` separator and styled by `style`
-    convenience init(axis: UILayoutConstraintAxis, style: SeparatorStyle) {
+    convenience init(axis: NSLayoutConstraint.Axis, style: SeparatorStyle) {
         self.init(color: style.color)
         translatesAutoresizingMaskIntoConstraints = false
         activate((axis == .horizontal ? widthAnchor : heightAnchor) == style.width)
@@ -46,12 +46,12 @@ public extension Sequence where Iterator.Element == UIView {
     }
 
     /// Returns a new array of views where separator of `axis` and `style` as been injected between `self`s views.
-    func injectedWithSeparator(axis: UILayoutConstraintAxis, style: SeparatorStyle) -> [UIView] {
+    func injectedWithSeparator(axis: NSLayoutConstraint.Axis, style: SeparatorStyle) -> [UIView] {
         return injectedWithView(UIView(axis: axis, style: style))
     }
 
     /// Returns a new array of views where separator of `axis` and `style` as been injected between `self`s views.
-    func injectedWithSeparator(axis: UILayoutConstraintAxis, style: InsettedStyle<SeparatorStyle>) -> [UIView] {
+    func injectedWithSeparator(axis: NSLayoutConstraint.Axis, style: InsettedStyle<SeparatorStyle>) -> [UIView] {
         return injectedWithView(UIView(embeddedView: UIView(axis: axis, style: style.style), edgeInsets: style.insets))
     }
 }

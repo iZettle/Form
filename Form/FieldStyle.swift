@@ -16,7 +16,7 @@ public struct FieldStyle: Style {
     public var cursorColor: UIColor
     public var autocorrection: UITextAutocorrectionType = .default
     public var autocapitalization: UITextAutocapitalizationType = .sentences
-    public var clearButton: UITextFieldViewMode = .never
+    public var clearButton: UITextField.ViewMode = .never
     public var keyboard: UIKeyboardType = .default
     public var returnKey: UIReturnKeyType = .done
 }
@@ -59,7 +59,7 @@ public extension FieldStyle {
     }
 
     /// Returns new style adjusted with clearButton set to `mode`.
-    func clearButton(_ mode: UITextFieldViewMode) -> FieldStyle {
+    func clearButton(_ mode: UITextField.ViewMode) -> FieldStyle {
         return restyled { $0.clearButton = mode }
     }
 

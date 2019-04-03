@@ -112,7 +112,7 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
         applyStyle()
         updateText()
 
-        bag += NotificationCenter.default.signal(forName: .UIApplicationDidBecomeActive).onValue { [weak self] _ in
+        bag += NotificationCenter.default.signal(forName: UIApplication.didBecomeActiveNotification).onValue { [weak self] _ in
             self?.installAnimation() // When app is deactivated, running animations are removed. Let's re-install it.
         }
 
@@ -181,7 +181,7 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
         cursor.isHidden = false
         installAnimation()
         sendActions(for: .editingDidBegin)
-        NotificationCenter.default.post(name: .UITextFieldTextDidBeginEditing, object: self)
+        NotificationCenter.default.post(name: UITextField.textDidBeginEditingNotification, object: self)
 
         return true
     }
@@ -193,7 +193,7 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
         editor.value = editor.value
         updateText()
         sendActions(for: .editingDidEnd)
-        NotificationCenter.default.post(name: .UITextFieldTextDidEndEditing, object: self)
+        NotificationCenter.default.post(name: UITextField.textDidEndEditingNotification, object: self)
 
         return true
     }
@@ -316,7 +316,7 @@ private extension ValueField {
         invalidateIntrinsicContentSize()
 
         sendActions(for: .editingChanged)
-        NotificationCenter.default.post(name: .UITextFieldTextDidChange, object: self)
+        NotificationCenter.default.post(name: UITextField.textDidChangeNotification, object: self)
     }
 
     func updateAlignmentConstraints() {
@@ -332,7 +332,7 @@ private extension ValueField {
         animation.values = [0, 1, 1, 0, 0]
         animation.keyTimes = [0, 0.2, 0.6, 0.8, 1.0]
         animation.duration = 1.2
-        animation.calculationMode = kCAAnimationCubic
+        animation.calculationMode = CAAnimationCalculationMode.cubic
         animation.repeatCount = Float.infinity
         cursor.layer.add(animation, forKey: "flash")
     }

@@ -66,7 +66,7 @@ public extension UIScrollView {
             animation.animate { self.adjustContentOffset(adjustInsets) }
         }
 
-        bag += NotificationCenter.default.signal(forName: .UITextFieldTextDidBeginEditing).onValue { _ in
+        bag += NotificationCenter.default.signal(forName: UITextField.textDidBeginEditingNotification).onValue { _ in
             DispatchQueue.main.async { // Make sure to run after onKeyboardEvent above.
                 defer { lastResponder = self.firstResponder }
                 guard self.firstResponder != lastResponder else { return }
@@ -82,7 +82,7 @@ public extension UIScrollView {
     @available(*, deprecated, message: "use `alwaysBounceVertical = false` instead")
     func disableScrollingIfContentFits() -> Disposable {
         return combineLatest(signal(for: \.frame), signal(for: \.contentSize), signal(for: \.contentInset)).map { frame, contentSize, contentInset in
-            (UIEdgeInsetsInsetRect(frame, contentInset).size, contentSize)
+            (frame.inset(by: contentInset).size, contentSize)
         }.bindTo { (insetSize: CGSize, contentSize: CGSize) in
             self.isScrollEnabled = insetSize.width < contentSize.width || insetSize.height < contentSize.height
         }
@@ -116,7 +116,7 @@ public extension UIScrollView {
             }
         }
 
-        bag += NotificationCenter.default.signal(forName: .UITextFieldTextDidBeginEditing).onValue { _ in
+        bag += NotificationCenter.default.signal(forName: UITextField.textDidBeginEditingNotification).onValue { _ in
             DispatchQueue.main.async { // Make sure to run after onKeyboardEvent above.
                 defer { lastResponder = self.firstResponder }
                 guard self.firstResponder == responder && self.firstResponder != lastResponder else { return }
@@ -164,8 +164,8 @@ private extension UIScrollView {
     func adjustContentOffset(_ adjustInsets: (UIView) -> UIEdgeInsets) {
         guard let firstResponder = firstResponder as? UIView else { return }
 
-        let viewRect = UIEdgeInsetsInsetRect(frame, contentInset)
-        let firstBounds = UIEdgeInsetsInsetRect(firstResponder.bounds, adjustInsets(firstResponder))
+        let viewRect = frame.inset(by: contentInset)
+        let firstBounds = firstResponder.bounds.inset(by: adjustInsets(firstResponder))
         let firstFrame = convert(firstBounds, from: firstResponder)
 
         var portRect = viewRect

@@ -21,7 +21,7 @@ public extension UIView {
     func embedView(_ view: UIView, withinLayoutArea layoutArea: ViewLayoutArea = .default, edgeInsets: UIEdgeInsets = UIEdgeInsets.zero, pinToEdges: UIRectEdge = .all, layoutPriority: UILayoutPriority = .required, disembedBag: DisposeBag? = nil) {
         let insets = edgeInsets
         if pinToEdges == .all {
-            view.frame = UIEdgeInsetsInsetRect(bounds, insets) // preset the frame to avoid an unnecessary relayout and unwanted animations
+            view.frame = bounds.inset(by: insets) // preset the frame to avoid an unnecessary relayout and unwanted animations
         }
 
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -92,7 +92,7 @@ public extension UIView {
 
 public extension UIScrollView {
     /// Adds view as a subview to `self` and sets up constraints for the `scrollAxis`.
-    func embedView(_ view: UIView, scrollAxis: UILayoutConstraintAxis) {
+    func embedView(_ view: UIView, scrollAxis: NSLayoutConstraint.Axis) {
         addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
 
@@ -108,11 +108,13 @@ public extension UIScrollView {
             activate(heightAnchor == view.heightAnchor)
         case .vertical:
             activate(widthAnchor == view.widthAnchor)
+        @unknown default:
+            assertionFailure("Unknown ScrollAxis")
         }
     }
 
     /// Creates a new instance with `view` added as a subview and constraints set up for the `scrollAxis`.
-    convenience init(embeddedView view: UIView, scrollAxis: UILayoutConstraintAxis) {
+    convenience init(embeddedView view: UIView, scrollAxis: NSLayoutConstraint.Axis) {
         self.init()
         embedView(view, scrollAxis: scrollAxis)
     }
@@ -124,7 +126,7 @@ public extension UIView {
     /// - Parameter edgeInsets: Insets from `self`, defaults to `.zero`.
     /// - Parameter pinToEdges:  Edges to pin `view` to, defaults to `.all` If pinning is missing for one axis the view will be centered in that axis.
     func embedAutoresizingView(_ view: UIView, edgeInsets: UIEdgeInsets = UIEdgeInsets.zero, pinToEdges: UIRectEdge = .all) {
-        var autoresizingMask: UIViewAutoresizing = []
+        var autoresizingMask: UIView.AutoresizingMask = []
 
         if pinToEdges.contains([ .left, .right]) {
             view.frame.origin.x = edgeInsets.left
