@@ -1,3 +1,6 @@
+## 1.8.0
+- Migrate to swift 5
+
 ## 1.7.1
 - Bugfix: Fix UILabel styling bug when a styled label's text is set to nil and then updating its value does nothing.
 
@@ -72,7 +75,7 @@
 - Added new table and collection view overloads of dequeueCell taking a re-configure closure.
 - Added didEndDisplayingCell signal to TableViewDelegate
 
-- Deprecating `EitherRow`, replaced by using Flows `Either` instead 
+- Deprecating `EitherRow`, replaced by using Flows `Either` instead
 - Deprecating `dequeueCell(forItem:, style:, reuseIdentifier:)`, replaced by version not using explicit `reuseIdentifier`
 
 - Fixed issue where Reusable configure was called instead of reconfigure when rows was updated.
@@ -93,7 +96,7 @@
 
 ## 1.0.1
 
-- Updated podspec to allow using features behind canImport(Presentation) 
+- Updated podspec to allow using features behind canImport(Presentation)
 
 # 1.0
 
