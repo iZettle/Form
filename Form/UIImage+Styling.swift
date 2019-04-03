@@ -100,7 +100,7 @@ extension UIImage {
 
         switch position {
         case .unique:
-            let bounds = UIEdgeInsetsInsetRect(rect, borderRectInsets)
+            let bounds = rect.inset(by: borderRectInsets)
             strokePath.addRoundedRect(in: bounds, topCornerRadius: cornerRadius, bottomCornerRadius: cornerRadius, edges: border.borderEdges)
             backgroundPath.addRoundedRect(in: rect, topCornerRadius: cornerRadius, bottomCornerRadius: cornerRadius)
             capInsets = UIEdgeInsets(top: cornerRadius + ceiledBorderWidths.top,
@@ -109,7 +109,7 @@ extension UIImage {
                                      right: max(cornerRadius + ceiledBorderWidths.right, bottomSeparatorInsets.right, topSeparatorInsets.right))
         case .top:
             borderRectInsets.bottom = 0
-            let bounds = UIEdgeInsetsInsetRect(rect, borderRectInsets)
+            let bounds = rect.inset(by: borderRectInsets)
             strokePath.addRoundedRect(in: bounds, topCornerRadius: cornerRadius, bottomCornerRadius: 0, edges: border.borderEdges.intersection([.top, .left, .right]))
             backgroundPath.addRoundedRect(in: rect, topCornerRadius: cornerRadius, bottomCornerRadius: 0)
             addSeparator = true
@@ -119,7 +119,7 @@ extension UIImage {
                                      right: max(cornerRadius + ceiledBorderWidths.right, bottomSeparatorInsets.right, topSeparatorInsets.right))
         case .bottom:
             borderRectInsets.top = 0
-            let bounds = UIEdgeInsetsInsetRect(rect, borderRectInsets)
+            let bounds = rect.inset(by: borderRectInsets)
             strokePath.addRoundedRect(in: bounds, topCornerRadius: 0, bottomCornerRadius: cornerRadius, edges: border.borderEdges.intersection([.bottom, .left, .right]))
             backgroundPath.addRoundedRect(in: rect, topCornerRadius: 0, bottomCornerRadius: cornerRadius)
             addTopSeparator = true
@@ -130,7 +130,7 @@ extension UIImage {
         case .middle:
             borderRectInsets.top = 0
             borderRectInsets.bottom = 0
-            let bounds = UIEdgeInsetsInsetRect(rect, borderRectInsets)
+            let bounds = rect.inset(by: borderRectInsets)
             strokePath.addRoundedRect(in: bounds, topCornerRadius: 0, bottomCornerRadius: 0, edges: border.borderEdges.intersection([.left, .right]))
             backgroundPath.addRoundedRect(in: rect, topCornerRadius: 0, bottomCornerRadius: 0, edges: .all)
             addSeparator = true

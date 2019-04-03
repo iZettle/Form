@@ -24,23 +24,23 @@ class TableTests: XCTestCase {
             ((), [6, 7, 8, 9]),
                           ])
 
-        var index = table.index(of: 2)!
+        var index = table.firstIndex(of: 2)!
         XCTAssertEqual(index.section, 0)
         XCTAssertEqual(index.row, 2)
 
-        index = table.index(of: 3)!
+        index = table.firstIndex(of: 3)!
         XCTAssertEqual(index.section, 1)
         XCTAssertEqual(index.row, 0)
 
-        index = table.index(of: 5)!
+        index = table.firstIndex(of: 5)!
         XCTAssertEqual(index.section, 2)
         XCTAssertEqual(index.row, 0)
 
-        index = table.index(of: 7)!
+        index = table.firstIndex(of: 7)!
         XCTAssertEqual(index.section, 3)
         XCTAssertEqual(index.row, 1)
 
-        index = table.index(of: 9)!
+        index = table.firstIndex(of: 9)!
         XCTAssertEqual(index.section, 3)
         XCTAssertEqual(index.row, 3)
     }

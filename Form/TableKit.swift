@@ -73,7 +73,7 @@ public final class TableKit<Section, Row> {
                     let emptyView = getEmptyView(())
                     emptyView.alpha = 0
                     self.view.embedAutoresizingView(emptyView)
-                    self.view.sendSubview(toBack: emptyView)
+                    self.view.sendSubviewToBack(emptyView)
                     currentView = emptyView
                     UIView.animate(withDuration: fadeDuration) { emptyView.alpha = 1 }
                 }
@@ -106,7 +106,7 @@ public final class TableKit<Section, Row> {
             view.cellLayoutMarginsFollowReadableWidth = false
         }
 
-        view.rowHeight = UITableViewAutomaticDimension
+        view.rowHeight = UITableView.automaticDimension
 
         let tableHeader = UIView()
         let tableHeaderConstraint = activate(tableHeader.heightAnchor == 0)
@@ -125,10 +125,10 @@ public final class TableKit<Section, Row> {
 
             view.estimatedRowHeight = style.fixedRowHeight ?? style.section.minRowHeight
 
-            view.sectionHeaderHeight = UITableViewAutomaticDimension
-            view.sectionFooterHeight = UITableViewAutomaticDimension
-            view.estimatedSectionHeaderHeight = style.fixedHeaderHeight ?? UITableViewAutomaticDimension
-            view.estimatedSectionFooterHeight = style.fixedFooterHeight ?? UITableViewAutomaticDimension
+            view.sectionHeaderHeight = UITableView.automaticDimension
+            view.sectionFooterHeight = UITableView.automaticDimension
+            view.estimatedSectionHeaderHeight = style.fixedHeaderHeight ?? UITableView.automaticDimension
+            view.estimatedSectionFooterHeight = style.fixedFooterHeight ?? UITableView.automaticDimension
 
             if view.autoResizingTableHeaderView === tableHeader {
                tableHeaderConstraint.constant = style.form.insets.top
@@ -138,14 +138,14 @@ public final class TableKit<Section, Row> {
                 tableFooterConstraint.constant = style.form.insets.bottom
             }
 
-            self.delegate.cellHeight = style.fixedRowHeight ?? UITableViewAutomaticDimension
+            self.delegate.cellHeight = style.fixedRowHeight ?? UITableView.automaticDimension
 
-            self.delegate.headerHeight = style.fixedHeaderHeight ?? (headerForSection == nil ? style.section.header.emptyHeight : UITableViewAutomaticDimension)
+            self.delegate.headerHeight = style.fixedHeaderHeight ?? (headerForSection == nil ? style.section.header.emptyHeight : UITableView.automaticDimension)
             if self.delegate.headerHeight == 0 { // 0 has special meaning, not what we want
                 self.delegate.headerHeight = .headerFooterAlmostZero
             }
 
-            self.delegate.footerHeight = style.fixedFooterHeight ?? (footerForSection == nil ? style.section.footer.emptyHeight : UITableViewAutomaticDimension)
+            self.delegate.footerHeight = style.fixedFooterHeight ?? (footerForSection == nil ? style.section.footer.emptyHeight : UITableView.automaticDimension)
             if self.delegate.footerHeight == 0 { // 0 has special meaning, not what we want
                 self.delegate.footerHeight = .headerFooterAlmostZero
             }
@@ -307,7 +307,7 @@ extension TableKit: TableAnimatable {
         for indexPath in view.indexPathsForVisibleRows ?? [] {
             guard let tableIndex = TableIndex(indexPath, in: self.table) else { continue }
             let row = table[tableIndex]
-            guard let index = from.index(where: { rowIdentifier(row) == rowIdentifier($0) }) else { continue }
+            guard let index = from.firstIndex(where: { rowIdentifier(row) == rowIdentifier($0) }) else { continue }
 
             if let cell = view.cellForRow(at: indexPath) {
                 cell.updateBackground(forStyle: style, tableView: view, at: indexPath)
@@ -354,7 +354,7 @@ public extension TableKit {
     /// - Parameter position: A constant that identifies a relative position in the table view (top, middle, bottom).
     /// - Parameter indexPath: Closure with the new inserted table indices as parameter and returning the table index to scroll to.
     ///     Defaults to scroll to the first inserted row.
-    func scollToRevealInsertedRows(position: UITableViewScrollPosition = .none, indexPath: @escaping ([TableIndex]) -> TableIndex? = { return $0.first }) -> Disposable {
+    func scollToRevealInsertedRows(position: UITableView.ScrollPosition = .none, indexPath: @escaping ([TableIndex]) -> TableIndex? = { return $0.first }) -> Disposable {
         // throttle 0 so it does not conflict with the insertion animation
         return Flow.combineLatest(view.hasWindowSignal.atOnce().plain(), changesSignal).compactMap { $0 ? $1 : nil }.debounce(0).onValue { (changes) in
             let insertions = changes.compactMap { change -> TableIndex? in

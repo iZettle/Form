@@ -20,7 +20,6 @@ extension UIView: ParentChildRelational {
 }
 
 extension UIViewController: ParentChildRelational {
-    public var children: [UIViewController] { return childViewControllers }
 }
 
 extension CALayer: ParentChildRelational {

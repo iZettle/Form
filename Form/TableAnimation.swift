@@ -10,12 +10,12 @@ import UIKit
 import Flow
 
 public struct TableAnimation: Style, Equatable {
-    public let sectionInsert: UITableViewRowAnimation
-    public let sectionDelete: UITableViewRowAnimation
-    public let rowInsert: UITableViewRowAnimation
-    public let rowDelete: UITableViewRowAnimation
+    public let sectionInsert: UITableView.RowAnimation
+    public let sectionDelete: UITableView.RowAnimation
+    public let rowInsert: UITableView.RowAnimation
+    public let rowDelete: UITableView.RowAnimation
 
-    public init(sectionInsert: UITableViewRowAnimation, sectionDelete: UITableViewRowAnimation, rowInsert: UITableViewRowAnimation, rowDelete: UITableViewRowAnimation) {
+    public init(sectionInsert: UITableView.RowAnimation, sectionDelete: UITableView.RowAnimation, rowInsert: UITableView.RowAnimation, rowDelete: UITableView.RowAnimation) {
         self.sectionInsert = sectionInsert
         self.sectionDelete = sectionDelete
         self.rowInsert = rowInsert

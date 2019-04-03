@@ -41,12 +41,12 @@ public extension DynamicTableViewFormStyle {
 }
 
 public struct DynamicTableViewFormStyle: DynamicStyle {
-    public var tableStyle: UITableViewStyle
+    public var tableStyle: UITableView.Style
     public var styleGenerator: (UITraitCollection) -> TableViewFormStyle
 }
 
 public extension DynamicTableViewFormStyle {
-    init(section: @autoclosure @escaping () -> DynamicSectionStyle, form: @autoclosure @escaping () -> DynamicFormStyle, tableStyle: UITableViewStyle = .grouped, fixedRowHeight: CGFloat? = nil, fixedHeaderHeight: CGFloat? = nil, fixedFooterHeight: CGFloat? = nil) {
+    init(section: @autoclosure @escaping () -> DynamicSectionStyle, form: @autoclosure @escaping () -> DynamicFormStyle, tableStyle: UITableView.Style = .grouped, fixedRowHeight: CGFloat? = nil, fixedHeaderHeight: CGFloat? = nil, fixedFooterHeight: CGFloat? = nil) {
         self.tableStyle = tableStyle
         styleGenerator = { (styleInput: UITraitCollection) in
             return TableViewFormStyle(section: section().style(from: styleInput), form: form().style(from: styleInput), fixedRowHeight: fixedRowHeight, fixedHeaderHeight: fixedRowHeight, fixedFooterHeight: fixedFooterHeight)

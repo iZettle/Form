@@ -141,7 +141,7 @@ extension SectionView: DynamicStylable {
 
 private extension SectionView {
     func selectView(for view: UIView) -> SelectView? {
-        return rows.index { $0.content == view }.map { rows[$0] }?.select
+        return rows.firstIndex { $0.content == view }.map { rows[$0] }?.select
     }
 
     final class HeaderFooterView: UIView {

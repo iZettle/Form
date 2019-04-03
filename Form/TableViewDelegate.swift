@@ -28,14 +28,14 @@ public final class TableViewDelegate<Section, Row>: ScrollViewDelegate, UITableV
     public var table: Table<Section, Row>
     public var viewForHeaderInSection = Delegate<Int, UIView?>()
     public var viewForFooterInSection = Delegate<Int, UIView?>()
-    public var headerHeight: CGFloat = UITableViewAutomaticDimension
-    public var footerHeight: CGFloat = UITableViewAutomaticDimension
-    public var cellHeight: CGFloat = UITableViewAutomaticDimension
+    public var headerHeight: CGFloat = UITableView.automaticDimension
+    public var footerHeight: CGFloat = UITableView.automaticDimension
+    public var cellHeight: CGFloat = UITableView.automaticDimension
     public var reorderProposition = Delegate<(from: TableIndex, to: TableIndex), TableIndex>()
     public var shouldIndentWhileEditingRow = true
     public var shouldAutomaticallyDeselect = true
     public var selectionAllowed = Delegate<TableIndex, Bool>()
-    public var editingStyle = Delegate<TableIndex, UITableViewCellEditingStyle>()
+    public var editingStyle = Delegate<TableIndex, UITableViewCell.EditingStyle>()
 
     public init(table: Table<Section, Row> = Table()) {
         self.table = table
@@ -107,7 +107,7 @@ public final class TableViewDelegate<Section, Row>: ScrollViewDelegate, UITableV
         return IndexPath(row: destinationIndexPath.row, section: destinationIndexPath.section)
     }
 
-    public func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    public func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         guard let tableIndex = TableIndex(indexPath, in: table) else { return .none }
         if let editingStyle = editingStyle.call(tableIndex) { return editingStyle }
         return self.tableView(tableView, editActionsForRowAt: indexPath)?.isEmpty == false ? .delete : .none  // .delete is needed to enable swipe actions..
@@ -135,7 +135,7 @@ public extension TableViewDelegate {
         return Signal(callbacker: didReorderCallbacker)
     }
 
-    func installAction(title: DisplayableString, style: UITableViewRowActionStyle = .normal, backgroundColor: UIColor? = nil, isVisibleAt: @escaping (TableIndex) -> Bool = { _ in true }) -> Signal<TableIndex> {
+    func installAction(title: DisplayableString, style: UITableViewRowAction.Style = .normal, backgroundColor: UIColor? = nil, isVisibleAt: @escaping (TableIndex) -> Bool = { _ in true }) -> Signal<TableIndex> {
         return Signal { callback in
             let callbacker = Callbacker<TableIndex>()
             let action = UITableViewRowAction(title: title, style: style, handler: { (_, indexPath) in
@@ -148,7 +148,7 @@ public extension TableViewDelegate {
             let bag = DisposeBag()
             bag += callbacker.addCallback(callback)
             bag += {
-                _ = self.actions.index { $0.0 == action }.map { self.actions.remove(at: $0) }
+                _ = self.actions.firstIndex { $0.0 == action }.map { self.actions.remove(at: $0) }
             }
 
             return bag
@@ -157,7 +157,7 @@ public extension TableViewDelegate {
 }
 
 public extension UITableViewRowAction {
-    convenience init(title: DisplayableString, style: UITableViewRowActionStyle = .normal, handler: @escaping ((UITableViewRowAction, IndexPath) -> Void)) {
+    convenience init(title: DisplayableString, style: UITableViewRowAction.Style = .normal, handler: @escaping ((UITableViewRowAction, IndexPath) -> Void)) {
         self.init(style: style, title: title.displayValue, handler: handler)
         accessibilityLabel = title.displayValue
     }

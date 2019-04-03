@@ -44,7 +44,7 @@ public extension BarButtonStyle {
 }
 
 public extension UIBarButtonItem {
-    convenience init(system systemItem: UIBarButtonSystemItem) {
+    convenience init(system systemItem: UIBarButtonItem.SystemItem) {
         self.init(barButtonSystemItem: systemItem, target: nil, action: #selector(NSObject.description))
     }
 
@@ -62,14 +62,14 @@ public extension UIBarButtonItem {
 public extension UIBarButtonItem {
     var style: BarButtonStyle {
         get {
-            return associatedValue(forKey: &styleKey, initial: BarButtonStyle(text: titleTextAttributes(for: .normal).map { TextStyle(attributes: $0) } ?? .default))
+            return associatedValue(forKey: &styleKey, initial: BarButtonStyle(text: convertFromOptionalNSAttributedStringKeyDictionary(titleTextAttributes(for: .normal)).map { TextStyle(attributes: $0) } ?? .default))
         }
         set {
             setStyle(newValue)
         }
     }
 
-    func setTitle(_ title: DisplayableString, for state: UIControlState = .normal) {
+    func setTitle(_ title: DisplayableString, for state: UIControl.State = .normal) {
         self.title = title.displayValue
         accessibilityIdentifier = title.accessibilityIdentifier
         accessibilityLabel = title.displayValue
@@ -89,7 +89,7 @@ public extension UIBarButtonItem {
 private extension UIBarButtonItem {
     func setStyle(_ style: BarButtonStyle) {
         setAssociatedValue(style, forKey: &styleKey)
-        for state in UIControlState.standardStatesNoSelected {
+        for state in UIControl.State.standardStatesNoSelected {
             setTitleTextAttributes(style.states[.default]?[state]?.text.attributes, for: state)
             for metric in UIBarMetrics.standardMetricsNoPrompt {
                 setBackgroundImage(style.states[metric]?[state]?.backgroundImage, for: state, barMetrics: metric)
@@ -99,3 +99,9 @@ private extension UIBarButtonItem {
 }
 
 private var styleKey = 0
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromOptionalNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]?) -> [String: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}

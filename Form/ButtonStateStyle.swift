@@ -34,32 +34,32 @@ public extension ButtonStateStyle {
     }
 }
 
-extension UIControlState: Equatable {
-    public static func == (lhs: UIControlState, rhs: UIControlState) -> Bool {
+extension UIControl.State: Equatable {
+    public static func == (lhs: UIControl.State, rhs: UIControl.State) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
 }
 
-extension UIControlState: Hashable {
+extension UIControl.State: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(rawValue)
     }
 }
 
-public typealias ButtonStatesStyle = [UIControlState: ButtonStateStyle]
+public typealias ButtonStatesStyle = [UIControl.State: ButtonStateStyle]
 
 public extension UIBarMetrics {
     static let standardMetrics: [UIBarMetrics] = [.default, .compact, .defaultPrompt, .compactPrompt]
     static let standardMetricsNoPrompt: [UIBarMetrics] = [.default, .compact]
 }
 
-public extension UIControlState {
-    static let selectedAndHighlighted: UIControlState = [.selected, .highlighted]
-    static let standardStates: [UIControlState] = [.normal, .highlighted, .disabled, .selected, selectedAndHighlighted]
-    static let standardStatesNoSelected: [UIControlState] = [.normal, .highlighted, .disabled]
+public extension UIControl.State {
+    static let selectedAndHighlighted: UIControl.State = [.selected, .highlighted]
+    static let standardStates: [UIControl.State] = [.normal, .highlighted, .disabled, .selected, selectedAndHighlighted]
+    static let standardStatesNoSelected: [UIControl.State] = [.normal, .highlighted, .disabled]
 }
 
-public extension Dictionary where Key == UIControlState {
+public extension Dictionary where Key == UIControl.State {
     init(normal: Value? = nil, highlighted: Value? = nil, disabled: Value? = nil, selected: Value? = nil) {
         self.init()
         self[.normal] = normal
@@ -70,9 +70,9 @@ public extension Dictionary where Key == UIControlState {
     }
 }
 
-public extension Dictionary where Key == UIControlState, Value: Style {
+public extension Dictionary where Key == UIControl.State, Value: Style {
     mutating func allRestyled(_ styler: (inout Value) -> ()) {
-        for state in UIControlState.standardStates {
+        for state in UIControl.State.standardStates {
             self[state] = self[state]?.restyled(styler)
         }
     }

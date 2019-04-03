@@ -11,10 +11,10 @@ import Flow
 
 public struct TextStyle: Style {
     fileprivate var changeIndex: Int = 0
-    private var extraAttributes = Set<NSAttributedStringKey>()
-    fileprivate var customAttributes = Set<NSAttributedStringKey>()
+    private var extraAttributes = Set<NSAttributedString.Key>()
+    fileprivate var customAttributes = Set<NSAttributedString.Key>()
 
-    public typealias Attributes = [NSAttributedStringKey: Any]
+    public typealias Attributes = [NSAttributedString.Key: Any]
     public private(set) var attributes: Attributes = [:]
 }
 
@@ -104,11 +104,11 @@ public extension TextStyle {
 }
 
 public extension TextStyle {
-    func attribute<T>(for attribute: NSAttributedStringKey) -> T? {
+    func attribute<T>(for attribute: NSAttributedString.Key) -> T? {
         return attributes[attribute] as? T
     }
 
-    mutating func setAttribute<T: Equatable>(_ value: T?, for attribute: NSAttributedStringKey, defaultValue: T? = nil) {
+    mutating func setAttribute<T: Equatable>(_ value: T?, for attribute: NSAttributedString.Key, defaultValue: T? = nil) {
         guard self.attribute(for: attribute) != value else {
             return
         }
@@ -145,7 +145,7 @@ public extension TextStyle {
         }
     }
 
-    mutating func setParagraphAttribute<T: Equatable>(_ value: T?, for attribute: NSAttributedStringKey, defaultValue: T? = nil, update: (inout NSMutableParagraphStyle) -> ()) {
+    mutating func setParagraphAttribute<T: Equatable>(_ value: T?, for attribute: NSAttributedString.Key, defaultValue: T? = nil, update: (inout NSMutableParagraphStyle) -> ()) {
         guard self.attribute(for: attribute) != value else {
             return
         }
@@ -170,7 +170,7 @@ public extension TextStyle {
     /// Register a custom `transfrom` for `attribute`
     /// Custom transforms could be used to apply transforms on the styled text. The transforms are typlically applied after ordinary styling.
     /// For example `.uppercased`, etc. are built using custom transforms.
-    static func registerCustomTransform(for attribute: NSAttributedStringKey, transform: @escaping (NSAttributedString, Any) -> NSAttributedString) {
+    static func registerCustomTransform(for attribute: NSAttributedString.Key, transform: @escaping (NSAttributedString, Any) -> NSAttributedString) {
         precondition(Form.customAttributes[attribute] == nil)
         Form.customAttributes[attribute] = transform
     }
@@ -261,12 +261,12 @@ public struct StyledFieldText {
     }
 }
 
-extension NSAttributedStringKey {
-    static let numberOfLines = NSAttributedStringKey(rawValue: "_numberOfLines")
-    static let highlightedColor = NSAttributedStringKey(rawValue: "_highlightedColor")
-    static let lineBreakMode = NSAttributedStringKey(rawValue: "_lineBreakMode")
-    static let lineSpacing = NSAttributedStringKey(rawValue: "_lineSpacing")
-    static let textAlignment = NSAttributedStringKey(rawValue: "_textAligment")
+extension NSAttributedString.Key {
+    static let numberOfLines = NSAttributedString.Key(rawValue: "_numberOfLines")
+    static let highlightedColor = NSAttributedString.Key(rawValue: "_highlightedColor")
+    static let lineBreakMode = NSAttributedString.Key(rawValue: "_lineBreakMode")
+    static let lineSpacing = NSAttributedString.Key(rawValue: "_lineSpacing")
+    static let textAlignment = NSAttributedString.Key(rawValue: "_textAligment")
 }
 
 extension TextStyle {
@@ -278,7 +278,7 @@ extension TextStyle {
 extension TextStyle {
     init(attributes: [String: Any]) {
         for (key, value) in attributes {
-            let attribute = NSAttributedStringKey(rawValue: key)
+            let attribute = NSAttributedString.Key(rawValue: key)
             self.attributes[attribute] = value
             guard !plainAttributes.contains(attribute) else {
                 continue
@@ -301,10 +301,10 @@ private extension TextStyle {
     }
 }
 
-private var equatableForAttribute = [NSAttributedStringKey: (Any, Any) -> Bool]()
+private var equatableForAttribute = [NSAttributedString.Key: (Any, Any) -> Bool]()
 private var nextTextStyleChangeIndex = 0
-private let plainAttributes: Set<NSAttributedStringKey> = [.foregroundColor, .font, .numberOfLines, .highlightedColor, .lineBreakMode, .textAlignment]
-private var customAttributes = [NSAttributedStringKey: ((NSAttributedString, Any) -> NSAttributedString)]()
+private let plainAttributes: Set<NSAttributedString.Key> = [.foregroundColor, .font, .numberOfLines, .highlightedColor, .lineBreakMode, .textAlignment]
+private var customAttributes = [NSAttributedString.Key: ((NSAttributedString, Any) -> NSAttributedString)]()
 
-private let prototypeCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: nil)
+private let prototypeCell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: nil)
 private let prototypeLabel = UILabel(frame: .zero)

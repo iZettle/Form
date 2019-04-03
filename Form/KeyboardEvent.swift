@@ -87,7 +87,7 @@ func keyboardSignal() -> Signal<KeyboardEvent> {
         let bag = DisposeBag()
 
         var prevKeyboardFrame = keyboardFrame
-        bag += NotificationCenter.default.signal(forName: .UIKeyboardWillShow, object: nil).onValue { notification in
+        bag += NotificationCenter.default.signal(forName: UIResponder.keyboardWillShowNotification, object: nil).onValue { notification in
             guard let frame = notification.endFrame, let animation = notification.keyboardAnimation else { return }
             keyboardFrame = frame
 
@@ -95,7 +95,7 @@ func keyboardSignal() -> Signal<KeyboardEvent> {
             prevKeyboardFrame = frame
         }
 
-        bag += NotificationCenter.default.signal(forName: .UIKeyboardWillHide, object: nil).onValue { notification in
+        bag += NotificationCenter.default.signal(forName: UIResponder.keyboardWillHideNotification, object: nil).onValue { notification in
             guard let frame = notification.endFrame, let animation = notification.keyboardAnimation else { return }
             keyboardFrame = nil
 
@@ -111,23 +111,23 @@ var keyboardFrame: CGRect?
 
 private extension Notification {
     var keyboardAnimation: KeyboardAnimation? {
-        guard let duration = userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double,
-            let intCurve = userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? Int
+        guard let duration = userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
+            let intCurve = userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? Int
             else { return nil }
 
         // UIKeyboardAnimationCurveUserInfoKey might sometimes include values outside of UIViewAnimationCurve
-        return KeyboardAnimation(duration: duration, curve: UIViewAnimationCurve(keyboardRawValue: intCurve) ?? .easeInOut)
+        return KeyboardAnimation(duration: duration, curve: UIView.AnimationCurve(keyboardRawValue: intCurve) ?? .easeInOut)
     }
 
     var endFrame: CGRect? {
-        return (userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+        return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
     }
 }
 
-private extension UIViewAnimationCurve {
+private extension UIView.AnimationCurve {
     init?(keyboardRawValue: Int) {
-        guard let curve = UIViewAnimationCurve(rawValue: keyboardRawValue) else { return nil }
-        let allCases: [UIViewAnimationCurve] = [.easeInOut, .easeInOut, .easeOut, .linear]
+        guard let curve = UIView.AnimationCurve(rawValue: keyboardRawValue) else { return nil }
+        let allCases: [UIView.AnimationCurve] = [.easeInOut, .easeInOut, .easeOut, .linear]
         guard allCases.contains(curve) else { return nil }
         self = curve
     }

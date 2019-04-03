@@ -177,12 +177,12 @@ public extension SectionView {
     }
 
     func remove<Provider>(_ row: RowAndProvider<Provider>) {
-        guard let index = self.orderedViews.index(of: row.row) else { return }
+        guard let index = self.orderedViews.firstIndex(of: row.row) else { return }
         self.orderedViews.remove(at: index)
     }
 
     func remove(_ sectionRow: RowView) {
-        guard let index = self.orderedViews.index(of: sectionRow) else { return }
+        guard let index = self.orderedViews.firstIndex(of: sectionRow) else { return }
         self.orderedViews.remove(at: index)
     }
 }

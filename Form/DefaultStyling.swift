@@ -99,10 +99,13 @@ public extension UITableView {
         return DefaultStyling.current.groupedTableView.init(frame: .zero, style: .grouped)
     }
 
-    static func defaultTable(for style: UITableViewStyle) -> UITableView {
+    static func defaultTable(for style: UITableView.Style) -> UITableView {
         switch style {
         case .plain: return .plain
         case .grouped: return .grouped
+        @unknown default:
+            assertionFailure("Unknown UITableView.Style")
+            return .plain
         }
     }
 }

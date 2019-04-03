@@ -153,7 +153,7 @@ private extension SelectView {
 }
 
 private extension UIView {
-    class func animateWithDuration(_ duration: TimeInterval?, delay: TimeInterval = 0, options: UIViewAnimationOptions = [], animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
+    class func animateWithDuration(_ duration: TimeInterval?, delay: TimeInterval = 0, options: UIView.AnimationOptions = [], animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
         if let duration = duration {
             animate(withDuration: duration, delay: delay, options: options, animations: animations, completion: completion)
         } else {

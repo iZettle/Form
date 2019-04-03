@@ -124,7 +124,7 @@ public extension UIScrollView {
         }
 
         bag += subviewsSignal.onValue { _ in
-            self.bringSubview(toFront: view)
+            self.bringSubviewToFront(view)
         }
 
         constraints += [fix, spring].compactMap { $0 }
@@ -230,7 +230,7 @@ private extension UIScrollView {
         }
 
         bag += subviewsSignal.onValue { _ in
-            self.bringSubview(toFront: view)
+            self.bringSubviewToFront(view)
         }
 
         // The parent moved between views when being presented and dismissed etc.

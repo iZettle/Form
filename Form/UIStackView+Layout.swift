@@ -9,7 +9,7 @@
 import UIKit
 
 public extension UIStackView {
-    convenience init(views: [ViewRepresentable], axis: UILayoutConstraintAxis = .horizontal, spacing: CGFloat = 0, edgeInsets: UIEdgeInsets = .zero) {
+    convenience init(views: [ViewRepresentable], axis: NSLayoutConstraint.Axis = .horizontal, spacing: CGFloat = 0, edgeInsets: UIEdgeInsets = .zero) {
         self.init(arrangedSubviews: views.map { $0.viewRepresentation })
         self.spacing = spacing
         self.axis = axis
