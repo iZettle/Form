@@ -41,7 +41,7 @@ public extension UISegmentedControl {
     convenience init<T>(segments: [T], index: Int? = nil, style: SegmentedControlStyle = .default) {
         self.init(items: Optional(segments))
         if let index = index {
-            self.value = index
+            providedSignal.value = index
         }
         applyStyle(style)
     }
