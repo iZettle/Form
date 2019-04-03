@@ -113,9 +113,13 @@ extension SelectView: HasEventListeners {
 
 private extension SelectView {
     func setHighlighted(_ val: Bool, animated: Bool) {
-        UIView.animateWithDuration(animated ? 0.25 : nil, animations: {
+        if animated {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.isHighlightedSignal.value = val
+            })
+        } else {
             self.isHighlightedSignal.value = val
-        })
+        }
     }
 
     func updateCurrentState() {
@@ -148,17 +152,6 @@ private extension SelectView {
         } else {
             setHighlighted(false, animated: false)
             autoHighlightTime = nil
-        }
-    }
-}
-
-private extension UIView {
-    class func animateWithDuration(_ duration: TimeInterval?, delay: TimeInterval = 0, options: UIView.AnimationOptions = [], animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
-        if let duration = duration {
-            animate(withDuration: duration, delay: delay, options: options, animations: animations, completion: completion)
-        } else {
-            animations()
-            completion?(true)
         }
     }
 }
