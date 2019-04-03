@@ -30,7 +30,7 @@ public extension SwitchStyle {
 public extension UISwitch {
     convenience init(value: Bool, style: SwitchStyle = .default, accessibilityIdentifier: String? = nil) {
         self.init()
-        self.value = value
+        providedSignal.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
 
         applyStyle(style)
