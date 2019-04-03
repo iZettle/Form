@@ -101,11 +101,11 @@ public extension Alert {
 }
 
 public extension Alert.Action {
-    init(title: DisplayableString, style: UIAlertActionStyle = .default, enabledPredicate: @escaping ([String]) -> Bool = { _ in true }, action: @escaping ([String]) throws -> Value) {
+    init(title: DisplayableString, style: UIAlertAction.Style = .default, enabledPredicate: @escaping ([String]) -> Bool = { _ in true }, action: @escaping ([String]) throws -> Value) {
         self.init(title: title.displayValue, style: style, enabledPredicate: enabledPredicate, action: action)
     }
 
-    init(title: DisplayableString, style: UIAlertActionStyle = .default, action: @escaping () throws -> Value) {
+    init(title: DisplayableString, style: UIAlertAction.Style = .default, action: @escaping () throws -> Value) {
         self.init(title: title, style: style, action: { (_: [String]) in try action() })
     }
 }

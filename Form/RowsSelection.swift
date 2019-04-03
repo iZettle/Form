@@ -83,14 +83,14 @@ public extension RowsSelection {
 
     @discardableResult
     mutating func remove(id: Row.Identifier) -> Form.RowView? {
-        guard let index = signalAndRows.index(where: { $0.row.value?.identifier == id }) else {
+        guard let index = signalAndRows.firstIndex(where: { $0.row.value?.identifier == id }) else {
             return nil
         }
         return signalAndRows.remove(at: index).rowSignal.row
     }
 
     subscript(id: Row.Identifier) -> Row? {
-        guard let index = selection.elements.index(where: { $0.identifier == id }) else { return nil }
+        guard let index = selection.elements.firstIndex(where: { $0.identifier == id }) else { return nil }
         return selection.elements[index]
     }
 }
@@ -108,7 +108,7 @@ public extension RowsSelection {
 
     /// Selects the row with `id`
     func select(id: Row.Identifier) {
-        if let index = selection.elements.index(where: { $0.identifier == id }) {
+        if let index = selection.elements.firstIndex(where: { $0.identifier == id }) {
             selection.select(index: index)
         }
     }
