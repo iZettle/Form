@@ -56,12 +56,13 @@ public final class TableKit<Section, Row> {
 
             let bag = DisposeBag()
             var currentView: UIView?
+            var previousDuration: TimeInterval?
             bag += self.atOnce().onValue { table in
                 let args = getArgs(())
 
-                if let prevView = currentView {
+                if let prevView = currentView, let duration = previousDuration {
                     currentView = nil
-                    UIView.animate(withDuration: args.duration,
+                    UIView.animate(withDuration: duration,
                                    animations: { prevView.alpha = 0 },
                                    completion: { _ in prevView.removeFromSuperview()  })
                 }
@@ -72,6 +73,7 @@ public final class TableKit<Section, Row> {
                     self.view.embedAutoresizingView(emptyView)
                     self.view.sendSubview(toBack: emptyView)
                     currentView = emptyView
+                    previousDuration = args.duration
                     UIView.animate(
                         withDuration: args.duration,
                         animations: { emptyView.alpha = 1 }
