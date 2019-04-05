@@ -50,38 +50,53 @@ public final class TableKit<Section, Row> {
         }
     }()
 
-    /// Delegate to retreive a view to be displayed when the table is empty.
-    /// The view will be constrained to the edges of the table
-    ///
-    /// - Parameter animationDuration: The duration of the fade in/out animation when showing/hiding the empty view
-    /// - Returns: A delegate object capturing the logic for creating an empty view
-    public func viewForEmptyTable(fadeDuration: TimeInterval = 0.15) -> Delegate<(), UIView> {
-        return Delegate { [weak self] getEmptyView in
-            let bag = DisposeBag()
-            guard let `self` = self else { return bag }
+    private lazy var viewForDurationForEmptyTable: Delegate<(), (view: UIView, duration: TimeInterval)> = {
+        return Delegate { [weak self] getArgs in
+            guard let `self` = self else { return NilDisposer() }
 
+            let bag = DisposeBag()
             var currentView: UIView?
+            var previousDuration: TimeInterval?
             bag += self.atOnce().onValue { table in
-                if let prevView = currentView {
+                let args = getArgs(())
+
+                if let prevView = currentView, let duration = previousDuration {
                     currentView = nil
-                    UIView.animate(withDuration: fadeDuration,
+                    UIView.animate(withDuration: duration,
                                    animations: { prevView.alpha = 0 },
                                    completion: { _ in prevView.removeFromSuperview()  })
                 }
 
                 if table.isEmpty {
-                    let emptyView = getEmptyView(())
+                    let emptyView = args.view
                     emptyView.alpha = 0
                     self.view.embedAutoresizingView(emptyView)
                     self.view.sendSubviewToBack(emptyView)
                     currentView = emptyView
-                    UIView.animate(withDuration: fadeDuration) { emptyView.alpha = 1 }
+                    previousDuration = args.duration
+                    UIView.animate(
+                        withDuration: args.duration,
+                        animations: { emptyView.alpha = 1 }
+                    )
                 }
             }
 
             bag += { currentView?.removeFromSuperview() }
 
             return bag
+        }
+    }()
+
+    /// Delegate to retreive a view to be displayed when the table is empty.
+    /// The view will be constrained to the edges of the table
+    ///
+    /// - Parameter animationDuration: The duration of the fade in/out animation when showing/hiding the empty view
+    /// - Returns: A delegate object capturing the logic for creating an empty view
+    public func viewForEmptyTable(fadeDuration: TimeInterval = 0.15) -> Delegate<(), UIView> {
+        return Delegate { getEmptyView in
+            return self.viewForDurationForEmptyTable.set { _ in
+                return (view: getEmptyView(()), fadeDuration)
+            }
         }
     }
 
