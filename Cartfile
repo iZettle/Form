@@ -1,1 +1,1 @@
-github "iZettle/Flow" ~> 1.3
+github "iZettle/Flow" == 1.6.0
