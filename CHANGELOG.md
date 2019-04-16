@@ -1,3 +1,6 @@
+## 1.9.0
+- Add minimum scale factor to TextStyle. When a custom value is set that can also affect other controls using TextStyle, e.g UIButton.
+
 ## 1.8.0
 - Migrate to swift 5
 

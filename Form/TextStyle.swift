@@ -19,13 +19,14 @@ public struct TextStyle: Style {
 }
 
 public extension TextStyle {
-    init(font: UIFont, color: UIColor, alignment: NSTextAlignment = .natural, numberOfLines: Int = 1, lineBreakMode: NSLineBreakMode = .byTruncatingMiddle) {
+    init(font: UIFont, color: UIColor, alignment: NSTextAlignment = .natural, numberOfLines: Int = 1, lineBreakMode: NSLineBreakMode = .byTruncatingMiddle, minimumScaleFactor: CGFloat = 0) {
         // Don't set attributes directly to make sure lookups such as equatableForAttribute is being correctly updated.
         self.font = font
         self.color = color
         self.numberOfLines = numberOfLines
         self.alignment = alignment
         self.lineBreakMode = lineBreakMode
+        self.minimumScaleFactor = minimumScaleFactor
     }
 }
 
@@ -87,6 +88,11 @@ public extension TextStyle {
     var numberOfLines: Int {
         get { return attribute(for: .numberOfLines) ?? 1 }
         set { setAttribute(newValue == 1 ? nil : newValue, for: .numberOfLines) }
+    }
+
+    var minimumScaleFactor: CGFloat {
+        get { return attribute(for: .minimumScaleFactor) ?? 0 }
+        set { setAttribute(newValue, for: .minimumScaleFactor) }
     }
 
     var highlightedColor: UIColor {
@@ -267,6 +273,7 @@ extension NSAttributedString.Key {
     static let lineBreakMode = NSAttributedString.Key(rawValue: "_lineBreakMode")
     static let lineSpacing = NSAttributedString.Key(rawValue: "_lineSpacing")
     static let textAlignment = NSAttributedString.Key(rawValue: "_textAligment")
+    static let minimumScaleFactor = NSAttributedString.Key(rawValue: "_minimumScaleFactor")
 }
 
 extension TextStyle {
@@ -303,7 +310,9 @@ private extension TextStyle {
 
 private var equatableForAttribute = [NSAttributedString.Key: (Any, Any) -> Bool]()
 private var nextTextStyleChangeIndex = 0
-private let plainAttributes: Set<NSAttributedString.Key> = [.foregroundColor, .font, .numberOfLines, .highlightedColor, .lineBreakMode, .textAlignment]
+private let plainAttributes: Set<NSAttributedString.Key> = [
+    .foregroundColor, .font, .numberOfLines, .highlightedColor, .lineBreakMode, .textAlignment, .minimumScaleFactor
+]
 private var customAttributes = [NSAttributedString.Key: ((NSAttributedString, Any) -> NSAttributedString)]()
 
 private let prototypeCell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: nil)
