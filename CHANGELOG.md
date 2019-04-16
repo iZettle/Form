@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+=======
+## 1.9.0
+- Add minimum scale factor to TextStyle. When a custom value is set that can also affect other controls using TextStyle, e.g UIButton.
+
+## 1.8.0
+- Migrate to swift 5
+
+>>>>>>> 94e1391... Add minimumScaleFactor to TextStyle
 ## 1.7.1
 - Bugfix: Fix UILabel styling bug when a styled label's text is set to nil and then updating its value does nothing.
 
