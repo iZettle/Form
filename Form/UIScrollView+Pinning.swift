@@ -10,12 +10,12 @@ import UIKit
 import Flow
 
 public extension UIScrollView {
-    enum PinEdge {
+    enum PinEdge: CaseIterable {
         case bottom
         case top
     }
 
-    enum Pinning {
+    enum Pinning: CaseIterable {
         case loose /// When scrolling the pinned view will follow along
         case spring /// As loose but the view won't create any gap between the edge and itself
         case fixed /// The pinned view will stay fixed at the top or bottom
@@ -25,13 +25,13 @@ public extension UIScrollView {
     /// - Parameters:
     ///   - view: the view to embed and keep pinned.
     ///   - edge: The edge to pin to.
-    ///   - minHeight: The minimum height of the `view`.
+    ///   - minHeight: Used as a minimum height of the `view` for `fixed` pinning and as exact height otherwise.
     ///   - pinning: The pinning behaviour (defaults to `.fixed`).
     ///   - adjustForInsets: If true the view will be adjusted for current insets such as keyboard.
     ///   - disembedBag: Will add disembedding of views and constraints to bag if not nil.
     func embedPinned(_ view: UIView, edge: PinEdge, minHeight: CGFloat, pinning: Pinning = .fixed, adjustForInsets: Bool = true, disembedBag: DisposeBag? = nil) -> Disposable {
         guard #available(iOS 11, *) else {
-            return legacyEmbedPinned(view, edge: edge, height: minHeight, pinning: pinning, adjustForInsets: adjustForInsets, disembedBag: disembedBag)
+            return legacyEmbedPinned(view, edge: edge, minHeight: minHeight, pinning: pinning, adjustForInsets: adjustForInsets, disembedBag: disembedBag)
         }
 
         precondition(minHeight > 0)
@@ -142,8 +142,8 @@ public extension UIScrollView {
 }
 
 private extension UIScrollView {
-    func legacyEmbedPinned(_ view: UIView, edge: PinEdge, height: CGFloat, pinning: Pinning = .fixed, adjustForInsets: Bool = true, disembedBag: DisposeBag? = nil) -> Disposable {
-        precondition(height > 0)
+    func legacyEmbedPinned(_ view: UIView, edge: PinEdge, minHeight: CGFloat, pinning: Pinning = .fixed, adjustForInsets: Bool = true, disembedBag: DisposeBag? = nil) -> Disposable {
+        precondition(minHeight > 0)
 
         let parent: UIView
 
@@ -161,11 +161,22 @@ private extension UIScrollView {
         view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(view)
 
+        let heightConstraint: NSLayoutConstraint
+        let viewHeight: ReadSignal<CGFloat>
+
+        if case .fixed = pinning {
+            heightConstraint = (view.heightAnchor >= minHeight)
+            viewHeight = view.signal(for: \.bounds)[\.size].distinct().map { $0.height }
+        } else {
+            heightConstraint = (view.heightAnchor == minHeight)
+            viewHeight = ReadSignal(minHeight)
+        }
+
         var constraints: [NSLayoutConstraint] = [
-            view.heightAnchor == height,
-            leftAnchor == view.leftAnchor,
-            rightAnchor == view.rightAnchor,
-            widthAnchor == view.widthAnchor,
+            heightConstraint,
+            view.widthAnchor == widthAnchor,
+            view.leftAnchor == leftAnchor,
+            view.rightAnchor == rightAnchor
         ]
 
         let bag = DisposeBag()
@@ -178,7 +189,10 @@ private extension UIScrollView {
         case .bottom:
             // FIXME: enable for iOS 11 if we can remove the re-pin hack
             //precondition(self[insets: insetKey].bottom == 0, "Only one view can be pinned to bottom")
-            self[insets: insetKey].bottom = height
+            bag += viewHeight.atOnce().onValue { height in
+                self[insets: insetKey].bottom = height
+            }
+
             disembedBag += { self[insets: insetKey].bottom = 0 }
 
             switch pinning {
@@ -201,15 +215,17 @@ private extension UIScrollView {
             }
 
             if let fix = fix, adjustForInsets == true {
-                bag += signal(for: \.contentInset)[\.bottom].distinct().atOnce().onValue {
-                    fix.constant = $0 - height
+                bag += combineLatest(viewHeight, signal(for: \.contentInset)[\.bottom].distinct()).atOnce().onValue { height, bottomInset in
+                    fix.constant = bottomInset - height
                 }
             }
 
         case .top:
             // FIXME: enable for iOS 11 if we can remove the re-pin hack
             //precondition(self[insets: insetKey].bottom == 0, "Only one view can be pinned to top")
-            self[insets: insetKey].top = height
+            bag += viewHeight.atOnce().onValue { height in
+                self[insets: insetKey].top = height
+            }
             disembedBag += { self[insets: insetKey].top = 0 }
 
             switch pinning {
@@ -225,7 +241,9 @@ private extension UIScrollView {
             case .loose:
                 fix = nil
                 spring = view.topAnchor == topAnchor
-                spring?.constant = -height
+                bag += viewHeight.atOnce().onValue { height in
+                    spring?.constant = -height
+                }
             }
         }
 
@@ -243,7 +261,7 @@ private extension UIScrollView {
 
             bag.dispose()
             deactivate(constraints)
-            bag += self.embedPinned(view, edge: edge, minHeight: height, pinning: pinning, adjustForInsets: adjustForInsets, disembedBag: disembedBag)
+            bag += self.embedPinned(view, edge: edge, minHeight: minHeight, pinning: pinning, adjustForInsets: adjustForInsets, disembedBag: disembedBag)
 
             self.contentOffset.y = offset
         }
