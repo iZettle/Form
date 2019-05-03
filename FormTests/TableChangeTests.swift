@@ -27,12 +27,12 @@ class TableChangeTests: XCTestCase {
 
     func test<R: Hashable, S: Hashable>(from: Table<R, S>, to: Table<R, S>) {
 
-        let tableView = TableKit(table: from, bag: bag) { _, _ in UITableViewCell() }
+        let tableView = TableKit(table: from) { _, _ in UITableViewCell() }
         tableView.view.frame = window.bounds
         window.addSubview(tableView.view)
         tableView.view.reloadData()
 
-        let collectionView = CollectionKit(table: from, layout: UICollectionViewFlowLayout(), bag: bag) { (view, row, index) -> UICollectionViewCell in
+        let collectionView = CollectionKit(table: from, layout: UICollectionViewFlowLayout()) { (view, row, index) -> UICollectionViewCell in
             view.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "id")
             return view.dequeueCell(withReuseIdentifier: "id", for: IndexPath(row: index.row, section: index.section))
         }

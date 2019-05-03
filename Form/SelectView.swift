@@ -40,8 +40,8 @@ public final class SelectView: UIView, Selectable, Highlightable {
         super.didMoveToWindow()
         bag.dispose()
         if window != nil { // in didMoveToWindow to break any retain cycles when the view is removed
-            bag += Flow.combineLatest(isSelectedSignal.atOnce(), isHighlightedSignal.atOnce()).onValue { [weak self] _, _ in
-                self?.updateCurrentState()
+            bag += Flow.combineLatest(isSelectedSignal.atOnce(), isHighlightedSignal.atOnce()).with(weak: self).onValue { _, _, `self` in
+                self.updateCurrentState()
             }
         }
     }

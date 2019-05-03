@@ -11,9 +11,10 @@ import Flow
 
 /// A coordinator type for working with a table view, its source and delegate as well as styling and configuration.
 ///
-///     let tableKit = TableKit(table: table, bag: bag)
+///     let tableKit = TableKit(table: table)
 ///     bag += viewController.install(tableKit)
 public final class TableKit<Section, Row> {
+    private let bag: DisposeBag
     private let callbacker = Callbacker<Table>()
     private let changesCallbacker = Callbacker<[TableChange<Section, Row>]>()
 
@@ -100,14 +101,18 @@ public final class TableKit<Section, Row> {
         }
     }
 
-    /// Creates a new instance
-    /// - Parameters:
-    ///   - table: The initial table. Defaults to an empty table.
-    ///   - bag: A bag used to add table kit activities.
-    public init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil, cellForRow: @escaping (UITableView, Row) -> UITableViewCell) {
+    private init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, deprecatedBag: DisposeBag?, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil, cellForRow: @escaping (UITableView, Row) -> UITableViewCell) {
         let view = view ?? UITableView.defaultTable(for: style.tableStyle)
         self.view = view
         self.style = style
+
+        // Remove deprecatedBag parameter once deprecetated inits have been removed.
+        if let deprecatedBag = deprecatedBag {
+            bag = deprecatedBag
+            deprecatedBag.hold(self) // Hold on to self to simulate deprecated behaviour
+        } else {
+            bag = DisposeBag()
+        }
 
         dataSource.table = table
         delegate.table = table
@@ -135,7 +140,7 @@ public final class TableKit<Section, Row> {
             view.autoResizingTableFooterView = tableFooter
         }
 
-        bag += view.traitCollectionWithFallbackSignal.distinct().atOnce().onValue { traits in
+        bag += view.traitCollectionWithFallbackSignal.distinct().with(weak: self).atOnce().onValue { traits, `self` in
             let style = style.style(from: traits)
 
             view.estimatedRowHeight = style.fixedRowHeight ?? style.section.minRowHeight
@@ -166,7 +171,9 @@ public final class TableKit<Section, Row> {
             }
         }
 
-        bag += dataSource.cellForIndex.set { index in
+        bag += dataSource.cellForIndex.set { [weak self] index in
+            guard let `self` = self else { return UITableViewCell() }
+
             let cell = cellForRow(self.view, self.table[index])
             if let indexPath = IndexPath(index, in: self.table) {
                 cell.updateBackground(forStyle: style, tableView: view, at: indexPath)
@@ -197,15 +204,15 @@ public final class TableKit<Section, Row> {
         }
 
         // Reordering
-        bag += delegate.didReorderRow.onValue { (source: TableIndex, destination: TableIndex) in
+        bag += delegate.didReorderRow.with(weak: self).onValue { reorder, `self` in
             self.updatePositionsOfVisibleCells { index in
-                self.adjustedPosition(at: index, withReorderingFrom: source, to: destination)
+                self.adjustedPosition(at: index, withReorderingFrom: reorder.source, to: reorder.destination)
             }
         }
 
-        bag += dataSource.willReorder.onValue { (source: TableIndex, destination: TableIndex) in
+        bag += dataSource.willReorder.with(weak: self).onValue { reorder, `self` in
             // Auto update the table
-            self.table.moveElement(from: source, to: destination)
+            self.table.moveElement(from: reorder.source, to: reorder.destination)
             DispatchQueue.main.async {
                 self.updatePositionsOfVisibleCells()
             }
@@ -219,24 +226,40 @@ public final class TableKit<Section, Row> {
         }
 
         if let hfs = headerForSection {
-            bag += delegate.viewForHeaderInSection.set { section in
+            bag += delegate.viewForHeaderInSection.set { [weak self] section in
+                guard let `self` = self else { return nil }
                 return hfs(self.view, self.table.sections[section].value)
             }
         } else {
-            bag += delegate.viewForHeaderInSection.set { _ in
-                self.view.dequeueHeaderFooterView(using: nil, style: style.header, formStyle: style.form)
+            bag += delegate.viewForHeaderInSection.set { [weak self]  _ in
+                self?.view.dequeueHeaderFooterView(using: nil, style: style.header, formStyle: style.form)
             }
         }
 
         if let ffs = footerForSection {
-            bag += delegate.viewForFooterInSection.set { section in
+            bag += delegate.viewForFooterInSection.set { [weak self] section in
+                guard let `self` = self else { return nil }
                 return ffs(self.view, self.table.sections[section].value)
             }
         } else {
-            bag += delegate.viewForFooterInSection.set { _ in
-                self.view.dequeueHeaderFooterView(using: nil, style: style.footer, formStyle: style.form)
+            bag += delegate.viewForFooterInSection.set { [weak self] _ in
+                self?.view.dequeueHeaderFooterView(using: nil, style: style.footer, formStyle: style.form)
             }
         }
+    }
+}
+
+public extension TableKit {
+    /// Creates a new instance
+    /// - Parameters:
+    ///   - table: The initial table. Defaults to an empty table.
+    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil, cellForRow: @escaping (UITableView, Row) -> UITableViewCell) {
+        self.init(table: table, style: style, view: view, deprecatedBag: nil, headerForSection: headerForSection, footerForSection: footerForSection, cellForRow: cellForRow)
+    }
+
+    @available(*, deprecated, message: "use `init(table:style:view:headerForSection:footerForSection:cellForRow:)` instead")
+    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil, cellForRow: @escaping (UITableView, Row) -> UITableViewCell) {
+        self.init(table: table, style: style, view: view, deprecatedBag: bag, headerForSection: headerForSection, footerForSection: footerForSection, cellForRow: cellForRow)
     }
 }
 
@@ -244,9 +267,15 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable 
     /// Creates a new instance that will setup `cellForRow` to produce cells using `Row`'s conformance to `Reusable`
     /// - Parameters:
     ///   - table: The initial table. Defaults to an empty table.
-    ///   - bag: A bag used to add table kit activities.
+    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
+        self.init(table: table, style: style, view: view, headerForSection: headerForSection, footerForSection: footerForSection) { table, row in
+            table.dequeueCell(forItem: row, style: style)
+        }
+    }
+
+    @available(*, deprecated, message: "use `init(table:style:view:headerForSection:footerForSection:)` instead")
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
-        self.init(table: table, style: style, view: view, bag: bag, headerForSection: headerForSection, footerForSection: footerForSection) { table, row in
+        self.init(table: table, style: style, view: view, deprecatedBag: bag, headerForSection: headerForSection, footerForSection: footerForSection) { table, row in
             table.dequeueCell(forItem: row, style: style)
         }
     }
@@ -256,9 +285,17 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable,
     /// Creates a new instance that will setup `cellForRow` and `headerForSection` to produce cells and sections using `Row`'s and `Section`'s conformances to `Reusable`.
     /// - Parameters:
     ///   - table: The initial table. Defaults to an empty table.
-    ///   - bag: A bag used to add table kit activities.
+    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
+        self.init(table: table, style: style, view: view, headerForSection: { table, section in
+            table.dequeueHeaderFooterView(forItem: section, style: style.header, formStyle: style.form)
+        }, footerForSection: footerForSection, cellForRow: { table, row in
+            table.dequeueCell(forItem: row, style: style)
+        })
+    }
+
+    @available(*, deprecated, message: "use `init(table:style:view:footerForSection:)` instead")
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
-        self.init(table: table, style: style, view: view, bag: bag, headerForSection: { table, section in
+        self.init(table: table, style: style, view: view, deprecatedBag: bag, headerForSection: { table, section in
             table.dequeueHeaderFooterView(forItem: section, style: style.header, formStyle: style.form)
         }, footerForSection: footerForSection, cellForRow: { table, row in
             table.dequeueCell(forItem: row, style: style)
@@ -270,9 +307,19 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable,
     /// Creates a new instance
     /// - Parameters:
     ///   - table: The initial table. Defaults to an empty table.
-    ///   - bag: A bag used to add table kit activities.
+    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil) {
+        self.init(table: table, style: style, view: view, headerForSection: { table, section in
+            table.dequeueHeaderFooterView(forItem: section.header, style: style.header, formStyle: style.form, reuseIdentifier: "header")
+        }, footerForSection: { table, section in
+            table.dequeueHeaderFooterView(forItem: section.footer, style: style.footer, formStyle: style.form, reuseIdentifier: "footer")
+        }, cellForRow: { table, row in
+            table.dequeueCell(forItem: row, style: style)
+        })
+    }
+
+    @available(*, deprecated, message: "use `init(table:style:view)` instead")
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag) {
-        self.init(table: table, style: style, view: view, bag: bag, headerForSection: { table, section in
+        self.init(table: table, style: style, view: view, deprecatedBag: bag, headerForSection: { table, section in
             table.dequeueHeaderFooterView(forItem: section.header, style: style.header, formStyle: style.form, reuseIdentifier: "header")
         }, footerForSection: { table, section in
             table.dequeueHeaderFooterView(forItem: section.footer, style: style.footer, formStyle: style.form, reuseIdentifier: "footer")

@@ -4,6 +4,8 @@ disabled_rules:
   - file_length
   - line_length
   - function_body_length
+  - function_parameter_count
+  - large_tuple
 
   - nesting
   - cyclomatic_complexity
