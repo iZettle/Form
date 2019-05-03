@@ -16,6 +16,7 @@ disabled_rules:
   - void_return
   - trailing_comma
   - shorthand_operator
+  - unused_closure_parameter
 
 opt_in_rules:
   - first_where
