@@ -143,7 +143,7 @@ extension Collection where Index == Int {
 
         for (index, item) in newEntries.enumerated() {
             if case .symbol(let entry) = item, entry.occursInBoth {
-                guard entry.oldIndexes.count > 0 else {
+                guard !entry.oldIndexes.isEmpty else {
                     continue
                 }
 
