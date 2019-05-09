@@ -97,7 +97,7 @@ public func chainResponders(_ controls: UIControl..., shouldLoop: Bool = false, 
 public extension ParentChildRelational where Member: UIView, Self: UIView {
     /// Returns whether `self` of any ancestors are hidden.
     var isSelfOrAnyAncenstorHidden: Bool {
-        return self.isHidden || allAncestors.reduce(false) { $0 || $1.isHidden }
+        return isHidden || allAncestors.contains { $0.isHidden }
     }
 }
 
@@ -136,7 +136,7 @@ public extension UIView {
 
     /// Returns the first found descendant the can become first responder and is not hidden or have any ancesters that are hidden.
     var firstPossibleResponder: UIView? {
-        return allDescendants.filter { $0.canBecomeFirstResponder && !$0.isSelfOrAnyAncenstorHidden }.first
+        return allDescendants.first { $0.canBecomeFirstResponder && !$0.isSelfOrAnyAncenstorHidden }
     }
 }
 

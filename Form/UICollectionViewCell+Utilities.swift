@@ -110,7 +110,7 @@ public extension UICollectionView {
     func dequeueSupplentaryView<Item: Reusable>(at indexPath: IndexPath, for type: Item.Type) -> UICollectionReusableView where Item.ReuseType: ViewRepresentable {
         let reuseIdentifier = String(describing: type)
         let supplementaryView = dequeueReusableSupplementaryView(ofKind: reuseIdentifier, withReuseIdentifier: reuseIdentifier, for: indexPath)
-        if supplementaryView.subviews.count == 0 {
+        if supplementaryView.subviews.isEmpty {
             let view = type.makeAndConfigure().make.viewRepresentation
             supplementaryView.embedView(view)
         }

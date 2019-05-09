@@ -1,3 +1,5 @@
+---
+
 disabled_rules:
   - file_length
   - line_length
@@ -12,6 +14,13 @@ disabled_rules:
   - void_return
   - trailing_comma
   - shorthand_operator
+
+opt_in_rules:
+  - first_where
+  - last_where
+  - sorted_first_last
+  - empty_count
+  - empty_string
 
 included:
   - Form
