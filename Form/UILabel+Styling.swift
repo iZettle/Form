@@ -20,6 +20,7 @@ public extension UILabel {
     convenience init(styledText: StyledText) {
         self.init()
         setContentHuggingPriority(.required, for: .horizontal)
+        updateDynamicTypeObserver(for: styledText.style)
         setStyledText(styledText)
     }
 
@@ -64,21 +65,26 @@ public extension UILabel {
         }
         set {
             setStyledText(newValue)
+            updateDynamicTypeObserver(for: newValue.style)
         }
     }
 }
 
 private extension UILabel {
     func setStyledText(_ styledText: StyledText) {
+
         let prevStyledText: StyledText? = associatedValue(forKey: &styledTextKey)
         setAssociatedValue(styledText, forKey: &styledTextKey)
 
         let style = styledText.style
-        if let prev = prevStyledText, style == prev.style {
+
+        // TODO: maybe add a way to opt out from using a scaled version of a font
+        let scaledFont = style.scaledFont
+        if let prev = prevStyledText, style == prev.style, font == scaledFont {
             // No update needed
         } else {
-            if font != style.font {
-                font = style.font
+            if font != scaledFont {
+                font = scaledFont
             }
             textColor = style.color
             highlightedTextColor = style.highlightedColor
@@ -104,6 +110,21 @@ private extension UILabel {
         guard let accessibilityIdentifier = styledText.text.accessibilityIdentifier else { return }
         self.accessibilityIdentifier = accessibilityIdentifier
     }
+
+    func updateDynamicTypeObserver(for textStyle: TextStyle) {
+        let bag = self.associatedValue(forKey: &dynamicTypeSubscriptionKey, initial: DisposeBag())
+        bag.dispose()
+
+        guard let contentSizeCategory = textStyle.contentSizeCategory else {
+            return
+        }
+
+        bag += contentSizeCategory.onValue { [weak self] _ in
+            guard let styledText = self?.styledText else { return }
+            self?.setStyledText(styledText)
+        }
+    }
 }
 
 private var styledTextKey = 0
+private var dynamicTypeSubscriptionKey = false

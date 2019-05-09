@@ -16,10 +16,39 @@ public struct TextStyle: Style {
 
     public typealias Attributes = [NSAttributedString.Key: Any]
     public private(set) var attributes: Attributes = [:]
+
+    public var dynamicTypeMapping: UIFont.TextStyle?
+    internal var contentSizeCategory: ReadSignal<UIContentSizeCategory>?
 }
 
 public extension TextStyle {
-    init(font: UIFont, color: UIColor, alignment: NSTextAlignment = .natural, numberOfLines: Int = 1, lineBreakMode: NSLineBreakMode = .byTruncatingMiddle, minimumScaleFactor: CGFloat = 0) {
+    init(font: UIFont,
+         color: UIColor,
+         alignment: NSTextAlignment = .natural,
+         numberOfLines: Int = 1,
+         lineBreakMode: NSLineBreakMode = .byTruncatingMiddle,
+         minimumScaleFactor: CGFloat = 0,
+         dynamicTypeMapping: UIFont.TextStyle? = nil) {
+
+        self.init(font: font,
+                  color: color,
+                  alignment: alignment,
+                  numberOfLines: numberOfLines,
+                  lineBreakMode: lineBreakMode,
+                  minimumScaleFactor: minimumScaleFactor,
+                  dynamicTypeMapping: dynamicTypeMapping,
+                  contentSizeCategory: TextStyle.contentSizeObserver.contentSizeCategory)
+    }
+
+    internal init(font: UIFont,
+                  color: UIColor,
+                  alignment: NSTextAlignment = .natural,
+                  numberOfLines: Int = 1,
+                  lineBreakMode: NSLineBreakMode = .byTruncatingMiddle,
+                  minimumScaleFactor: CGFloat = 0,
+                  dynamicTypeMapping: UIFont.TextStyle? = nil,
+                  contentSizeCategory: ReadSignal<UIContentSizeCategory>) {
+
         // Don't set attributes directly to make sure lookups such as equatableForAttribute is being correctly updated.
         self.font = font
         self.color = color
@@ -27,6 +56,10 @@ public extension TextStyle {
         self.alignment = alignment
         self.lineBreakMode = lineBreakMode
         self.minimumScaleFactor = minimumScaleFactor
+
+        // not attributes, not included in the equality check
+        self.dynamicTypeMapping = dynamicTypeMapping
+        self.contentSizeCategory = contentSizeCategory
     }
 }
 
