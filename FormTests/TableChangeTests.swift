@@ -133,7 +133,7 @@ class TableChangeTests: XCTestCase {
         var prevs = [Int?]()
         bag += signal.onValue { prevs.append($0) }
 
-        let tableKit = TableKit<(), ReconfigureItem>(bag: bag)
+        let tableKit = TableKit<(), ReconfigureItem>()
         UIWindow().addSubview(tableKit.view)
         tableKit.view.frame.size = CGSize(width: 1000, height: 1000)
 
