@@ -1,3 +1,7 @@
+## 1.9.1
+- Bugfix: fix pinning a view to a scrollview on iOS 9 and 10 (issue [#104](https://github.com/iZettle/Form/issues/104))
+- Layout fix: properly layout multiline row view titles
+
 ## 1.9.0
 - Bugfix: Make sure to remove the old empty state view from a table after setting a new empty state view [#99](https://github.com/iZettle/Form/issues/99).
 - Add minimum scale factor to TextStyle. When a custom value is set that can also affect other controls using TextStyle, e.g UIButton.
