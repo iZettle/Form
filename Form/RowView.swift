@@ -48,10 +48,8 @@ public extension RowView {
     /// - Parameters:
     ///    - appendSpacer: Whether a `.spacer` we should be appended to move succeeding views to the right. Defaults to true.
     convenience init(title: DisplayableString, style: TextStyle = TitleSubtitleStyle.default.title, appendSpacer: Bool = true) {
-        let titleLabel = UILabel(value: title, style: style)
-        titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-
-        self.init([ titleLabel ] + (appendSpacer ? [.spacer] : []), titleLabel: titleLabel)
+        let titleSubtitleStyle = TitleSubtitleStyle.default.restyled { $0.title = style }
+        self.init(title: title, subtitle: "", style: titleSubtitleStyle, appendSpacer: appendSpacer)
     }
 
     /// Creates new instance with a stackview show a title at the top and subtile at the bottom

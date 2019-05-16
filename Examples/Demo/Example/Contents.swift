@@ -57,6 +57,10 @@ extension UIViewController {
             present { $0.presentValues() }
         }
 
+        bag += form.appendSection().appendRow(title: "Multiline rows").append(.chevron).onValueDisposePrevious {
+            present { $0.presentMultilineRows() }
+        }
+
         let messages = ReadWriteSignal(testMessages)
         bag += form.appendSection().appendRow(title: "Messages").append(.chevron).onValueDisposePrevious {
             present { messagesController in

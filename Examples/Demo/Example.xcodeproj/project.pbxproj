@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		4C9844A20B25AB01E6B23F2B /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2511AB6F393DD3F7D3FBC2D5 /* Pods_Example.framework */; };
+		72531025228C5FFC0008B5E2 /* MultilineRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72531024228C5FFC0008B5E2 /* MultilineRows.swift */; };
 		F652911320CFC6DF002D665A /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F652911220CFC6DF002D665A /* Messages.swift */; };
 		F684177620CE7CCD00AA4E35 /* CustomStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F684177520CE7CCD00AA4E35 /* CustomStyle.swift */; };
 		F6B3E0592086210E00F55C53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B3E0582086210E00F55C53 /* AppDelegate.swift */; };
@@ -34,6 +35,7 @@
 		2511AB6F393DD3F7D3FBC2D5 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4237EFB1C03450B25AC9AF19 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		680BD49AB995FEECA6DBEE15 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
+		72531024228C5FFC0008B5E2 /* MultilineRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineRows.swift; sourceTree = "<group>"; };
 		F652911220CFC6DF002D665A /* Messages.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
 		F684177520CE7CCD00AA4E35 /* CustomStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStyle.swift; sourceTree = "<group>"; };
 		F6B3E0552086210E00F55C53 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,6 +91,7 @@
 			children = (
 				F6B3E0582086210E00F55C53 /* AppDelegate.swift */,
 				F6F6797A20A2DF0A004C7AA7 /* Contents.swift */,
+				72531024228C5FFC0008B5E2 /* MultilineRows.swift */,
 				F6F0210F20AD59E40035511D /* Tables.swift */,
 				F6B81B9520CAA2A200B6AC39 /* Values.swift */,
 				F652911220CFC6DF002D665A /* Messages.swift */,
@@ -221,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F684177620CE7CCD00AA4E35 /* CustomStyle.swift in Sources */,
+				72531025228C5FFC0008B5E2 /* MultilineRows.swift in Sources */,
 				F6B3E0592086210E00F55C53 /* AppDelegate.swift in Sources */,
 				F6F0211020AD59E40035511D /* Tables.swift in Sources */,
 				F652911320CFC6DF002D665A /* Messages.swift in Sources */,
