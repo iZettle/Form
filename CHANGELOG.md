@@ -2,6 +2,10 @@
 - `TableKit` and `CollectionKit` do no longer require the passing of a bag to their initializers. This means that the life-time of a kit instance is no longer kept alive by a provided bag. For most usages that should not change the behaviour but if the kit is prematurely deallocted you can always explicity hold on to it `bag.hold(kit)`.
 - `TableKit`'s and `CollectionKit`'s initializers taking a bag parameter have been deprecated. Instead use the new initializers introduced above.
 
+## 1.9.1
+- Bugfix: fix pinning a view to a scrollview on iOS 9 and 10 (issue [#104](https://github.com/iZettle/Form/issues/104))
+- Layout fix: properly layout multiline row view titles
+
 ## 1.9.0
 - Bugfix: Make sure to remove the old empty state view from a table after setting a new empty state view [#99](https://github.com/iZettle/Form/issues/99).
 - Add minimum scale factor to TextStyle. When a custom value is set that can also affect other controls using TextStyle, e.g UIButton.
