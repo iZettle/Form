@@ -112,14 +112,13 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
         applyStyle()
         updateText()
 
-        bag += NotificationCenter.default.signal(forName: UIApplication.didBecomeActiveNotification).onValue { [weak self] _ in
-            self?.installAnimation() // When app is deactivated, running animations are removed. Let's re-install it.
+        bag += NotificationCenter.default.signal(forName: UIApplication.didBecomeActiveNotification).with(weak: self).onValue { _, `self` in
+            self.installAnimation() // When app is deactivated, running animations are removed. Let's re-install it.
         }
 
         let longPressGesture = UILongPressGestureRecognizer()
         addGestureRecognizer(longPressGesture)
-        bag += longPressGesture.signal(forState: .began).onValue { [weak self] in
-            guard let `self` = self else { return }
+        bag += longPressGesture.signal(forState: .began).with(weak: self).onValue { `self` in
             let menuController = UIMenuController.shared
             menuController.setTargetRect(self.bounds, in: self)
             menuController.setMenuVisible(true, animated: true)

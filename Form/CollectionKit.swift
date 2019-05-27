@@ -11,9 +11,10 @@ import Flow
 
 /// A coordinator type for working with a collection view, its source and delegate as well as styling and configuration.
 ///
-///     let collectionKit = CollectionKit(table: table, layout: layout, bag: bag)
+///     let collectionKit = CollectionKit(table: table, layout: layout)
 ///     bag += viewController.install(collectionKit)
 public final class CollectionKit<Section, Row> {
+    private let bag: DisposeBag
     private let callbacker = Callbacker<Table>()
     private let changesCallbacker = Callbacker<[TableChange<Section, Row>]>()
 
@@ -38,29 +39,39 @@ public final class CollectionKit<Section, Row> {
     /// Creates a new instance
     /// - Parameters:
     ///   - table: The initial table. Defaults to an empty table.
-    ///   - bag: A bag used to add collection kit activities.
-    public init(table: Table = Table(), layout: UICollectionViewLayout, bag: DisposeBag, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
+    private init(table: Table = Table(), layout: UICollectionViewLayout, deprecatedBag: DisposeBag?, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
         self.view = UICollectionView.defaultCollection(withLayout: layout)
+
+        // Remove deprecatedBag parameter once deprecetated inits have been removed.
+        if let deprecatedBag = deprecatedBag {
+            bag = deprecatedBag
+            deprecatedBag.hold(self) // Hold on to self to simulate deprecated behaviour
+        } else {
+            bag = DisposeBag()
+        }
 
         dataSource.table = table
         delegate.table = table
         view.delegate = delegate
         view.dataSource = dataSource
 
-        bag += dataSource.cellForIndex.set { index in cellForRow(self.view, self.table[index], index) }
+        bag += dataSource.cellForIndex.set { [weak self] index in
+            guard let `self` = self else { return UICollectionViewCell() }
+            return cellForRow(self.view, self.table[index], index)
+        }
 
         // Reordering
-        bag += dataSource.didReorderRow.onValue { (source: TableIndex, destination: TableIndex) in
+        bag += dataSource.didReorderRow.with(weak: self).onValue { reorder, `self` in
             // Auto update the table
-            self.table.moveElement(from: source, to: destination)
+            self.table.moveElement(from: reorder.source, to: reorder.destination)
         }
 
         bag += delegate.didEndDisplayingCell.onValue { cell in
             cell.releaseBag(forType: Row.self)
         }
 
-        bag += {
-            for cell in self.view.visibleCells {
+        bag += { [weak self] in
+            for cell in self?.view.visibleCells ?? [] {
                 cell.releaseBag(forType: Row.self)
             }
         }
@@ -73,13 +84,33 @@ extension CollectionKit: SignalProvider {
     }
 }
 
+public extension CollectionKit {
+    /// Creates a new instance
+    /// - Parameters:
+    ///   - table: The initial table. Defaults to an empty table.
+    convenience init(table: Table = Table(), layout: UICollectionViewLayout, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
+        self.init(table: table, layout: layout, deprecatedBag: nil, cellForRow: cellForRow)
+    }
+
+    @available(*, deprecated, message: "use `init(table:layout:cellForRow:)` instead")
+    convenience init(table: Table = Table(), layout: UICollectionViewLayout, bag: DisposeBag, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
+        self.init(table: table, layout: layout, deprecatedBag: bag, cellForRow: cellForRow)
+    }
+}
+
 public extension CollectionKit where Row: Reusable, Row.ReuseType: ViewRepresentable {
     /// Creates a new instance that will setup `cellForRow` to produce cells using `Row`'s conformance to `Reusable`
     /// - Parameters:
     ///   - table: The initial table. Defaults to an empty table.
-    ///   - bag: A bag used to add table kit activities.
+    convenience init(table: Table = Table(), layout: UICollectionViewLayout) {
+        self.init(table: table, layout: layout) { collection, cell, index in
+            return collection.dequeueCell(forItem: cell, at: IndexPath(row: index.row, section: index.section))
+        }
+    }
+
+    @available(*, deprecated, message: "use `init(table:layout:)` instead")
     convenience init(table: Table = Table(), layout: UICollectionViewLayout, bag: DisposeBag) {
-        self.init(table: table, layout: layout, bag: bag) { collection, cell, index in
+        self.init(table: table, layout: layout, deprecatedBag: bag) { collection, cell, index in
             return collection.dequeueCell(forItem: cell, at: IndexPath(row: index.row, section: index.section))
         }
     }

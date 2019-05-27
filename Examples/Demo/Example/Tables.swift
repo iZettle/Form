@@ -30,7 +30,7 @@ extension UIViewController {
         displayableTitle = "TableKit"
         let bag = DisposeBag()
 
-        let tableKit = TableKit(table: table, style: style, bag: bag, headerForSection: { table, item in
+        let tableKit = TableKit(table: table, style: style, headerForSection: { table, item in
             table.dequeueHeaderFooterView(forItem: item) { reuseIdentifier in
                 let label = UILabel()
                 let header = UITableViewHeaderFooterView(view: label, style: style.header, formStyle: style.form, reuseIdentifier: reuseIdentifier)
@@ -64,7 +64,7 @@ extension UIViewController {
         displayableTitle = "TableKit and Reusable"
         let bag = DisposeBag()
 
-        let tableKit = TableKit(table: table, style: style, bag: bag)
+        let tableKit = TableKit(table: table, style: style)
         bag += self.install(tableKit.view)
 
         bag += self.navigationItem.addItem(UIBarButtonItem(title: "Swap"), position: .right).onValue {
@@ -79,7 +79,7 @@ extension UIViewController {
         displayableTitle = "TableKit with Form Header"
         let bag = DisposeBag()
 
-        let tableKit = TableKit(table: table, style: style, bag: bag)
+        let tableKit = TableKit(table: table, style: style)
 
         let form = FormView(style: style.form.openedBottom)
         let section = form.appendSection(header: "Forms Section", style: style.section)
@@ -105,7 +105,7 @@ extension UIViewController {
         var table = Table(rows: 0..<7)
         var swapTable = Table(rows: 4..<12)
 
-        let tableKit = TableKit(table: table, style: style.openedTop, bag: bag)
+        let tableKit = TableKit(table: table, style: style.openedTop)
 
         let form = FormView(style: style.form.openedBottom)
         let section = form.appendSection(header: "Forms Section", style: style.section.openedBottom)
@@ -137,7 +137,7 @@ extension UIViewController {
             ("Header 1b", [.left(1), .right("D"), .right("F"), .left(6)]),
             ("Header 2", [.left(3), .right("A"), .left(4), .right("E")])])
 
-        let tableKit = TableKit(table: table, style: style, bag: bag)
+        let tableKit = TableKit(table: table, style: style)
         bag += self.install(tableKit.view)
 
         bag += self.navigationItem.addItem(UIBarButtonItem(title: "Swap"), position: .right).onValue {
@@ -161,7 +161,7 @@ extension UIViewController {
             ("Header 1b", [.init(1), .init("D"), .init("F"), .init(6.66)]),
             ("Header 2", [.init(3.14), .init("A"), .init(4), .init("E")])])
 
-        let tableKit = TableKit(table: table, style: style, bag: bag)
+        let tableKit = TableKit(table: table, style: style)
         bag += self.install(tableKit.view)
 
         bag += self.navigationItem.addItem(UIBarButtonItem(title: "Swap"), position: .right).onValue {
@@ -185,7 +185,7 @@ extension UIViewController {
             [.left(.right("A")), .right(3.14), .left(.left(1)), .right(47.11) ]
         )
 
-        let tableKit = TableKit(table: table, style: style, bag: bag)
+        let tableKit = TableKit(table: table, style: style)
         bag += self.install(tableKit.view)
 
         bag += self.navigationItem.addItem(UIBarButtonItem(title: "Swap"), position: .right).onValue {
@@ -200,7 +200,7 @@ extension UIViewController {
         displayableTitle = "TableKit and HeaderFooterReusable"
         let bag = DisposeBag()
 
-        let tableKit = TableKit(table: sectionTable, style: style, bag: bag)
+        let tableKit = TableKit(table: sectionTable, style: style)
         bag += self.install(tableKit.view)
 
         bag += self.navigationItem.addItem(UIBarButtonItem(title: "Swap"), position: .right).onValue {

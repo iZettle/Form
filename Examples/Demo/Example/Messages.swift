@@ -61,7 +61,7 @@ extension UIViewController {
         displayableTitle = "Messages"
         let bag = DisposeBag()
 
-        let tableKit = TableKit<EmptySection, Message>(bag: bag)
+        let tableKit = TableKit<EmptySection, Message>()
 
         bag += messages.atOnce().onValue {
             tableKit.set(Table(rows: $0))

@@ -4,6 +4,8 @@ disabled_rules:
   - file_length
   - line_length
   - function_body_length
+  - function_parameter_count
+  - large_tuple
 
   - nesting
   - cyclomatic_complexity
@@ -14,6 +16,7 @@ disabled_rules:
   - void_return
   - trailing_comma
   - shorthand_operator
+  - unused_closure_parameter
 
 opt_in_rules:
   - first_where
