@@ -36,8 +36,12 @@ public struct DefaultStyling: Style {
     public var scrollView: UIScrollView.Type
     public var plainTableView: UITableView.Type
     public var groupedTableView: UITableView.Type
+    #if swift(>=5.1)
+    public var insetGroupedTableView: UITableView.Type
+    #endif
     public var collectionView: UICollectionView.Type
 
+    #if swift(<5.1)
     public init(text: TextStyle, field: FieldStyle, detailText: TextStyle, titleSubtitle: TitleSubtitleStyle, button: ButtonStyle, barButton: BarButtonStyle, `switch`: SwitchStyle, segmentedControl: SegmentedControlStyle, sectionGrouped: DynamicSectionStyle, sectionPlain: DynamicSectionStyle, formGrouped: DynamicFormStyle, formPlain: DynamicFormStyle, sectionBackground: SectionBackgroundStyle, sectionBackgroundSelected: SectionBackgroundStyle, scrollView: UIScrollView.Type, plainTableView: UITableView.Type, groupedTableView: UITableView.Type, collectionView: UICollectionView.Type) {
         self.text = text
         self.field = field
@@ -58,6 +62,7 @@ public struct DefaultStyling: Style {
         self.groupedTableView = groupedTableView
         self.collectionView = collectionView
     }
+    #endif
 }
 
 public extension DefaultStyling {
@@ -99,10 +104,26 @@ public extension UITableView {
         return DefaultStyling.current.groupedTableView.init(frame: .zero, style: .grouped)
     }
 
+    #if swift(>=5.1)
+    @available(iOS 13, *)
+    @nonobjc static var insetGrouped: UITableView {
+        return DefaultStyling.current.insetGroupedTableView.init(frame: .zero, style: .insetGrouped)
+    }
+    #endif
+
     static func defaultTable(for style: UITableView.Style) -> UITableView {
         switch style {
         case .plain: return .plain
         case .grouped: return .grouped
+        #if swift(>=5.1)
+        case .insetGrouped:
+            if #available(iOS 13, *) {
+                return .insetGrouped
+            } else {
+                assertionFailure("Got insetGrouped on iOS < 13")
+                return .grouped
+            }
+        #endif
         @unknown default:
             assertionFailure("Unknown UITableView.Style")
             return .plain
@@ -144,6 +165,9 @@ private extension DefaultStyling {
         plainTableView = UITableView.self
         groupedTableView = UITableView.self
         collectionView = UICollectionView.self
+        #if swift(>=5.1)
+        insetGroupedTableView = UITableView.self
+        #endif
     }
 }
 
