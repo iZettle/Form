@@ -1,3 +1,6 @@
+## 3.0.3
+- Added: Support for .insetGrouped
+
 ## 3.0.2
 - Bugfix: Prevent indefinite looping when pinning views to both the top and bottom of a scroll view.
 
