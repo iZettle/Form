@@ -31,6 +31,14 @@ public extension UIEdgeInsets {
         left = inset
         right = inset
     }
+
+    static func += (lhs: inout UIEdgeInsets, rhs: UIEdgeInsets) {
+        lhs = lhs + rhs
+    }
+
+    static func -= (lhs: inout UIEdgeInsets, rhs: UIEdgeInsets) {
+        lhs = lhs - rhs
+    }
 }
 
 /// Returns a new edge insets with components set as the sum of `lhs` and `rhs` components, respectively.
