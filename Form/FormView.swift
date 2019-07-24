@@ -20,6 +20,8 @@ public class FormView: UIStackView, DynamicStylable {
         axis = .vertical
         distribution = .fill
         alignment = .fill
+
+        applyStylingIfNeeded()
     }
 
     public required init(coder: NSCoder) {

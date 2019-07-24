@@ -45,7 +45,7 @@ public extension UITableViewCell {
         setAssociatedValue((view, heightConstraint, bag, updateInsets), forKey: &tableFormKey)
 
         // Getting signal from contentView instead of self to avoid retain cycle between self and bag
-        bag += contentView.traitCollectionWithFallbackSignal.with(weak: self as UITableViewCell).onValue { traits, `self` in
+        bag += contentView.traitCollectionWithFallbackSignal.distinct().atOnce().with(weak: self as UITableViewCell).onValue { traits, `self` in
             let style = style.style(from: traits)
             self.applyFormStyle(style)
         }
