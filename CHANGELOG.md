@@ -1,3 +1,6 @@
+## 1.10.1
+- Bugfix: Apply view styling based on initial trait collection to prevent bugs where styling is not applied if the initial trait collection did not change
+
 ## 1.10.0
 - `TableKit` and `CollectionKit` do no longer require the passing of a bag to their initializers. This means that the life-time of a kit instance is no longer kept alive by a provided bag. For most usages that should not change the behaviour but if the kit is prematurely deallocted you can always explicity hold on to it `bag.hold(kit)`.
 - `TableKit`'s and `CollectionKit`'s initializers taking a bag parameter have been deprecated. Instead use the new initializers introduced above.

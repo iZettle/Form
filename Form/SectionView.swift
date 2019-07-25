@@ -45,6 +45,8 @@ public class SectionView: UIView {
 
         self.updateOrderedViews(to: rows)
         orderedViews = rows
+
+        applyStylingIfNeeded()
     }
 
     required public init(coder: NSCoder) {
