@@ -63,7 +63,12 @@ class UIScrollViewPinningTests: XCTestCase {
         let heightConstraint: NSLayoutConstraint = viewToEmbed.heightAnchor >= initialViewMinimumHeight
         activate(heightConstraint)
 
-        let (scrollView, _) = makeEmbeddedScrollView(size: CGSize(width: expectedHeight * 2, height: expectedHeight * 2))
+        // no matter where the scrollview is positioned the pinning should be relative to its frame so adding some offset to test this assumption
+        let scrollViewOffset: CGFloat = 50
+        let (scrollView, container) = makeEmbeddedScrollView(
+            size: CGSize(width: expectedHeight * 2, height: expectedHeight * 2),
+            scrollViewOffset: scrollViewOffset
+        )
 
         // When
         let disposable = scrollView.embedPinned(viewToEmbed, edge: edge, minHeight: pinningMinimumHeight)
@@ -73,14 +78,28 @@ class UIScrollViewPinningTests: XCTestCase {
             viewToEmbed.layoutIfNeeded()
         }
 
+        scrollView.contentOffset = .zero
+        container.setNeedsLayout()
+        container.layoutIfNeeded()
+
         // Then
-        XCTAssertEqual(viewToEmbed.frame.size.height, expectedHeight, "pinning to `\(edge)`", file: file, line: line)
+        let assertMessage = "pinning to `\(edge)`"
+        XCTAssertEqual(viewToEmbed.frame.size.height, expectedHeight, assertMessage, file: file, line: line)
+
+        if case .top = edge {
+            XCTAssertEqual(viewToEmbed.frame.origin.y, 0, assertMessage, file: file, line: line)
+            print(scrollView)
+        } else if case .bottom = edge {
+            let expectedOriginY = scrollView.frame.size.height - viewToEmbed.frame.size.height
+            XCTAssertEqual(viewToEmbed.frame.origin.y, expectedOriginY, assertMessage, file: file, line: line)
+        }
+
         disposable.dispose()
     }
 
-    private func makeEmbeddedScrollView(size: CGSize) -> (UIScrollView, UIView) {
+    private func makeEmbeddedScrollView(size: CGSize, scrollViewOffset: CGFloat) -> (UIScrollView, UIView) {
         let scrollView = UIScrollView()
-        let container = UIView(embeddedView: scrollView)
+        let container = UIView(embeddedView: scrollView, edgeInsets: UIEdgeInsets(horizontalInset: 0, verticalInset: scrollViewOffset))
         container.frame = CGRect(origin: .zero, size: size)
         return (scrollView, container)
     }
