@@ -1,3 +1,6 @@
+## 1.10.2
+- Bugfix: Fix scrollview top pinning on iOS 11 and later where currently if the scrollview is in a navigation controller there is a gap between the scrollview top and the pinned view 
+
 ## 1.10.1
 - Bugfix: Apply view styling based on initial trait collection to prevent bugs where styling is not applied if the initial trait collection did not change
 

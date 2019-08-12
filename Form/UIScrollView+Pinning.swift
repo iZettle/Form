@@ -107,12 +107,10 @@ public extension UIScrollView {
             switch pinning {
             case .spring:
                 fix = view.topAnchor == frameLayoutGuide.topAnchor
-                fix?.constant = frame.origin.y
                 fix?.priority -= 1
                 spring = view.bottomAnchor <= topAnchor
             case .fixed:
                 fix = view.topAnchor == frameLayoutGuide.topAnchor
-                fix?.constant = frame.origin.y
                 spring = nil
             case .loose:
                 fix = nil
