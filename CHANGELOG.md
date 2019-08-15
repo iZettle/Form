@@ -1,3 +1,6 @@
+## 1.10.3
+- Bugfix: Fix table section header/footer height calculation on iOS 10
+
 ## 1.10.2
 - Bugfix: Fix scrollview top pinning on iOS 11 and later where currently if the scrollview is in a navigation controller there is a gap between the scrollview top and the pinned view 
 
