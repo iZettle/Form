@@ -63,6 +63,19 @@ class TableKitTests: XCTestCase {
         XCTAssertNil(weakKit)
     }
 
+    func testRetainingTableKitWhileItsViewIsAlive() {
+        var kit: TableKit! = TableKit(table: Table(rows: [1, 2])) { _, _ in UITableViewCell() }
+        weak var tableView = kit.view
+        let container = UIView(embeddedView: tableView!)
+        weak var weakKit = kit
+        XCTAssertNotNil(weakKit)
+        kit = nil
+        XCTAssertNotNil(weakKit)
+        tableView!.removeFromSuperview()
+        tableView = nil
+        XCTAssertNil(weakKit)
+    }
+
     func testCollectionKitNoRetainCycles() {
         var kit: CollectionKit! = CollectionKit(table: Table(rows: [1, 2]), layout: UICollectionViewFlowLayout()) { _, _, _ in UICollectionViewCell() }
         weak var weakKit = kit

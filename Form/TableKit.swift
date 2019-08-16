@@ -20,7 +20,7 @@ public final class TableKit<Section, Row> {
 
     public typealias Table = Form.Table<Section, Row>
 
-    public let view: UITableView
+    public weak var view: UITableView!
     public let dataSource = TableViewDataSource<Section, Row>()
     // swiftlint:disable weak_delegate
     public let delegate = TableViewDelegate<Section, Row>()
@@ -112,6 +112,7 @@ public final class TableKit<Section, Row> {
             deprecatedBag.hold(self) // Hold on to self to simulate deprecated behaviour
         } else {
             bag = DisposeBag()
+            view.setTableKit(self)
         }
 
         dataSource.table = table
@@ -254,6 +255,16 @@ public final class TableKit<Section, Row> {
                 self?.view.dequeueHeaderFooterView(using: nil, style: style.footer, formStyle: style.form)
             }
         }
+    }
+}
+
+private extension UITableView {
+    func tableKit<Row, Section>() -> TableKit<Row, Section>? {
+        return associatedValue(forKey: &tableKitBagKey)
+    }
+
+    func setTableKit<Row, Section>(_ tableKit: TableKit<Row, Section>) {
+        setAssociatedValue(tableKit, forKey: &tableKitBagKey)
     }
 }
 
@@ -560,5 +571,5 @@ private extension TableKit {
     }
 }
 
-private var delegateSourceKey = false
+private var tableKitBagKey = false
 private var tableCellReorderBagKey = false
