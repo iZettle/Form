@@ -80,9 +80,10 @@ private class AutoResizingTableHeaderView: AutoResizingTableSubviewBase {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        frame.size.height = embeddedView.bounds.height
-        if frame.size.height == 0 { // 0 has special meaning, not what we want
+        if embeddedView.bounds.height == 0 { // 0 has special meaning, not what we want
             frame.size.height = .headerFooterAlmostZero
+        } else {
+            frame.size.height = embeddedView.bounds.height
         }
 
         tableView?.tableHeaderView = self
@@ -93,9 +94,10 @@ private class AutoResizingTableFooterView: AutoResizingTableSubviewBase {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        frame.size.height = embeddedView.bounds.height
-        if frame.size.height == 0 { // 0 has special meaning, not what we want
+        if embeddedView.bounds.height == 0 { // 0 has special meaning, not what we want
             frame.size.height = .headerFooterAlmostZero
+        } else {
+            frame.size.height = embeddedView.bounds.height
         }
 
         tableView?.tableFooterView = self
