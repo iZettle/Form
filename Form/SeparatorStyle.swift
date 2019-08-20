@@ -57,16 +57,16 @@ public extension Sequence where Iterator.Element == UIView {
 }
 
 public extension UIScreen {
-    /// Returns the thinest line representable on `self`
-    var thinestLineWidth: CGFloat {
+    /// Returns the thinnest line representable on `self`
+    var thinnestLineWidth: CGFloat {
         return 1.0 / scale
     }
 }
 
 public extension UITraitCollection {
-    /// Returns the thinest line representable on the current used trait's screen, or the main screen in `self`'s displayScale is not defined.
-    var thinestLineWidth: CGFloat {
-        return displayScale > 0 ? 1.0 / displayScale : UIScreen.main.thinestLineWidth
+    /// Returns the thinnest line representable on the current used trait's screen, or the main screen in `self`'s displayScale is not defined.
+    var thinnestLineWidth: CGFloat {
+        return displayScale > 0 ? 1.0 / displayScale : UIScreen.main.thinnestLineWidth
     }
 
     /// Returns true if userInterfaceIdiom is pad
@@ -77,8 +77,8 @@ public extension UITraitCollection {
 }
 
 public extension CGFloat {
-    /// Returns the thinest line representable by the main screen
-    static var thinestLineWidth: CGFloat {
-        return UIScreen.main.thinestLineWidth
+    /// Returns the thinnest line representable by the main screen
+    static var thinnestLineWidth: CGFloat {
+        return UIScreen.main.thinnestLineWidth
     }
 }
