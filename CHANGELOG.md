@@ -1,5 +1,6 @@
 ## 1.10.4
 - Bugfix: Fix issue with ui refresh deadlock
+- Change: Deprecated `thinestLineWidth`, which has been renamed to `hairlineWidth`.
 
 ## 1.10.3
 - Bugfix: Fix table section header/footer height calculation on iOS 10
