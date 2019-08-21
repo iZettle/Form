@@ -61,12 +61,22 @@ public extension UIScreen {
     var thinnestLineWidth: CGFloat {
         return 1.0 / scale
     }
+
+    @available(*, deprecated, renamed: "thinnestLineWidth")
+    var thinestLineWidth: CGFloat {
+        return thinnestLineWidth
+    }
 }
 
 public extension UITraitCollection {
     /// Returns the thinnest line representable on the current used trait's screen, or the main screen in `self`'s displayScale is not defined.
     var thinnestLineWidth: CGFloat {
         return displayScale > 0 ? 1.0 / displayScale : UIScreen.main.thinnestLineWidth
+    }
+
+    @available(*, deprecated, renamed: "thinnestLineWidth")
+    var thinestLineWidth: CGFloat {
+        return thinnestLineWidth
     }
 
     /// Returns true if userInterfaceIdiom is pad
@@ -80,5 +90,10 @@ public extension CGFloat {
     /// Returns the thinnest line representable by the main screen
     static var thinnestLineWidth: CGFloat {
         return UIScreen.main.thinnestLineWidth
+    }
+
+    @available(*, deprecated, renamed: "thinnestLineWidth")
+    static var thinestLineWidth: CGFloat {
+        return thinnestLineWidth
     }
 }
