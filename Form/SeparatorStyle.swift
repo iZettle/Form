@@ -57,26 +57,26 @@ public extension Sequence where Iterator.Element == UIView {
 }
 
 public extension UIScreen {
-    /// Returns the thinnest line representable on `self`
-    var thinnestLineWidth: CGFloat {
+    /// Returns the thinnest line representable on `self`.
+    var hairlineWidth: CGFloat {
         return 1.0 / scale
     }
 
-    @available(*, deprecated, renamed: "thinnestLineWidth")
+    @available(*, deprecated, renamed: "hairlineWidth")
     var thinestLineWidth: CGFloat {
-        return thinnestLineWidth
+        return hairlineWidth
     }
 }
 
 public extension UITraitCollection {
     /// Returns the thinnest line representable on the current used trait's screen, or the main screen in `self`'s displayScale is not defined.
-    var thinnestLineWidth: CGFloat {
-        return displayScale > 0 ? 1.0 / displayScale : UIScreen.main.thinnestLineWidth
+    var hairlineWidth: CGFloat {
+        return displayScale > 0 ? 1.0 / displayScale : UIScreen.main.hairlineWidth
     }
 
-    @available(*, deprecated, renamed: "thinnestLineWidth")
+    @available(*, deprecated, renamed: "hairlineWidth")
     var thinestLineWidth: CGFloat {
-        return thinnestLineWidth
+        return hairlineWidth
     }
 
     /// Returns true if userInterfaceIdiom is pad
@@ -87,13 +87,13 @@ public extension UITraitCollection {
 }
 
 public extension CGFloat {
-    /// Returns the thinnest line representable by the main screen
-    static var thinnestLineWidth: CGFloat {
-        return UIScreen.main.thinnestLineWidth
+    /// Returns the thinnest line representable by the main screen.
+    static var hairlineWidth: CGFloat {
+        return UIScreen.main.hairlineWidth
     }
 
-    @available(*, deprecated, renamed: "thinnestLineWidth")
+    @available(*, deprecated, renamed: "hairlineWidth")
     static var thinestLineWidth: CGFloat {
-        return thinnestLineWidth
+        return hairlineWidth
     }
 }
