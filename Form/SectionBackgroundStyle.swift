@@ -38,9 +38,9 @@ public extension SectionBackgroundStyle {
 
 public extension SectionBackgroundStyle {
     static let none = SectionBackgroundStyle(background: .none, topSeparator: .none, bottomSeparator: .none)
-    static let system = SectionBackgroundStyle(background: BackgroundStyle(color: .white, border: BorderStyle(width: UIScreen.main.thinestLineWidth, color: .systemSeparator, cornerRadius: 0)),
+    static let system = SectionBackgroundStyle(background: BackgroundStyle(color: .white, border: BorderStyle(width: UIScreen.main.hairlineWidth, color: .systemSeparator, cornerRadius: 0)),
                                                topSeparator: .none,
-                                               bottomSeparator: InsettedStyle(style: SeparatorStyle(width: UIScreen.main.thinestLineWidth, color: .systemSeparator), insets: prototypeGroupedTableView.separatorInset))
+                                               bottomSeparator: InsettedStyle(style: SeparatorStyle(width: UIScreen.main.hairlineWidth, color: .systemSeparator), insets: prototypeGroupedTableView.separatorInset))
 
     static var systemSelected = SectionBackgroundStyle.system.restyled {
         $0.color = .systemSelection
