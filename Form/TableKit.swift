@@ -105,17 +105,17 @@ public final class TableKit<Section, Row> {
     ///   - table: The data model managed by the kit. Defaults to an empty table.
     ///   - style: The style to be applied to the managed table view.
     ///   - view: Optional table view to be used instead of the default one. See `DefaultStyling`.
-    ///   - bag: Optional bag to hold the subscriptions to the collection view. Will retain self if supplied.
+    ///   - externalBag: Optional bag to hold the subscriptions to the collection view. Will retain `self` anf be retained by `self` if supplied so you need to dispose it explicitly to break the retain cycle.
     ///   - headerForSection: Optional block that creates a header view for a given section. Can be configured afterwards through the delegate too.
     ///   - footerForSection: Optional block that creates a footer view for a given section. Can be configured afterwards through the delegate too.
     ///   - cellForRow: A block that creates a cell for a given index path.
-    public init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, holdIn bag: DisposeBag?, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil, cellForRow: @escaping (UITableView, Row) -> UITableViewCell) {
+    public init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, holdIn externalBag: DisposeBag?, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil, cellForRow: @escaping (UITableView, Row) -> UITableViewCell) {
         let view = view ?? UITableView.defaultTable(for: style.tableStyle)
         self.view = view
         self.style = style
 
-        self.bag = bag ?? DisposeBag()
-        bag?.hold(self)
+        self.bag = externalBag ?? DisposeBag()
+        externalBag?.hold(self)
 
         dataSource.table = table
         delegate.table = table

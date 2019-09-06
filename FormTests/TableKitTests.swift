@@ -63,11 +63,39 @@ class TableKitTests: XCTestCase {
         XCTAssertNil(weakKit)
     }
 
+    func testTableKitNoRetainCyclesWithBag() {
+        var bag: DisposeBag! = DisposeBag()
+        weak var weakBag = bag
+
+        var kit: TableKit! = TableKit(table: Table(rows: [1, 2]), holdIn: weakBag) { _, _ in UITableViewCell() }
+        weak var weakKit = kit
+        XCTAssertNotNil(weakKit)
+        bag.dispose()
+        bag = nil
+        kit = nil
+        XCTAssertNil(weakKit)
+        XCTAssertNil(bag)
+    }
+
     func testCollectionKitNoRetainCycles() {
         var kit: CollectionKit! = CollectionKit(table: Table(rows: [1, 2]), layout: UICollectionViewFlowLayout()) { _, _, _ in UICollectionViewCell() }
         weak var weakKit = kit
         XCTAssertNotNil(weakKit)
         kit = nil
         XCTAssertNil(weakKit)
+    }
+
+    func testCollectionKitNoRetainCyclesWithBag() {
+        var bag: DisposeBag! = DisposeBag()
+        weak var weakBag = bag
+
+        var kit: CollectionKit! = CollectionKit(table: Table(rows: [1, 2]), layout: UICollectionViewFlowLayout(), holdIn: weakBag) { _, _, _ in UICollectionViewCell() }
+        weak var weakKit = kit
+        XCTAssertNotNil(weakKit)
+        bag.dispose()
+        bag = nil
+        kit = nil
+        XCTAssertNil(weakKit)
+        XCTAssertNil(bag)
     }
 }

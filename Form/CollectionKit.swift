@@ -39,12 +39,12 @@ public final class CollectionKit<Section, Row> {
     /// - Parameters:
     ///   - table: The data model managed by the kit. Defaults to an empty table.
     ///   - layout: The collection view layout to be used.
-    ///   - bag: Optional bag to hold the subscriptions to the collection view. Will retain self if supplied.
+    ///   - externalBag: Optional bag to hold the subscriptions to the collection view. Will retain `self` anf be retained by `self` if supplied so you need to dispose it explicitly to break the retain cycle.
     ///   - cellForRow: A block that creates a cell for a given index path.
-    public init(table: Table = Table(), layout: UICollectionViewLayout, holdIn bag: DisposeBag?, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
+    public init(table: Table = Table(), layout: UICollectionViewLayout, holdIn externalBag: DisposeBag?, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
         self.view = UICollectionView.defaultCollection(withLayout: layout)
-        self.bag = bag ?? DisposeBag()
-        bag?.hold(self)
+        self.bag = externalBag ?? DisposeBag()
+        externalBag?.hold(self)
 
         dataSource.table = table
         delegate.table = table
