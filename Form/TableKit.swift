@@ -272,10 +272,6 @@ public extension TableKit {
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil, cellForRow: @escaping (UITableView, Row) -> UITableViewCell) {
         self.init(table: table, style: style, view: view, holdIn: bag, headerForSection: headerForSection, footerForSection: footerForSection, cellForRow: cellForRow)
     }
-
-    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, holdIn bag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil, cellForRow: @escaping (UITableView, Row) -> UITableViewCell) {
-        self.init(table: table, style: style, view: view, holdIn: bag, headerForSection: headerForSection, footerForSection: footerForSection, cellForRow: cellForRow)
-    }
 }
 
 public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable {
