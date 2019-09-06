@@ -1,3 +1,7 @@
+## 1.10.5
+- Addition: Add new initializers for TableKit and CollectionKit that have an explicit `holdIn` parameter to keep subscriptions.
+- Change: Change the deprecation warning of TableKit and CollectionKit initializers to point to the new ones
+
 ## 1.10.4
 - Bugfix: Fix issue with ui refresh deadlock
 - Change: Deprecated `thinestLineWidth`, which has been renamed to `hairlineWidth`.
