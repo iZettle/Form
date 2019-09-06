@@ -36,19 +36,15 @@ public final class CollectionKit<Section, Row> {
         }
     }
 
-    /// Creates a new instance
     /// - Parameters:
-    ///   - table: The initial table. Defaults to an empty table.
-    private init(table: Table = Table(), layout: UICollectionViewLayout, deprecatedBag: DisposeBag?, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
+    ///   - table: The data model managed by the kit. Defaults to an empty table.
+    ///   - layout: The collection view layout to be used.
+    ///   - bag: Optional bag to hold the subscriptions to the collection view. Will retain self if supplied.
+    ///   - cellForRow: A block that creates a cell for a given index path.
+    public init(table: Table = Table(), layout: UICollectionViewLayout, holdIn bag: DisposeBag?, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
         self.view = UICollectionView.defaultCollection(withLayout: layout)
-
-        // Remove deprecatedBag parameter once deprecetated inits have been removed.
-        if let deprecatedBag = deprecatedBag {
-            bag = deprecatedBag
-            deprecatedBag.hold(self) // Hold on to self to simulate deprecated behaviour
-        } else {
-            bag = DisposeBag()
-        }
+        self.bag = bag ?? DisposeBag()
+        bag?.hold(self)
 
         dataSource.table = table
         delegate.table = table
@@ -89,12 +85,12 @@ public extension CollectionKit {
     /// - Parameters:
     ///   - table: The initial table. Defaults to an empty table.
     convenience init(table: Table = Table(), layout: UICollectionViewLayout, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
-        self.init(table: table, layout: layout, deprecatedBag: nil, cellForRow: cellForRow)
+        self.init(table: table, layout: layout, holdIn: nil, cellForRow: cellForRow)
     }
 
-    @available(*, deprecated, message: "use `init(table:layout:cellForRow:)` instead")
+    @available(*, deprecated, message: "use `init(table:layout:holdIn:cellForRow:)` instead")
     convenience init(table: Table = Table(), layout: UICollectionViewLayout, bag: DisposeBag, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
-        self.init(table: table, layout: layout, deprecatedBag: bag, cellForRow: cellForRow)
+        self.init(table: table, layout: layout, holdIn: bag, cellForRow: cellForRow)
     }
 }
 
@@ -110,7 +106,7 @@ public extension CollectionKit where Row: Reusable, Row.ReuseType: ViewRepresent
 
     @available(*, deprecated, message: "use `init(table:layout:)` instead")
     convenience init(table: Table = Table(), layout: UICollectionViewLayout, bag: DisposeBag) {
-        self.init(table: table, layout: layout, deprecatedBag: bag) { collection, cell, index in
+        self.init(table: table, layout: layout, holdIn: bag) { collection, cell, index in
             return collection.dequeueCell(forItem: cell, at: IndexPath(row: index.row, section: index.section))
         }
     }
