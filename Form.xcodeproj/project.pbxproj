@@ -30,6 +30,7 @@
 		3156BAED2139366B00ECC2EC /* MixedReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3156BAEC2139366B00ECC2EC /* MixedReusable.swift */; };
 		5B4ABD3A2257365C0073FACE /* TableKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4ABD392257365C0073FACE /* TableKitTests.swift */; };
 		721954D821A44E450090F9E3 /* MinimumSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721954D721A44E450090F9E3 /* MinimumSize.swift */; };
+		722EB65023266A99003AA360 /* CollectionKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722EB64F23266A99003AA360 /* CollectionKitTests.swift */; };
 		724EC30D2241513D001F3E11 /* UILabel+StylingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724EC30C2241513D001F3E11 /* UILabel+StylingTests.swift */; };
 		7270AFB0201FAB7C004DAAA3 /* ViewLayoutArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7270AFAF201FAB7C004DAAA3 /* ViewLayoutArea.swift */; };
 		72C5ED6F226F432600E32125 /* UIScrollView+PinningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5ED6E226F432600E32125 /* UIScrollView+PinningTests.swift */; };
@@ -139,6 +140,7 @@
 		3156BAEC2139366B00ECC2EC /* MixedReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MixedReusable.swift; path = Form/MixedReusable.swift; sourceTree = "<group>"; };
 		5B4ABD392257365C0073FACE /* TableKitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableKitTests.swift; sourceTree = "<group>"; };
 		721954D721A44E450090F9E3 /* MinimumSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MinimumSize.swift; path = Form/MinimumSize.swift; sourceTree = "<group>"; };
+		722EB64F23266A99003AA360 /* CollectionKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionKitTests.swift; sourceTree = "<group>"; };
 		724EC30C2241513D001F3E11 /* UILabel+StylingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+StylingTests.swift"; sourceTree = "<group>"; };
 		7270AFAF201FAB7C004DAAA3 /* ViewLayoutArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewLayoutArea.swift; path = Form/ViewLayoutArea.swift; sourceTree = "<group>"; };
 		72C5ED6E226F432600E32125 /* UIScrollView+PinningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+PinningTests.swift"; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 				1C2881821F20EE2000666A21 /* SelectViewTests.swift */,
 				1CDD56A91D9C10D7004B0CA9 /* TableTests.swift */,
 				5B4ABD392257365C0073FACE /* TableKitTests.swift */,
+				722EB64F23266A99003AA360 /* CollectionKitTests.swift */,
 				21367C6A1DACDF990021C98F /* TableChangeTests.swift */,
 				B35F8B4B1F3783E400904E37 /* CollectionDiffTests.swift */,
 				F604260920B6A47E00BC4CAB /* ParentChildRelationalTests.swift */,
@@ -591,6 +594,7 @@
 				5B4ABD3A2257365C0073FACE /* TableKitTests.swift in Sources */,
 				CDD2A5211F42DE7500E2B78B /* HighlightedTests.swift in Sources */,
 				B35F8B4C1F3783E400904E37 /* CollectionDiffTests.swift in Sources */,
+				722EB65023266A99003AA360 /* CollectionKitTests.swift in Sources */,
 				72C5ED6F226F432600E32125 /* UIScrollView+PinningTests.swift in Sources */,
 				21367C6B1DACDF990021C98F /* TableChangeTests.swift in Sources */,
 				1C2881831F20EE2000666A21 /* SelectViewTests.swift in Sources */,

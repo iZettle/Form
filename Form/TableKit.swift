@@ -14,7 +14,7 @@ import Flow
 ///     let tableKit = TableKit(table: table)
 ///     bag += viewController.install(tableKit)
 public final class TableKit<Section, Row> {
-    private let bag: DisposeBag
+    private let internalBag: DisposeBag?
     private let callbacker = Callbacker<Table>()
     private let changesCallbacker = Callbacker<[TableChange<Section, Row>]>()
 
@@ -101,17 +101,31 @@ public final class TableKit<Section, Row> {
         }
     }
 
-    private init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, deprecatedBag: DisposeBag?, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil, cellForRow: @escaping (UITableView, Row) -> UITableViewCell) {
+    /// - Parameters:
+    ///   - table: The data model managed by the kit. Defaults to an empty table.
+    ///   - style: The style to be applied to the managed table view.
+    ///   - view: Optional table view to be used instead of the default one. See `DefaultStyling`.
+    ///   - externalBag: Optional bag to hold the subscriptions to the table view. Will retain `self` until disposed.
+    ///   - headerForSection: Optional block that creates a header view for a given section. Can be configured afterwards through the delegate too.
+    ///   - footerForSection: Optional block that creates a footer view for a given section. Can be configured afterwards through the delegate too.
+    ///   - cellForRow: A block that creates a cell for a given index path.
+    public init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, holdIn externalBag: DisposeBag?, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil, cellForRow: @escaping (UITableView, Row) -> UITableViewCell) {
         let view = view ?? UITableView.defaultTable(for: style.tableStyle)
         self.view = view
         self.style = style
 
-        // Remove deprecatedBag parameter once deprecetated inits have been removed.
-        if let deprecatedBag = deprecatedBag {
-            bag = deprecatedBag
-            deprecatedBag.hold(self) // Hold on to self to simulate deprecated behaviour
+        let bag: DisposeBag
+        if let externalBag = externalBag {
+            // If external bag is passed, retain `self` but don't retain the bag by `self`
+            bag = externalBag
+            self.internalBag = nil
+            externalBag.hold(self)
         } else {
-            bag = DisposeBag()
+            // If external bag is not passed, `self` retains the bag where subscriptions will be stored
+            // and `self` need to be retained externally for the view functionality to be kept
+            let internalBag = DisposeBag()
+            self.internalBag = internalBag
+            bag = internalBag
         }
 
         dataSource.table = table
@@ -159,7 +173,7 @@ public final class TableKit<Section, Row> {
             }
 
             if view.autoResizingTableHeaderView === tableHeader {
-               tableHeaderConstraint.constant = style.form.insets.top
+                tableHeaderConstraint.constant = style.form.insets.top
             }
 
             if view.autoResizingTableFooterView === tableFooter {
@@ -262,12 +276,12 @@ public extension TableKit {
     /// - Parameters:
     ///   - table: The initial table. Defaults to an empty table.
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil, cellForRow: @escaping (UITableView, Row) -> UITableViewCell) {
-        self.init(table: table, style: style, view: view, deprecatedBag: nil, headerForSection: headerForSection, footerForSection: footerForSection, cellForRow: cellForRow)
+        self.init(table: table, style: style, view: view, holdIn: nil, headerForSection: headerForSection, footerForSection: footerForSection, cellForRow: cellForRow)
     }
 
-    @available(*, deprecated, message: "use `init(table:style:view:headerForSection:footerForSection:cellForRow:)` instead")
+    @available(*, deprecated, message: "use `init(table:style:view:holdIn:headerForSection:footerForSection:cellForRow:)` instead")
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil, cellForRow: @escaping (UITableView, Row) -> UITableViewCell) {
-        self.init(table: table, style: style, view: view, deprecatedBag: bag, headerForSection: headerForSection, footerForSection: footerForSection, cellForRow: cellForRow)
+        self.init(table: table, style: style, view: view, holdIn: bag, headerForSection: headerForSection, footerForSection: footerForSection, cellForRow: cellForRow)
     }
 }
 
@@ -281,9 +295,13 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable 
         }
     }
 
-    @available(*, deprecated, message: "use `init(table:style:view:headerForSection:footerForSection:)` instead")
+    @available(*, deprecated, message: "use `init(table:style:view:holdIn:headerForSection:footerForSection:)` instead")
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
-        self.init(table: table, style: style, view: view, deprecatedBag: bag, headerForSection: headerForSection, footerForSection: footerForSection) { table, row in
+        self.init(table: table, style: style, view: view, holdIn: bag, headerForSection: headerForSection, footerForSection: footerForSection)
+    }
+
+    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, holdIn externalBag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
+        self.init(table: table, style: style, view: view, holdIn: externalBag, headerForSection: headerForSection, footerForSection: footerForSection) { table, row in
             table.dequeueCell(forItem: row, style: style)
         }
     }
@@ -301,9 +319,13 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable,
         })
     }
 
-    @available(*, deprecated, message: "use `init(table:style:view:footerForSection:)` instead")
+    @available(*, deprecated, message: "use `init(table:style:view:holdIn:footerForSection:)` instead")
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
-        self.init(table: table, style: style, view: view, deprecatedBag: bag, headerForSection: { table, section in
+        self.init(table: table, style: style, view: view, holdIn: bag, footerForSection: footerForSection)
+    }
+
+    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, holdIn externalBag: DisposeBag, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
+        self.init(table: table, style: style, view: view, holdIn: externalBag, headerForSection: { table, section in
             table.dequeueHeaderFooterView(forItem: section, style: style.header, formStyle: style.form)
         }, footerForSection: footerForSection, cellForRow: { table, row in
             table.dequeueCell(forItem: row, style: style)
@@ -325,9 +347,13 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable,
         })
     }
 
-    @available(*, deprecated, message: "use `init(table:style:view)` instead")
+    @available(*, deprecated, message: "use `init(table:style:view:holdIn)` instead")
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag) {
-        self.init(table: table, style: style, view: view, deprecatedBag: bag, headerForSection: { table, section in
+        self.init(table: table, style: style, view: view, holdIn: bag)
+    }
+
+    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, holdIn externalBag: DisposeBag) {
+        self.init(table: table, style: style, view: view, holdIn: externalBag, headerForSection: { table, section in
             table.dequeueHeaderFooterView(forItem: section.header, style: style.header, formStyle: style.form, reuseIdentifier: "header")
         }, footerForSection: { table, section in
             table.dequeueHeaderFooterView(forItem: section.footer, style: style.footer, formStyle: style.form, reuseIdentifier: "footer")

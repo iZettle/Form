@@ -55,6 +55,27 @@ class TableKitTests: XCTestCase {
         XCTAssertNil(oldEmptyStateView.superview)
     }
 
+    func testTableKitSubscriptionsAreSet() {
+        let kit: TableKit! = TableKit(table: Table(rows: [1, 2]), holdIn: nil) { _, _ in UITableViewCell() }
+        XCTAssertTrue(kit.dataSource.cellForIndex.isSet)
+        XCTAssertTrue(kit.delegate.viewForHeaderInSection.isSet)
+        XCTAssertTrue(kit.delegate.viewForFooterInSection.isSet)
+    }
+
+    func testTableKitSubscriptionsAreSet_externalBag() {
+        let bag = DisposeBag()
+        let kit: TableKit! = TableKit(table: Table(rows: [1, 2]), holdIn: bag) { _, _ in UITableViewCell() }
+        XCTAssertTrue(kit.dataSource.cellForIndex.isSet)
+        XCTAssertTrue(kit.delegate.viewForHeaderInSection.isSet)
+        XCTAssertTrue(kit.delegate.viewForFooterInSection.isSet)
+
+        bag.dispose()
+
+        XCTAssertFalse(kit.dataSource.cellForIndex.isSet)
+        XCTAssertFalse(kit.delegate.viewForHeaderInSection.isSet)
+        XCTAssertFalse(kit.delegate.viewForFooterInSection.isSet)
+    }
+
     func testTableKitNoRetainCycles() {
         var kit: TableKit! = TableKit(table: Table(rows: [1, 2])) { _, _ in UITableViewCell() }
         weak var weakKit = kit
@@ -63,11 +84,16 @@ class TableKitTests: XCTestCase {
         XCTAssertNil(weakKit)
     }
 
-    func testCollectionKitNoRetainCycles() {
-        var kit: CollectionKit! = CollectionKit(table: Table(rows: [1, 2]), layout: UICollectionViewFlowLayout()) { _, _, _ in UICollectionViewCell() }
+    func testTableKitNoRetainCyclesWithBag() {
+        var bag: DisposeBag! = DisposeBag()
+        weak var weakBag = bag
+
+        var kit: TableKit! = TableKit(table: Table(rows: [1, 2]), holdIn: weakBag) { _, _ in UITableViewCell() }
         weak var weakKit = kit
         XCTAssertNotNil(weakKit)
+        bag = nil
         kit = nil
         XCTAssertNil(weakKit)
+        XCTAssertNil(bag)
     }
 }
