@@ -14,7 +14,7 @@ import Flow
 ///     let collectionKit = CollectionKit(table: table, layout: layout)
 ///     bag += viewController.install(collectionKit)
 public final class CollectionKit<Section, Row> {
-    private let bag: DisposeBag
+    private let internalBag: DisposeBag?
     private let callbacker = Callbacker<Table>()
     private let changesCallbacker = Callbacker<[TableChange<Section, Row>]>()
 
@@ -39,12 +39,24 @@ public final class CollectionKit<Section, Row> {
     /// - Parameters:
     ///   - table: The data model managed by the kit. Defaults to an empty table.
     ///   - layout: The collection view layout to be used.
-    ///   - externalBag: Optional bag to hold the subscriptions to the collection view. Will retain `self` anf be retained by `self` if supplied so you need to dispose it explicitly to break the retain cycle.
+    ///   - externalBag: Optional bag to hold the subscriptions to the collection view. Will retain `self` until disposed.
     ///   - cellForRow: A block that creates a cell for a given index path.
     public init(table: Table = Table(), layout: UICollectionViewLayout, holdIn externalBag: DisposeBag?, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
         self.view = UICollectionView.defaultCollection(withLayout: layout)
-        self.bag = externalBag ?? DisposeBag()
-        externalBag?.hold(self)
+
+        let bag: DisposeBag
+        if let externalBag = externalBag {
+            // If external bag is passed, retain `self` but don't retain the bag by `self`
+            bag = externalBag
+            self.internalBag = nil
+            externalBag.hold(self)
+        } else {
+            // If external bag is not passed, `self` retains the bag where subscriptions will be stored
+            // and `self` need to be retained externally for the view functionality to be kept
+            let internalBag = DisposeBag()
+            self.internalBag = internalBag
+            bag = internalBag
+        }
 
         dataSource.table = table
         delegate.table = table

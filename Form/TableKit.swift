@@ -14,7 +14,7 @@ import Flow
 ///     let tableKit = TableKit(table: table)
 ///     bag += viewController.install(tableKit)
 public final class TableKit<Section, Row> {
-    private let bag: DisposeBag
+    private let internalBag: DisposeBag?
     private let callbacker = Callbacker<Table>()
     private let changesCallbacker = Callbacker<[TableChange<Section, Row>]>()
 
@@ -105,7 +105,7 @@ public final class TableKit<Section, Row> {
     ///   - table: The data model managed by the kit. Defaults to an empty table.
     ///   - style: The style to be applied to the managed table view.
     ///   - view: Optional table view to be used instead of the default one. See `DefaultStyling`.
-    ///   - externalBag: Optional bag to hold the subscriptions to the collection view. Will retain `self` anf be retained by `self` if supplied so you need to dispose it explicitly to break the retain cycle.
+    ///   - externalBag: Optional bag to hold the subscriptions to the table view. Will retain `self` until disposed.
     ///   - headerForSection: Optional block that creates a header view for a given section. Can be configured afterwards through the delegate too.
     ///   - footerForSection: Optional block that creates a footer view for a given section. Can be configured afterwards through the delegate too.
     ///   - cellForRow: A block that creates a cell for a given index path.
@@ -114,8 +114,19 @@ public final class TableKit<Section, Row> {
         self.view = view
         self.style = style
 
-        self.bag = externalBag ?? DisposeBag()
-        externalBag?.hold(self)
+        let bag: DisposeBag
+        if let externalBag = externalBag {
+            // If external bag is passed, retain `self` but don't retain the bag by `self`
+            bag = externalBag
+            self.internalBag = nil
+            externalBag.hold(self)
+        } else {
+            // If external bag is not passed, `self` retains the bag where subscriptions will be stored
+            // and `self` need to be retained externally for the view functionality to be kept
+            let internalBag = DisposeBag()
+            self.internalBag = internalBag
+            bag = internalBag
+        }
 
         dataSource.table = table
         delegate.table = table
