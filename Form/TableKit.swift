@@ -173,7 +173,7 @@ public final class TableKit<Section, Row> {
             }
 
             if view.autoResizingTableHeaderView === tableHeader {
-               tableHeaderConstraint.constant = style.form.insets.top
+                tableHeaderConstraint.constant = style.form.insets.top
             }
 
             if view.autoResizingTableFooterView === tableFooter {
@@ -295,9 +295,13 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable 
         }
     }
 
-    @available(*, deprecated, message: "use `init(table:style:view:headerForSection:footerForSection:)` instead")
+    @available(*, deprecated, message: "use `init(table:style:view:holdIn:headerForSection:footerForSection:)` instead")
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
-        self.init(table: table, style: style, view: view, holdIn: bag, headerForSection: headerForSection, footerForSection: footerForSection) { table, row in
+        self.init(table: table, style: style, view: view, holdIn: bag, headerForSection: headerForSection, footerForSection: footerForSection)
+    }
+
+    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, holdIn externalBag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
+        self.init(table: table, style: style, view: view, holdIn: externalBag, headerForSection: headerForSection, footerForSection: footerForSection) { table, row in
             table.dequeueCell(forItem: row, style: style)
         }
     }
@@ -315,9 +319,13 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable,
         })
     }
 
-    @available(*, deprecated, message: "use `init(table:style:view:footerForSection:)` instead")
+    @available(*, deprecated, message: "use `init(table:style:view:holdIn:footerForSection:)` instead")
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
-        self.init(table: table, style: style, view: view, holdIn: bag, headerForSection: { table, section in
+        self.init(table: table, style: style, view: view, holdIn: bag, footerForSection: footerForSection)
+    }
+
+    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, holdIn externalBag: DisposeBag, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
+        self.init(table: table, style: style, view: view, holdIn: externalBag, headerForSection: { table, section in
             table.dequeueHeaderFooterView(forItem: section, style: style.header, formStyle: style.form)
         }, footerForSection: footerForSection, cellForRow: { table, row in
             table.dequeueCell(forItem: row, style: style)
@@ -339,9 +347,13 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable,
         })
     }
 
-    @available(*, deprecated, message: "use `init(table:style:view)` instead")
+    @available(*, deprecated, message: "use `init(table:style:view:holdIn)` instead")
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag) {
-        self.init(table: table, style: style, view: view, holdIn: bag, headerForSection: { table, section in
+        self.init(table: table, style: style, view: view, holdIn: bag)
+    }
+
+    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, holdIn externalBag: DisposeBag) {
+        self.init(table: table, style: style, view: view, holdIn: externalBag, headerForSection: { table, section in
             table.dequeueHeaderFooterView(forItem: section.header, style: style.header, formStyle: style.form, reuseIdentifier: "header")
         }, footerForSection: { table, section in
             table.dequeueHeaderFooterView(forItem: section.footer, style: style.footer, formStyle: style.form, reuseIdentifier: "footer")

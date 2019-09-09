@@ -116,9 +116,13 @@ public extension CollectionKit where Row: Reusable, Row.ReuseType: ViewRepresent
         }
     }
 
-    @available(*, deprecated, message: "use `init(table:layout:)` instead")
+    @available(*, deprecated, message: "use `init(table:layout:holdIn:)` instead")
     convenience init(table: Table = Table(), layout: UICollectionViewLayout, bag: DisposeBag) {
-        self.init(table: table, layout: layout, holdIn: bag) { collection, cell, index in
+        self.init(table: table, layout: layout, holdIn: bag)
+    }
+
+    convenience init(table: Table = Table(), layout: UICollectionViewLayout, holdIn externalBag: DisposeBag) {
+        self.init(table: table, layout: layout, holdIn: externalBag) { collection, cell, index in
             return collection.dequeueCell(forItem: cell, at: IndexPath(row: index.row, section: index.section))
         }
     }
