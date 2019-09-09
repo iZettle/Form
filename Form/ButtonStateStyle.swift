@@ -20,7 +20,7 @@ public struct ButtonStateStyle: Style {
 
 public extension ButtonStateStyle {
     init(background: BackgroundStyle, text: TextStyle) {
-        self.init(backgroundImage: UIImage(style: background), text: text)
+        self.init(backgroundImage: UIImage.image(style: background), text: text)
     }
 
     init(color: UIColor, border: BorderStyle, text: TextStyle) {

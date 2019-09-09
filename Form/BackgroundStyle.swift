@@ -23,14 +23,16 @@ public extension BackgroundStyle {
 }
 
 public extension UIImage {
-    convenience init?(style: BackgroundStyle) {
-        self.init(border: style.border, bottomSeparator: .none,
-                  topSeparator: .none,
-                  background: style.color,
-                  position: .unique)
+    static func image(style: BackgroundStyle) -> UIImage? {
+        return UIImage.image(
+            border: style.border, bottomSeparator: .none,
+            topSeparator: .none,
+            background: style.color,
+            position: .unique
+        )
     }
 
-    convenience init?(color: UIColor, border: BorderStyle) {
-        self.init(style: .init(color: color, border: border))
+    static func image(color: UIColor, border: BorderStyle) -> UIImage? {
+        return UIImage.image(style: .init(color: color, border: border))
     }
 }

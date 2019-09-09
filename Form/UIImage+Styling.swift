@@ -40,11 +40,11 @@ enum CellPosition {
 }
 
 extension UIImage {
-    convenience init?(border: BorderStyle,
+    static func image(border: BorderStyle,
                       bottomSeparator: InsettedStyle<SeparatorStyle>,
                       topSeparator: InsettedStyle<SeparatorStyle>,
                       background: UIColor,
-                      position: CellPosition) {
+                      position: CellPosition) -> UIImage? {
         if border.color == .clear, background == .clear, bottomSeparator.style.color == .clear, topSeparator.style.color == .clear {
             return nil
         }
@@ -171,21 +171,19 @@ extension UIImage {
 
         UIGraphicsEndImageContext()
 
-        guard let cgImage = image.resizableImage(withCapInsets: capInsets, resizingMode: .stretch).cgImage else {
-            fatalError("Could not create cgImage")
-        }
-
-        self.init(cgImage: cgImage)
+        return image.resizableImage(withCapInsets: capInsets, resizingMode: .stretch)
     }
 }
 
 extension UIImage {
-    convenience init?(style: SectionBackgroundStyle, position: CellPosition = .unique) {
-        self.init(border: style.border,
-                  bottomSeparator: style.bottomSeparator,
-                  topSeparator: style.topSeparator,
-                  background: style.color,
-                  position: position)
+    static func image(style: SectionBackgroundStyle, position: CellPosition = .unique) -> UIImage? {
+        return UIImage.image(
+            border: style.border,
+            bottomSeparator: style.bottomSeparator,
+            topSeparator: style.topSeparator,
+            background: style.color,
+            position: position
+        )
     }
 }
 
