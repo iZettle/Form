@@ -171,7 +171,11 @@ extension UIImage {
 
         UIGraphicsEndImageContext()
 
-        self.init(__image: image.resizableImage(withCapInsets: capInsets, resizingMode: .stretch))
+        guard let cgImage = image.resizableImage(withCapInsets: capInsets, resizingMode: .stretch).cgImage else {
+            fatalError("Could not create cgImage")
+        }
+
+        self.init(cgImage: cgImage)
     }
 }
 

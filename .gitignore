@@ -7,3 +7,5 @@ xcuserdata
 
 # ignore all Carthage output
 Carthage/
+
+.build
