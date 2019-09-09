@@ -64,8 +64,8 @@ extension UIImage {
         let ceiledTopSeparatorHeight = ceil(topSeparatorHeight)
 
         // Computing the smallest rect possible to draw this image - note that it should be slightly bigger than the border widths so that it draws a stretchable non-solid area too
-        let rectWidth = cornerRadius * 2 + ceiledBorderWidths.left + 2 * .thinestLineWidth + ceiledBorderWidths.right + max(bottomSeparatorInsets.left, topSeparatorInsets.left) + max(bottomSeparatorInsets.right, topSeparatorInsets.right)
-        let rectHeight = cornerRadius * 2 + ceiledBorderWidths.top + 2 * .thinestLineWidth + ceiledBorderWidths.bottom + ceiledSeparatorHeight + ceiledTopSeparatorHeight
+        let rectWidth = cornerRadius * 2 + ceiledBorderWidths.left + 2 * .hairlineWidth + ceiledBorderWidths.right + max(bottomSeparatorInsets.left, topSeparatorInsets.left) + max(bottomSeparatorInsets.right, topSeparatorInsets.right)
+        let rectHeight = cornerRadius * 2 + ceiledBorderWidths.top + 2 * .hairlineWidth + ceiledBorderWidths.bottom + ceiledSeparatorHeight + ceiledTopSeparatorHeight
         let rect = CGRect(x: 0, y: 0, width: max(1, rectWidth), height: max(1, rectHeight))
 
         let isOpaque: Bool

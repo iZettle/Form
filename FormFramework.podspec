@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "FormFramework"
-  s.version      = "1.10.0"
+  s.version      = "1.10.3"
   s.module_name  = "Form"
   s.summary      = "Powerful iOS layout and styling"
   s.description  = <<-DESC
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.author       = { 'iZettle AB' => 'hello@izettle.com' }
 
   s.ios.deployment_target = "9.0"
-  s.dependency 'FlowFramework', '~> 1.8'
+  s.dependency 'FlowFramework', '~> 1.8.2'
   s.default_subspec = 'Form'
 
   s.subspec 'Form' do |form|

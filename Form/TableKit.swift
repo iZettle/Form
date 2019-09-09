@@ -147,8 +147,16 @@ public final class TableKit<Section, Row> {
 
             view.sectionHeaderHeight = UITableView.automaticDimension
             view.sectionFooterHeight = UITableView.automaticDimension
-            view.estimatedSectionHeaderHeight = style.fixedHeaderHeight ?? UITableView.automaticDimension
-            view.estimatedSectionFooterHeight = style.fixedFooterHeight ?? UITableView.automaticDimension
+
+            if #available(iOS 11.0, *) {
+                view.estimatedSectionHeaderHeight = style.fixedHeaderHeight ?? UITableView.automaticDimension
+                view.estimatedSectionFooterHeight = style.fixedFooterHeight ?? UITableView.automaticDimension
+            } else {
+                // on iOS 10 estimated height need to be set to a positive value (the actual one doesn't seem to affect the result but might affect performance) for the size calculation to happen properly
+                // https://stackoverflow.com/a/50513288
+                view.estimatedSectionHeaderHeight = style.fixedHeaderHeight ?? 44
+                view.estimatedSectionFooterHeight = style.fixedFooterHeight ?? 44
+            }
 
             if view.autoResizingTableHeaderView === tableHeader {
                tableHeaderConstraint.constant = style.form.insets.top

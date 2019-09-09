@@ -843,6 +843,7 @@
 				INFOPLIST_FILE = Form/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 1.10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iZettle.Form;
 				PRODUCT_NAME = Form;
 				SKIP_INSTALL = YES;
@@ -863,6 +864,7 @@
 				INFOPLIST_FILE = Form/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 1.10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iZettle.Form;
 				PRODUCT_NAME = Form;
 				SKIP_INSTALL = YES;
