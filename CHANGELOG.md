@@ -1,3 +1,6 @@
+## 1.10.5
+- Bugfix: Fixed scroll-to-top not working correctly.
+
 ## 1.10.4
 - Bugfix: Fix issue with ui refresh deadlock
 - Change: Deprecated `thinestLineWidth`, which has been renamed to `hairlineWidth`.
