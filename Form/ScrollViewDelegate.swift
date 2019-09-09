@@ -75,7 +75,7 @@ public class ScrollViewDelegate: NSObject, UIScrollViewDelegate {
     }
 
     public func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-        return shouldScrollToTop.call() ?? false
+        return shouldScrollToTop.call() ?? true
     }
 
     public func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {

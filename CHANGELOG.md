@@ -1,4 +1,5 @@
 ## 1.10.5
+- Bugfix: Fixed scroll-to-top not working correctly.
 - Addition: Add new initializers for TableKit and CollectionKit that have an explicit `holdIn` parameter to keep subscriptions.
 - Change: Change the deprecation warning of TableKit and CollectionKit initializers to point to the new ones
 
