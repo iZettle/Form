@@ -22,7 +22,7 @@ public extension BackgroundStyle {
     static let none = BackgroundStyle(color: .clear, border: .none)
 }
 
-public extension SegmentBackgroundView {
+public extension SegmentBackgroundStyle {
 
     init(style: BackgroundStyle) {
         self.init(

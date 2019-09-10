@@ -39,7 +39,7 @@ enum CellPosition {
     case unique
 }
 
-public struct SegmentBackgroundView {
+public struct SegmentBackgroundStyle: Style {
 
     let backgroundColor: UIColor
     let position: CellPosition
@@ -179,7 +179,7 @@ public struct SegmentBackgroundView {
 
 }
 
-extension SegmentBackgroundView {
+extension SegmentBackgroundStyle {
     init(style: SectionBackgroundStyle, position: CellPosition = .unique) {
         self.init(
             backgroundColor: style.color,
