@@ -250,9 +250,9 @@ extension CGFloat {
 }
 
 extension UIImage {
-    static let plainSectionHeader = UIImage(color: .modalFormBackground, border: .bottomSeparator)
-    static let plainFormSectionHeader = UIImage(color: .modalFormBackground, border: .none)
-    static let plainSectionFooter = UIImage(color: .clear, border: .none)
+    static let plainSectionHeader = SegmentBackgroundStyle(color: .modalFormBackground, border: .bottomSeparator).image()
+    static let plainFormSectionHeader = SegmentBackgroundStyle(color: .modalFormBackground, border: .none).image()
+    static let plainSectionFooter = SegmentBackgroundStyle(color: .clear, border: .none).image()
 }
 
 final class FormScrollView: UIScrollView { }
