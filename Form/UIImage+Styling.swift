@@ -39,13 +39,16 @@ enum CellPosition {
     case unique
 }
 
-extension UIImage {
-    convenience init?(border: BorderStyle,
-                      bottomSeparator: InsettedStyle<SeparatorStyle>,
-                      topSeparator: InsettedStyle<SeparatorStyle>,
-                      background: UIColor,
-                      position: CellPosition) {
-        if border.color == .clear, background == .clear, bottomSeparator.style.color == .clear, topSeparator.style.color == .clear {
+public struct SegmentBackgroundView {
+
+    let backgroundColor: UIColor
+    let position: CellPosition
+    let border: BorderStyle
+    let topSeparator: InsettedStyle<SeparatorStyle>
+    let bottomSeparator: InsettedStyle<SeparatorStyle>
+
+    public func image() -> UIImage? {
+        if border.color == .clear, backgroundColor == .clear, bottomSeparator.style.color == .clear, topSeparator.style.color == .clear {
             return nil
         }
 
@@ -69,7 +72,7 @@ extension UIImage {
         let rect = CGRect(x: 0, y: 0, width: max(1, rectWidth), height: max(1, rectHeight))
 
         let isOpaque: Bool
-        switch (position, cornerRadius != 0, background.isOpaque) {
+        switch (position, cornerRadius != 0, backgroundColor.isOpaque) {
         case (_, false, true), (.middle, _, true):
             isOpaque = true
         default:
@@ -80,7 +83,7 @@ extension UIImage {
         let context = UIGraphicsGetCurrentContext()!
 
         border.color.setStroke()
-        background.setFill()
+        backgroundColor.setFill()
 
         context.setLineWidth(borderWidth)
 
@@ -171,17 +174,20 @@ extension UIImage {
 
         UIGraphicsEndImageContext()
 
-        self.init(__image: image.resizableImage(withCapInsets: capInsets, resizingMode: .stretch))
+        return image.resizableImage(withCapInsets: capInsets, resizingMode: .stretch)
     }
+
 }
 
-extension UIImage {
-    convenience init?(style: SectionBackgroundStyle, position: CellPosition = .unique) {
-        self.init(border: style.border,
-                  bottomSeparator: style.bottomSeparator,
-                  topSeparator: style.topSeparator,
-                  background: style.color,
-                  position: position)
+extension SegmentBackgroundView {
+    init(style: SectionBackgroundStyle, position: CellPosition = .unique) {
+        self.init(
+            backgroundColor: style.color,
+            position: position,
+            border: style.border,
+            topSeparator: style.topSeparator,
+            bottomSeparator: style.bottomSeparator
+        )
     }
 }
 

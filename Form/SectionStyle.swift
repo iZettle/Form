@@ -109,10 +109,10 @@ public extension SectionStyle.Background {
     }
 
     init(style: SectionBackgroundStyle) {
-        top = UIImage(style: style, position: .top)
-        middle = UIImage(style: style, position: .middle)
-        bottom = UIImage(style: style, position: .bottom)
-        unique = UIImage(style: style, position: .unique)
+        top = SegmentBackgroundView(style: style, position: .top).image()
+        middle = SegmentBackgroundView(style: style, position: .middle).image()
+        bottom = SegmentBackgroundView(style: style, position: .bottom).image()
+        unique = SegmentBackgroundView(style: style, position: .unique).image()
     }
 }
 
@@ -193,7 +193,7 @@ private extension BackgroundStyle {
 }
 
 private extension UIImage {
-    @nonobjc static let plainHeaderFooter = UIImage(style: .plainHeaderFooter)
+    @nonobjc static let plainHeaderFooter: UIImage? = SegmentBackgroundView(style: .plainHeaderFooter).image()
 }
 
 private extension CGFloat {
