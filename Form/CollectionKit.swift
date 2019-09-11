@@ -180,6 +180,31 @@ extension CollectionKit: TableAnimatable {
 }
 
 public extension CollectionKit {
+    func registerViewForSupplementaryElement<S: Reusable>(
+        kind: String = String(describing: S.self),
+        item: @escaping (TableIndex) -> S?
+    ) -> Disposable where S.ReuseType: ViewRepresentable {
+        let bag = DisposeBag()
+        bag += dataSource.supplementaryElement(for: kind).set { index -> UICollectionReusableView in
+            guard let item = item(index) else {
+                return UICollectionReusableView()
+            }
+            let indexPath = IndexPath(row: index.row, section: index.section)
+            let view = self.view.dequeueSupplementaryView(forItem: item, kind: kind, at: indexPath)
+            return view
+        }
+        bag += {
+            for cell in self.view.visibleSupplementaryViews(ofKind: kind) {
+                cell.releaseBag(forType: S.self)
+            }
+        }
+        bag += delegate.didEndDisplayingSupplementaryView(forKind: kind).onValue { view in
+            view.releaseBag(forType: S.self)
+        }
+        return bag
+    }
+    
+    @available(*, deprecated, message: "use `registerViewForSupplementaryElement(kind:item:)` instead")
     func registerViewForSupplementaryElement<S: Reusable>(item: @escaping (TableIndex) -> (S)) -> Disposable where S.ReuseType: ViewRepresentable {
         let kind = String(describing: S.self)
         let bag = DisposeBag()
