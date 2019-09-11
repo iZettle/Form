@@ -90,7 +90,7 @@ public extension UICollectionView {
     /// - Returns: A supplementary view with the view embedded in.
     /// - Note: See `Reusable` for more info about reconfigure.
     func dequeueSupplementaryView<Item>(forItem item: Item, at indexPath: IndexPath, kind: String = String(describing: Item.self), reuseIdentifier: String = String(describing: Item.self), contentViewAndReconfigure: () -> (UIView, (Item?, Item) -> Disposable), _ noTrailingClosure: Void = ()) -> UICollectionReusableView {
-        register(UICollectionReusableView.self, forSupplementaryViewOfKind: reuseIdentifier, withReuseIdentifier: reuseIdentifier)
+        register(UICollectionReusableView.self, forSupplementaryViewOfKind: kind, withReuseIdentifier: reuseIdentifier)
 
         let supplementaryView = dequeueSupplementaryView(withKind: kind, reuseIdentifier: reuseIdentifier, for: indexPath)
         supplementaryView.setItem(item, contentViewAndReconfigure: contentViewAndReconfigure)
