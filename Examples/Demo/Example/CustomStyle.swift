@@ -97,7 +97,7 @@ extension TitleSubtitleStyle {
 }
 
 extension BorderStyle {
-    static let bottomSeparator = BorderStyle(width: UIScreen.main.thinestLineWidth, color: .separator, cornerRadius: 0, borderEdges: .bottom)
+    static let bottomSeparator = BorderStyle(width: UIScreen.main.hairlineWidth, color: .separator, cornerRadius: 0, borderEdges: .bottom)
 }
 
 extension ButtonStyle {
@@ -117,7 +117,7 @@ extension SwitchStyle {
 
 extension SegmentedControlStyle {
     static let custom = SegmentedControlStyle(
-        normal: .init(color: .white, border: .init(width: UIScreen.main.thinestLineWidth, color: .lineGray, cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.mintGreen).resized(to: 15)),
+        normal: .init(color: .white, border: .init(width: UIScreen.main.hairlineWidth, color: .lineGray, cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.mintGreen).resized(to: 15)),
         highlighted: .init(color: .mintGreenDark, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.white).resized(to: 15)),
         disabled: .init(color: .mintGreen, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.textGray).resized(to: 15)),
         selected: .init(color: .mintGreen, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.white).resized(to: 15)),
@@ -207,9 +207,9 @@ extension DynamicSectionStyle {
 }
 
 extension SectionBackgroundStyle {
-    static let plain = SectionBackgroundStyle(background: BackgroundStyle(color: .standardSectionBackground, border: BorderStyle(width: UIScreen.main.thinestLineWidth, color: .separator, cornerRadius: 0, borderEdges: [.top, .bottom])),
+    static let plain = SectionBackgroundStyle(background: BackgroundStyle(color: .standardSectionBackground, border: BorderStyle(width: UIScreen.main.hairlineWidth, color: .separator, cornerRadius: 0, borderEdges: [.top, .bottom])),
                                                      topSeparator: .none,
-                                                     bottomSeparator: InsettedStyle(style: SeparatorStyle(width: UIScreen.main.thinestLineWidth, color: .separator), insets: UIEdgeInsets(horizontalInset: 0, verticalInset: 0)))
+                                                     bottomSeparator: InsettedStyle(style: SeparatorStyle(width: UIScreen.main.hairlineWidth, color: .separator), insets: UIEdgeInsets(horizontalInset: 0, verticalInset: 0)))
 
     static let plainSelected = SectionBackgroundStyle.plain.restyled { style in
         style.color = .plainSelection
@@ -223,7 +223,7 @@ extension SectionBackgroundStyle {
 
     static let grouped = SectionBackgroundStyle.plain.restyled { style in
         style.bottomSeparator.insets = .zero
-        style.border = BorderStyle(width: UIScreen.main.thinestLineWidth, color: .separator, cornerRadius: 8)
+        style.border = BorderStyle(width: UIScreen.main.hairlineWidth, color: .separator, cornerRadius: 8)
     }
 
     static let groupedSelected = SectionBackgroundStyle.grouped.restyled { style in
