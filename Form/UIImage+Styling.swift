@@ -47,11 +47,18 @@ public struct SegmentBackgroundStyle: Style {
     let topSeparator: InsettedStyle<SeparatorStyle>
     let bottomSeparator: InsettedStyle<SeparatorStyle>
 
-    public func image() -> UIImage? {
-        if border.color == .clear, backgroundColor == .clear, bottomSeparator.style.color == .clear, topSeparator.style.color == .clear {
-            return nil
-        }
+    init(backgroundColor: UIColor, position: CellPosition, border: BorderStyle, topSeparator: InsettedStyle<SeparatorStyle>, bottomSeparator: InsettedStyle<SeparatorStyle>) {
+        let allColorsAreClear = (border.color == .clear && backgroundColor == .clear && bottomSeparator.style.color == .clear && topSeparator.style.color == .clear)
+        assert(!allColorsAreClear, "You are creating a SegmentBackgroundStyle consisting of only clear colors, this will only result in a fully transparent image. I.e You are holding it wrong. 🍎")
 
+        self.backgroundColor = backgroundColor
+        self.position = position
+        self.border = border
+        self.topSeparator = topSeparator
+        self.bottomSeparator = bottomSeparator
+    }
+
+    public func image() -> UIImage {
         let cornerRadius: CGFloat = border.cornerRadius
         let borderWidth = border.width
         let bottomSeparatorHeight: CGFloat = bottomSeparator.style.width
