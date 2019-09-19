@@ -77,12 +77,21 @@ public func chainResponders(_ controls: [UIControl], shouldLoop: Bool = false, r
     }
 
     if let returnKey = returnKey {
-        controls.dropLast(shouldLoop ? 0 : 1).compactMap { $0 as? UITextInputTraits }.filter { $0.returnKeyType != nil }.forEach {
-            __setReturnKeyType($0, returnKey)
+        controls.dropLast(shouldLoop ? 0 : 1).forEach {
+            $0.setReturnKeyTypeIfExists(returnKey)
         }
     }
 
     return bag
+}
+
+private extension UIControl {
+    func setReturnKeyTypeIfExists(_ returnKeyType: UIReturnKeyType) {
+        let setReturnKeyType = #selector(setter: UITextInputTraits.returnKeyType)
+        if self.responds(to: setReturnKeyType) {
+            self.perform(setReturnKeyType, with: returnKeyType)
+        }
+    }
 }
 
 /// Chain `controls` by setting up the control's next responder using `setNextResponder()`.

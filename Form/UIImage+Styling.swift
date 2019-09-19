@@ -39,16 +39,34 @@ enum CellPosition {
     case unique
 }
 
-extension UIImage {
-    convenience init?(border: BorderStyle,
-                      bottomSeparator: InsettedStyle<SeparatorStyle>,
-                      topSeparator: InsettedStyle<SeparatorStyle>,
-                      background: UIColor,
-                      position: CellPosition) {
-        if border.color == .clear, background == .clear, bottomSeparator.style.color == .clear, topSeparator.style.color == .clear {
-            return nil
-        }
+public struct SegmentBackgroundStyle: Style {
 
+    let backgroundColor: UIColor
+    let position: CellPosition
+    let border: BorderStyle
+    let topSeparator: InsettedStyle<SeparatorStyle>
+    let bottomSeparator: InsettedStyle<SeparatorStyle>
+
+    /// Failable initializer. Will return nil if all style colors are `.clear`.
+    ///
+    /// - Parameters:
+    ///   - backgroundColor: Background color of the style.
+    ///   - position: Cell position for the style.
+    ///   - border: Border style of the style.
+    ///   - topSeparator: Insetted separator style for the top separator.
+    ///   - bottomSeparator: Insetted separator style for the bottom separator.
+    init?(backgroundColor: UIColor, position: CellPosition, border: BorderStyle, topSeparator: InsettedStyle<SeparatorStyle>, bottomSeparator: InsettedStyle<SeparatorStyle>) {
+        let allColorsAreClear = (border.color == .clear && backgroundColor == .clear && bottomSeparator.style.color == .clear && topSeparator.style.color == .clear)
+        guard !allColorsAreClear else { return nil } // You are creating a SegmentBackgroundStyle consisting of only clear colors, this will only result in a fully transparent image. I.e You are holding it wrong. 🍎"
+        self.backgroundColor = backgroundColor
+        self.position = position
+        self.border = border
+        self.topSeparator = topSeparator
+        self.bottomSeparator = bottomSeparator
+    }
+
+    /// - Returns: Renders & returns an UIImage representsation of the style.
+    public func image() -> UIImage {
         let cornerRadius: CGFloat = border.cornerRadius
         let borderWidth = border.width
         let bottomSeparatorHeight: CGFloat = bottomSeparator.style.width
@@ -69,7 +87,7 @@ extension UIImage {
         let rect = CGRect(x: 0, y: 0, width: max(1, rectWidth), height: max(1, rectHeight))
 
         let isOpaque: Bool
-        switch (position, cornerRadius != 0, background.isOpaque) {
+        switch (position, cornerRadius != 0, backgroundColor.isOpaque) {
         case (_, false, true), (.middle, _, true):
             isOpaque = true
         default:
@@ -80,7 +98,7 @@ extension UIImage {
         let context = UIGraphicsGetCurrentContext()!
 
         border.color.setStroke()
-        background.setFill()
+        backgroundColor.setFill()
 
         context.setLineWidth(borderWidth)
 
@@ -171,17 +189,20 @@ extension UIImage {
 
         UIGraphicsEndImageContext()
 
-        self.init(__image: image.resizableImage(withCapInsets: capInsets, resizingMode: .stretch))
+        return image.resizableImage(withCapInsets: capInsets, resizingMode: .stretch)
     }
+
 }
 
-extension UIImage {
-    convenience init?(style: SectionBackgroundStyle, position: CellPosition = .unique) {
-        self.init(border: style.border,
-                  bottomSeparator: style.bottomSeparator,
-                  topSeparator: style.topSeparator,
-                  background: style.color,
-                  position: position)
+extension SegmentBackgroundStyle {
+    init?(style: SectionBackgroundStyle, position: CellPosition = .unique) {
+        self.init(
+            backgroundColor: style.color,
+            position: position,
+            border: style.border,
+            topSeparator: style.topSeparator,
+            bottomSeparator: style.bottomSeparator
+        )
     }
 }
 
