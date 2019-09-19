@@ -47,10 +47,9 @@ public struct SegmentBackgroundStyle: Style {
     let topSeparator: InsettedStyle<SeparatorStyle>
     let bottomSeparator: InsettedStyle<SeparatorStyle>
 
-    init(backgroundColor: UIColor, position: CellPosition, border: BorderStyle, topSeparator: InsettedStyle<SeparatorStyle>, bottomSeparator: InsettedStyle<SeparatorStyle>) {
+    init?(backgroundColor: UIColor, position: CellPosition, border: BorderStyle, topSeparator: InsettedStyle<SeparatorStyle>, bottomSeparator: InsettedStyle<SeparatorStyle>) {
         let allColorsAreClear = (border.color == .clear && backgroundColor == .clear && bottomSeparator.style.color == .clear && topSeparator.style.color == .clear)
-        assert(!allColorsAreClear, "You are creating a SegmentBackgroundStyle consisting of only clear colors, this will only result in a fully transparent image. I.e You are holding it wrong. 🍎")
-
+        guard !allColorsAreClear else { return nil } // You are creating a SegmentBackgroundStyle consisting of only clear colors, this will only result in a fully transparent image. I.e You are holding it wrong. 🍎"
         self.backgroundColor = backgroundColor
         self.position = position
         self.border = border
@@ -187,7 +186,7 @@ public struct SegmentBackgroundStyle: Style {
 }
 
 extension SegmentBackgroundStyle {
-    init(style: SectionBackgroundStyle, position: CellPosition = .unique) {
+    init?(style: SectionBackgroundStyle, position: CellPosition = .unique) {
         self.init(
             backgroundColor: style.color,
             position: position,

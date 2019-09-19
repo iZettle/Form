@@ -109,10 +109,10 @@ public extension SectionStyle.Background {
     }
 
     init(style: SectionBackgroundStyle) {
-        top = SegmentBackgroundStyle(style: style, position: .top).image()
-        middle = SegmentBackgroundStyle(style: style, position: .middle).image()
-        bottom = SegmentBackgroundStyle(style: style, position: .bottom).image()
-        unique = SegmentBackgroundStyle(style: style, position: .unique).image()
+        top = SegmentBackgroundStyle(style: style, position: .top)?.image()
+        middle = SegmentBackgroundStyle(style: style, position: .middle)?.image()
+        bottom = SegmentBackgroundStyle(style: style, position: .bottom)?.image()
+        unique = SegmentBackgroundStyle(style: style, position: .unique)?.image()
     }
 }
 
@@ -193,7 +193,7 @@ private extension BackgroundStyle {
 }
 
 private extension UIImage {
-    @nonobjc static let plainHeaderFooter: UIImage? = SegmentBackgroundStyle(style: .plainHeaderFooter).image()
+    @nonobjc static let plainHeaderFooter: UIImage? = SegmentBackgroundStyle(style: .plainHeaderFooter)?.image()
 }
 
 private extension CGFloat {

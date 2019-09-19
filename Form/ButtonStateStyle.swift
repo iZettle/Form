@@ -24,11 +24,12 @@ public struct ButtonStateStyle: Style {
 }
 
 public extension ButtonStateStyle {
-    init(background: BackgroundStyle, text: TextStyle) {
-        self.init(backgroundView: SegmentBackgroundStyle(style: background), text: text)
+    init?(background: BackgroundStyle, text: TextStyle) {
+        guard let style = SegmentBackgroundStyle(style: background) else { return nil }
+        self.init(backgroundView: style, text: text)
     }
 
-    init(color: UIColor, border: BorderStyle, text: TextStyle) {
+    init?(color: UIColor, border: BorderStyle, text: TextStyle) {
         self.init(background: .init(color: color, border: border), text: text)
     }
 }

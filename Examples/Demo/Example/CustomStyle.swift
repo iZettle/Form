@@ -116,11 +116,12 @@ extension SwitchStyle {
 }
 
 extension SegmentedControlStyle {
+
     static let custom = SegmentedControlStyle(
-        normal: .init(color: .white, border: .init(width: UIScreen.main.hairlineWidth, color: .lineGray, cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.mintGreen).resized(to: 15)),
-        highlighted: .init(color: .mintGreenDark, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.white).resized(to: 15)),
-        disabled: .init(color: .mintGreen, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.textGray).resized(to: 15)),
-        selected: .init(color: .mintGreen, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.white).resized(to: 15)),
+        normal: ButtonStateStyle(color: .white, border: .init(width: UIScreen.main.thinestLineWidth, color: .lineGray, cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.mintGreen).resized(to: 15)),
+        highlighted: ButtonStateStyle(color: .mintGreenDark, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.white).resized(to: 15)),
+        disabled: ButtonStateStyle(color: .mintGreen, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.textGray).resized(to: 15)),
+        selected: ButtonStateStyle(color: .mintGreen, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.white).resized(to: 15)),
         tintColor: .mintGreen
     )
 }
@@ -250,9 +251,9 @@ extension CGFloat {
 }
 
 extension UIImage {
-    static let plainSectionHeader = SegmentBackgroundStyle(color: .modalFormBackground, border: .bottomSeparator).image()
-    static let plainFormSectionHeader = SegmentBackgroundStyle(color: .modalFormBackground, border: .none).image()
-    static let plainSectionFooter = SegmentBackgroundStyle(color: .clear, border: .none).image()
+    static let plainSectionHeader = SegmentBackgroundStyle(color: .modalFormBackground, border: .bottomSeparator)?.image()
+    static let plainFormSectionHeader = SegmentBackgroundStyle(color: .modalFormBackground, border: .none)?.image()
+    static let plainSectionFooter = SegmentBackgroundStyle(color: .clear, border: .none)?.image()
 }
 
 final class FormScrollView: UIScrollView { }
