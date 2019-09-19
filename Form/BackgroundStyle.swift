@@ -24,7 +24,7 @@ public extension BackgroundStyle {
 
 public extension SegmentBackgroundStyle {
 
-    init(style: BackgroundStyle) {
+    init?(style: BackgroundStyle) {
         self.init(
             backgroundColor: style.color,
             position: .unique,
@@ -34,7 +34,7 @@ public extension SegmentBackgroundStyle {
         )
     }
 
-    init(color: UIColor, border: BorderStyle) {
+    init?(color: UIColor, border: BorderStyle) {
         self.init(style: .init(color: color, border: border))
     }
 
