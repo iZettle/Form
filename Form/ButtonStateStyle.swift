@@ -12,11 +12,6 @@ public struct ButtonStateStyle: Style {
     public var backgroundImage: UIImage?
     public var text: TextStyle
 
-    public init(backgroundView: SegmentBackgroundStyle, text: TextStyle) {
-        self.backgroundImage = backgroundView.image()
-        self.text = text
-    }
-
     public init(backgroundImage: UIImage? = nil, text: TextStyle) {
         self.backgroundImage = backgroundImage
         self.text = text
@@ -26,7 +21,7 @@ public struct ButtonStateStyle: Style {
 public extension ButtonStateStyle {
     init?(background: BackgroundStyle, text: TextStyle) {
         guard let style = SegmentBackgroundStyle(style: background) else { return nil }
-        self.init(backgroundView: style, text: text)
+        self.init(backgroundImage: style.image(), text: text)
     }
 
     init?(color: UIColor, border: BorderStyle, text: TextStyle) {
