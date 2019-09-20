@@ -77,17 +77,6 @@ public extension UIScrollView {
         return bag
     }
 
-    /// Will dynamically update `isScrollEnabled` to be disabled when content fits.
-    /// - Returns: A disposable that will stop adjustments when being disposed.
-    @available(*, deprecated, message: "REMOVE ME use `alwaysBounceVertical = false` instead")
-    func disableScrollingIfContentFits() -> Disposable {
-        return combineLatest(signal(for: \.frame), signal(for: \.contentSize), signal(for: \.contentInset)).map { frame, contentSize, contentInset in
-            (frame.inset(by: contentInset).size, contentSize)
-        }.bindTo { (insetSize: CGSize, contentSize: CGSize) in
-            self.isScrollEnabled = insetSize.width < contentSize.width || insetSize.height < contentSize.height
-        }
-    }
-
     /// Updates the content offset to scroll to top.
     func scrollToTop(animated: Bool) {
         var offset = contentOffset

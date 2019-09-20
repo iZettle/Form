@@ -37,20 +37,6 @@ public final class TableKit<Section, Row> {
         }
     }
 
-    /// Delegate to retreive a view to be displayed when table is empty.
-    @available(*, deprecated, message: "REMOVE ME use `viewForEmptyTable(fadeDuration:)` instead")
-    public lazy var viewForEmptyTable: Delegate<(), UIView> = {
-        return Delegate { [weak self] getEmptyView in
-            guard let `self` = self else { return NilDisposer() }
-
-            return self.viewForEmptyTable().set { _ in
-                UIView(embeddedView: getEmptyView(()),
-                       edgeInsets: UIEdgeInsets(horizontalInset: 15, verticalInset: 15),
-                       pinToEdges: [.left, .right])
-            }
-        }
-    }()
-
     private lazy var viewForDurationForEmptyTable: Delegate<(), (view: UIView, duration: TimeInterval)> = {
         return Delegate { [weak self] getArgs in
             guard let `self` = self else { return NilDisposer() }
@@ -278,11 +264,6 @@ public extension TableKit {
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil, cellForRow: @escaping (UITableView, Row) -> UITableViewCell) {
         self.init(table: table, style: style, view: view, holdIn: nil, headerForSection: headerForSection, footerForSection: footerForSection, cellForRow: cellForRow)
     }
-
-    @available(*, deprecated, message: "REMOVE ME use `init(table:style:view:holdIn:headerForSection:footerForSection:cellForRow:)` instead")
-    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil, cellForRow: @escaping (UITableView, Row) -> UITableViewCell) {
-        self.init(table: table, style: style, view: view, holdIn: bag, headerForSection: headerForSection, footerForSection: footerForSection, cellForRow: cellForRow)
-    }
 }
 
 public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable {
@@ -293,11 +274,6 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable 
         self.init(table: table, style: style, view: view, headerForSection: headerForSection, footerForSection: footerForSection) { table, row in
             table.dequeueCell(forItem: row, style: style)
         }
-    }
-
-    @available(*, deprecated, message: "REMOVE ME use `init(table:style:view:holdIn:headerForSection:footerForSection:)` instead")
-    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
-        self.init(table: table, style: style, view: view, holdIn: bag, headerForSection: headerForSection, footerForSection: footerForSection)
     }
 
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, holdIn externalBag: DisposeBag, headerForSection: ((UITableView, Section) -> UIView?)? = nil, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
@@ -317,11 +293,6 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable,
         }, footerForSection: footerForSection, cellForRow: { table, row in
             table.dequeueCell(forItem: row, style: style)
         })
-    }
-
-    @available(*, deprecated, message: "REMOVE ME use `init(table:style:view:holdIn:footerForSection:)` instead")
-    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
-        self.init(table: table, style: style, view: view, holdIn: bag, footerForSection: footerForSection)
     }
 
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, holdIn externalBag: DisposeBag, footerForSection: ((UITableView, Section) -> UIView?)? = nil) {
@@ -345,11 +316,6 @@ public extension TableKit where Row: Reusable, Row.ReuseType: ViewRepresentable,
         }, cellForRow: { table, row in
             table.dequeueCell(forItem: row, style: style)
         })
-    }
-
-    @available(*, deprecated, message: "REMOVE ME use `init(table:style:view:holdIn)` instead")
-    convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, bag: DisposeBag) {
-        self.init(table: table, style: style, view: view, holdIn: bag)
     }
 
     convenience init(table: Table = Table(), style: DynamicTableViewFormStyle = .default, view: UITableView? = nil, holdIn externalBag: DisposeBag) {
