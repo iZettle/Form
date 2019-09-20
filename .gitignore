@@ -4,6 +4,8 @@ xcuserdata
 *.mode1v3
 .DS_Store
 *.xccheckout
+.build
+.swiftpm
 
 # ignore all Carthage output
 Carthage/

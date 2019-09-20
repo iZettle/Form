@@ -1,3 +1,6 @@
+## 2.0.0
+- Added: Support for Swift Package Manager
+
 ## 1.10.5
 - Bugfix: Fixed scroll-to-top not working correctly.
 - Addition: Add new initializers for TableKit and CollectionKit that have an explicit `holdIn` parameter to keep subscriptions.
