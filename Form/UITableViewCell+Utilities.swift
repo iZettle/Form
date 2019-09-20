@@ -101,7 +101,7 @@ public extension UITableView {
         })
     }
 
-    @available(*, deprecated, message: "use `dequeueCell` version not using explicit `reuseIdentifier` parameter instead")
+    @available(*, deprecated, message: "REMOVE ME use `dequeueCell` version not using explicit `reuseIdentifier` parameter instead")
     func dequeueCell<Item: Reusable>(forItem item: Item, style: DynamicTableViewFormStyle = .default, reuseIdentifier: String) -> UITableViewCell where Item.ReuseType: ViewRepresentable {
         return dequeueCell(forItem: item, reuseIdentifier: reuseIdentifier, cellAndReconfigure: { reuseIdentifier in
             let (viewRepresentable, configure) = Item.makeAndReconfigure()

@@ -62,7 +62,7 @@ public extension UIScreen {
         return 1.0 / scale
     }
 
-    @available(*, deprecated, renamed: "hairlineWidth")
+    @available(*, deprecated, renamed: "hairlineWidth", message: "REMOVE ME")
     var thinestLineWidth: CGFloat {
         return hairlineWidth
     }
@@ -74,7 +74,7 @@ public extension UITraitCollection {
         return displayScale > 0 ? 1.0 / displayScale : UIScreen.main.hairlineWidth
     }
 
-    @available(*, deprecated, renamed: "hairlineWidth")
+    @available(*, deprecated, renamed: "hairlineWidth", message: "REMOVE ME")
     var thinestLineWidth: CGFloat {
         return hairlineWidth
     }
@@ -92,7 +92,7 @@ public extension CGFloat {
         return UIScreen.main.hairlineWidth
     }
 
-    @available(*, deprecated, renamed: "hairlineWidth")
+    @available(*, deprecated, renamed: "hairlineWidth", message: "REMOVE ME")
     static var thinestLineWidth: CGFloat {
         return hairlineWidth
     }

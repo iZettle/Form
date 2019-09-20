@@ -108,7 +108,7 @@ public extension ScrollViewDelegate {
         return Signal(callbacker: willBeginDraggingCallbacker)
     }
 
-    @available(*, deprecated, renamed: "willEndDragging")
+    @available(*, deprecated, renamed: "willEndDragging", message: "REMOVE ME")
     var willEndDraggingWithVelocity: Signal<CGPoint> {
         return willEndDragging.map { $0.velocity }
     }

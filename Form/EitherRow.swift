@@ -10,7 +10,7 @@ import UIKit
 import Flow
 
 /// Helper type to provide either a left or right reusable view.
-@available(*, deprecated, message: "Use `Either` type directly instead")
+@available(*, deprecated, message: "REMOVE ME Use `Either` type directly instead")
 public struct EitherRow<Left: Reusable, Right: Reusable> where Left.ReuseType: ViewRepresentable, Right.ReuseType: ViewRepresentable {
     public let item: Either<Left, Right>
 
@@ -19,7 +19,7 @@ public struct EitherRow<Left: Reusable, Right: Reusable> where Left.ReuseType: V
     public init(_ right: Right) { item = .right(right) }
 }
 
-@available(*, deprecated, message: "Use `Either` type directly instead")
+@available(*, deprecated, message: "REMOVE ME Use `Either` type directly instead")
 extension EitherRow: Reusable {
     public static func makeAndReconfigure() -> (make: UIView, reconfigure: (EitherRow<Left, Right>?, EitherRow<Left, Right>) -> Disposable) {
         let row = UIStackView()

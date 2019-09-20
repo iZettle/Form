@@ -79,7 +79,7 @@ public extension TextStyle {
         set { setAttribute(newValue, for: .kern, defaultValue: 0) }
     }
 
-    @available(*, deprecated, renamed: "letterSpacing")
+    @available(*, deprecated, renamed: "letterSpacing", message: "REMOVE ME")
     var kerning: Float {
         get { return letterSpacing }
         set { letterSpacing = newValue }

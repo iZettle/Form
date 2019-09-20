@@ -100,7 +100,7 @@ public extension CollectionKit {
         self.init(table: table, layout: layout, holdIn: nil, cellForRow: cellForRow)
     }
 
-    @available(*, deprecated, message: "use `init(table:layout:holdIn:cellForRow:)` instead")
+    @available(*, deprecated, message: "REMOVE ME use `init(table:layout:holdIn:cellForRow:)` instead")
     convenience init(table: Table = Table(), layout: UICollectionViewLayout, bag: DisposeBag, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
         self.init(table: table, layout: layout, holdIn: bag, cellForRow: cellForRow)
     }
@@ -116,7 +116,7 @@ public extension CollectionKit where Row: Reusable, Row.ReuseType: ViewRepresent
         }
     }
 
-    @available(*, deprecated, message: "use `init(table:layout:holdIn:)` instead")
+    @available(*, deprecated, message: "REMOVE ME use `init(table:layout:holdIn:)` instead")
     convenience init(table: Table = Table(), layout: UICollectionViewLayout, bag: DisposeBag) {
         self.init(table: table, layout: layout, holdIn: bag)
     }

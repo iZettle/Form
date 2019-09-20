@@ -79,7 +79,7 @@ public extension UIScrollView {
 
     /// Will dynamically update `isScrollEnabled` to be disabled when content fits.
     /// - Returns: A disposable that will stop adjustments when being disposed.
-    @available(*, deprecated, message: "use `alwaysBounceVertical = false` instead")
+    @available(*, deprecated, message: "REMOVE ME use `alwaysBounceVertical = false` instead")
     func disableScrollingIfContentFits() -> Disposable {
         return combineLatest(signal(for: \.frame), signal(for: \.contentSize), signal(for: \.contentInset)).map { frame, contentSize, contentInset in
             (frame.inset(by: contentInset).size, contentSize)
