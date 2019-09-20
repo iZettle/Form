@@ -97,7 +97,7 @@ extension TitleSubtitleStyle {
 }
 
 extension BorderStyle {
-    static let bottomSeparator = BorderStyle(width: UIScreen.main.hairlineWidth, color: .separator, cornerRadius: 0, borderEdges: .bottom)
+    static let bottomSeparator = BorderStyle(width: UIScreen.main.thinestLineWidth, color: .separator, cornerRadius: 0, borderEdges: .bottom)
 }
 
 extension ButtonStyle {
@@ -208,9 +208,9 @@ extension DynamicSectionStyle {
 }
 
 extension SectionBackgroundStyle {
-    static let plain = SectionBackgroundStyle(background: BackgroundStyle(color: .standardSectionBackground, border: BorderStyle(width: UIScreen.main.hairlineWidth, color: .separator, cornerRadius: 0, borderEdges: [.top, .bottom])),
+    static let plain = SectionBackgroundStyle(background: BackgroundStyle(color: .standardSectionBackground, border: BorderStyle(width: UIScreen.main.thinestLineWidth, color: .separator, cornerRadius: 0, borderEdges: [.top, .bottom])),
                                                      topSeparator: .none,
-                                                     bottomSeparator: InsettedStyle(style: SeparatorStyle(width: UIScreen.main.hairlineWidth, color: .separator), insets: UIEdgeInsets(horizontalInset: 0, verticalInset: 0)))
+                                                     bottomSeparator: InsettedStyle(style: SeparatorStyle(width: UIScreen.main.thinestLineWidth, color: .separator), insets: UIEdgeInsets(horizontalInset: 0, verticalInset: 0)))
 
     static let plainSelected = SectionBackgroundStyle.plain.restyled { style in
         style.color = .plainSelection
@@ -224,7 +224,7 @@ extension SectionBackgroundStyle {
 
     static let grouped = SectionBackgroundStyle.plain.restyled { style in
         style.bottomSeparator.insets = .zero
-        style.border = BorderStyle(width: UIScreen.main.hairlineWidth, color: .separator, cornerRadius: 8)
+        style.border = BorderStyle(width: UIScreen.main.thinestLineWidth, color: .separator, cornerRadius: 8)
     }
 
     static let groupedSelected = SectionBackgroundStyle.grouped.restyled { style in

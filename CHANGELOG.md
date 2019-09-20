@@ -1,7 +1,5 @@
 ## 2.0.0
 - Added: Support for Swift Package Manager
-- Change: Removed deprecated functions, symbols etc.
-- Change: Removed custom UIImage initializer to be able to support Swift Package Manager.
 
 ## 1.10.5
 - Bugfix: Fixed scroll-to-top not working correctly.
