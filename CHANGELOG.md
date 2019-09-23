@@ -1,5 +1,6 @@
 ## 2.0.0
 - Added: Support for Swift Package Manager
+- Change: Removed deprecated functions, symbols etc.
 
 ## 1.10.5
 - Bugfix: Fixed scroll-to-top not working correctly.
