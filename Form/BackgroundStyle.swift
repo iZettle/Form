@@ -22,15 +22,20 @@ public extension BackgroundStyle {
     static let none = BackgroundStyle(color: .clear, border: .none)
 }
 
-public extension UIImage {
-    convenience init?(style: BackgroundStyle) {
-        self.init(border: style.border, bottomSeparator: .none,
-                  topSeparator: .none,
-                  background: style.color,
-                  position: .unique)
+public extension SegmentBackgroundStyle {
+
+    init?(style: BackgroundStyle) {
+        self.init(
+            backgroundColor: style.color,
+            position: .unique,
+            border: style.border,
+            topSeparator: .none,
+            bottomSeparator: .none
+        )
     }
 
-    convenience init?(color: UIColor, border: BorderStyle) {
+    init?(color: UIColor, border: BorderStyle) {
         self.init(style: .init(color: color, border: border))
     }
+
 }

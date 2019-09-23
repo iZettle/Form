@@ -1,7 +1,11 @@
+## 2.0.0
+- Added: Support for Swift Package Manager
+
 ## 1.10.5
 - Bugfix: Fixed scroll-to-top not working correctly.
 - Addition: Add new initializers for TableKit and CollectionKit that have an explicit `holdIn` parameter to keep subscriptions.
 - Change: Change the deprecation warning of TableKit and CollectionKit initializers to point to the new ones
+- Change: Remove Objective-C utilities function and use a designatyed type for the section segment background style.
 
 ## 1.10.4
 - Bugfix: Fix issue with ui refresh deadlock

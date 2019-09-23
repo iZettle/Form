@@ -20,8 +20,6 @@
 		1CFA084E1F8CF6DD003D3834 /* CollectionKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CFA084D1F8CF6DD003D3834 /* CollectionKit.swift */; };
 		21367C6B1DACDF990021C98F /* TableChangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21367C6A1DACDF990021C98F /* TableChangeTests.swift */; };
 		213A4D2C1D9A633700F0ADE1 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213A4D2B1D9A633700F0ADE1 /* Reusable.swift */; };
-		215D106A1DCB80A400504923 /* Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 215D10681DCB80A400504923 /* Utilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		215D106B1DCB80A400504923 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 215D10691DCB80A400504923 /* Utilities.m */; };
 		2191EB5E1D9E9E7800A9B6D0 /* TableKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2191EB5D1D9E9E7800A9B6D0 /* TableKit.swift */; };
 		21A79AAD1DBE48E4000D1231 /* HeaderFooterStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A79AAC1DBE48E4000D1231 /* HeaderFooterStyle.swift */; };
 		21A79B6D1DBF5D84000D1231 /* BackgroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A79B6C1DBF5D84000D1231 /* BackgroundStyle.swift */; };
@@ -130,8 +128,6 @@
 		1CFA084D1F8CF6DD003D3834 /* CollectionKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CollectionKit.swift; path = Form/CollectionKit.swift; sourceTree = "<group>"; };
 		21367C6A1DACDF990021C98F /* TableChangeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableChangeTests.swift; sourceTree = "<group>"; };
 		213A4D2B1D9A633700F0ADE1 /* Reusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Reusable.swift; path = Form/Reusable.swift; sourceTree = "<group>"; };
-		215D10681DCB80A400504923 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = Form/Utilities.h; sourceTree = SOURCE_ROOT; };
-		215D10691DCB80A400504923 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utilities.m; path = Form/Utilities.m; sourceTree = SOURCE_ROOT; };
 		2191EB5D1D9E9E7800A9B6D0 /* TableKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = TableKit.swift; path = Form/TableKit.swift; sourceTree = "<group>"; };
 		21A79AAC1DBE48E4000D1231 /* HeaderFooterStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeaderFooterStyle.swift; path = Form/HeaderFooterStyle.swift; sourceTree = "<group>"; };
 		21A79B6C1DBF5D84000D1231 /* BackgroundStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackgroundStyle.swift; path = Form/BackgroundStyle.swift; sourceTree = "<group>"; };
@@ -249,8 +245,6 @@
 				F6C0AD3C1F3DBE8300D92CDE /* Highlightable.swift */,
 				F62278DE1D707B9800CABE5E /* AssociatedValues.swift */,
 				F6BD2DF32182EFFE00273092 /* GestureRecognizerDelegate.swift */,
-				215D10681DCB80A400504923 /* Utilities.h */,
-				215D10691DCB80A400504923 /* Utilities.m */,
 				F65A9F7F1C7B1E8F007007B4 /* Form.h */,
 				F65A9F801C7B1E8F007007B4 /* Info.plist */,
 			);
@@ -444,7 +438,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				215D106A1DCB80A400504923 /* Utilities.h in Headers */,
 				F65A9F811C7B1E8F007007B4 /* Form.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -672,7 +665,6 @@
 				1C73876E1D9288970034668B /* UITableView+Utilities.swift in Sources */,
 				F6C2E5EF1C69FA5A00453548 /* UITableViewHeaderFooterView+Utilities.swift in Sources */,
 				1C80C6451F7CE617008C8F1C /* CollectionViewDelegate.swift in Sources */,
-				215D106B1DCB80A400504923 /* Utilities.m in Sources */,
 				F684BEF4209337110018EDE9 /* ViewRepresentable.swift in Sources */,
 				F6B143341FCC3FA900B63D0F /* Constraints.swift in Sources */,
 				7270AFB0201FAB7C004DAAA3 /* ViewLayoutArea.swift in Sources */,
