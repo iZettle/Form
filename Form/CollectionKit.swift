@@ -203,7 +203,7 @@ public extension CollectionKit {
         }
         return bag
     }
-    
+
     @available(*, deprecated, message: "use `registerViewForSupplementaryElement(kind:item:)` instead")
     func registerViewForSupplementaryElement<S: Reusable>(item: @escaping (TableIndex) -> (S)) -> Disposable where S.ReuseType: ViewRepresentable {
         let kind = String(describing: S.self)
