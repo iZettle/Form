@@ -1,5 +1,6 @@
 ## 2.0.0
 - Added: Support for Swift Package Manager
+- Change: Deprecate registerViewForSupplementaryElement and add a new one that works with UICollectionView headers and footers
 - Change: Removed deprecated functions, symbols etc.
 
 ## 1.10.5
