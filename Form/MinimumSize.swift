@@ -5,7 +5,7 @@
 //  Created by Nataliya Patsovska on 2018-11-20.
 //
 
-import Foundation
+import UIKit
 
 public struct MinimumSize: Style {
     public var width: CGFloat?

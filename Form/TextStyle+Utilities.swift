@@ -6,7 +6,7 @@
 //  Copyright © 2017 iZettle. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public extension TextStyle {
     /// Returns a restyled instance using `color`

@@ -6,7 +6,7 @@
 //  Copyright © 2016 iZettle. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /// A concrete implementation of a text editor using provided functions to implement `TextEditor`.
 public struct ValueEditor<Value>: TextEditor {
