@@ -1,5 +1,6 @@
 ## 2.0.0
 - Added: Support for Swift Package Manager
+- Change: Deprecate registerViewForSupplementaryElement and add a new one that works with UICollectionView headers and footers
 
 ## 1.10.5
 - Bugfix: Fixed scroll-to-top not working correctly.
