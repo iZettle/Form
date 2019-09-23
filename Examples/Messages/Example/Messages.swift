@@ -34,7 +34,7 @@ extension Messages: Presentable {
 
         bag += split.present(viewController, options: [ .defaults, .showInMaster ])
 
-        let tableKit = TableKit<EmptySection, Message>(bag: bag)
+        let tableKit = TableKit<EmptySection, Message>(holdIn: bag)
 
         bag += messages.atOnce().onValue {
             tableKit.set(Table(rows: $0))
