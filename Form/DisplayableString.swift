@@ -6,7 +6,7 @@
 //  Copyright © 2016 iZettle. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Flow
 
 /// Conforming types can provide a custom `displayValue` for displaying to end-users.

@@ -6,7 +6,7 @@
 //  Copyright © 2018 iZettle. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Flow
 
 /// Helper containter for creating e.g. `Table`s of mixed content.

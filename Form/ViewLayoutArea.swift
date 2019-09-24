@@ -6,7 +6,7 @@
 //  Copyright © 2018 iZettle. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /// A rectangular area in the coordinate system of a view that can be translated to a UILayoutGuide and participate in Auto Layout.
 public enum ViewLayoutArea {
