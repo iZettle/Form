@@ -36,12 +36,17 @@ public struct RowsSelection<Row: SelectableRow> {
         return lazySelection.unbox
     }
 
+    @available(*, deprecated, message: "pass isCollapsed as a ReadSignal<Bool?> instead")
+    public init(isCollapsed: ReadSignal<Bool>, isInline: @escaping (Row) -> Bool = { _ in true }, bag: DisposeBag) {
+        self.init(isCollapsed: isCollapsed.map { value -> Bool? in return value }, isInline: isInline, bag: bag)
+    }
+
     /// Creates a new instance.
     /// - Parameters:
     ///   - isCollapsed: Whether or not details are displayed.
     ///   - isInline: Whether or not are row should will be displayed in details view or not.
     ///   - bag: A bag used to add row selection activities.
-    public init(isCollapsed: ReadSignal<Bool>, isInline: @escaping (Row) -> Bool = { _ in true }, bag: DisposeBag) {
+    public init(isCollapsed: ReadSignal<Bool?>, isInline: @escaping (Row) -> Bool = { _ in true }, bag: DisposeBag) {
         let visibleRows = signalAndRowsProperty.flatMapLatest { rows in
             Flow.combineLatest(rows.map { $0.1 }).map { $0.compactMap { $0 }.filter(isInline) }
         }
