@@ -3,7 +3,7 @@
 // Copyright (c) 2018 iZettle. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Flow
 
 public class ScrollViewDelegate: NSObject, UIScrollViewDelegate {

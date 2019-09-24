@@ -6,7 +6,7 @@
 //  Copyright © 2015 iZettle. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Flow
 
 /// Conforming types provides a mutable ordering of views.

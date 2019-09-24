@@ -6,7 +6,7 @@
 //  Copyright © 2017 iZettle. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Flow
 
 public extension UITextField {

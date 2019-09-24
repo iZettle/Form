@@ -6,7 +6,7 @@
 //  Copyright © 2016 iZettle. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Flow
 
 /// Conforming types defines how to make a `ReuseType` that can constructed once and configured many times,
