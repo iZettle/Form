@@ -1,6 +1,8 @@
 ## 2.0.0
 - Added: Support for Swift Package Manager
 - Change: Deprecate registerViewForSupplementaryElement and add a new one that works with UICollectionView headers and footers
+- Change: Bump the minimum required version of Presentation to 1.9.0
+- Added: New initializers for RowsSelection that works with the latest version of Presentation framework. The old one is deprecated.
 
 ## 1.10.5
 - Bugfix: Fixed scroll-to-top not working correctly.
