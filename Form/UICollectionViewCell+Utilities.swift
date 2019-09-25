@@ -104,18 +104,6 @@ public extension UICollectionView {
             return (viewRepresentable.viewRepresentation, configure)
         })
     }
-
-    /// Dequeues (reuses) or creates a new view and using the `item`'s conformance to `Reusable` to create and configure the view to embed in the returned supplementary view.
-    @available(*, deprecated, message: "use `dequeueSupplementaryView(forItem:kind:at:)` instead")
-    func dequeueSupplentaryView<Item: Reusable>(at indexPath: IndexPath, for type: Item.Type) -> UICollectionReusableView where Item.ReuseType: ViewRepresentable {
-        let reuseIdentifier = String(describing: type)
-        let supplementaryView = dequeueReusableSupplementaryView(ofKind: reuseIdentifier, withReuseIdentifier: reuseIdentifier, for: indexPath)
-        if supplementaryView.subviews.isEmpty {
-            let view = type.makeAndConfigure().make.viewRepresentation
-            supplementaryView.embedView(view)
-        }
-        return supplementaryView
-    }
 }
 
 extension UICollectionReusableView {

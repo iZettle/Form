@@ -61,22 +61,12 @@ public extension UIScreen {
     var hairlineWidth: CGFloat {
         return 1.0 / scale
     }
-
-    @available(*, deprecated, renamed: "hairlineWidth")
-    var thinestLineWidth: CGFloat {
-        return hairlineWidth
-    }
 }
 
 public extension UITraitCollection {
     /// Returns the thinnest line representable on the current used trait's screen, or the main screen in `self`'s displayScale is not defined.
     var hairlineWidth: CGFloat {
         return displayScale > 0 ? 1.0 / displayScale : UIScreen.main.hairlineWidth
-    }
-
-    @available(*, deprecated, renamed: "hairlineWidth")
-    var thinestLineWidth: CGFloat {
-        return hairlineWidth
     }
 
     /// Returns true if userInterfaceIdiom is pad
@@ -90,10 +80,5 @@ public extension CGFloat {
     /// Returns the thinnest line representable by the main screen.
     static var hairlineWidth: CGFloat {
         return UIScreen.main.hairlineWidth
-    }
-
-    @available(*, deprecated, renamed: "hairlineWidth")
-    static var thinestLineWidth: CGFloat {
-        return hairlineWidth
     }
 }

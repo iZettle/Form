@@ -3,6 +3,7 @@
 - Change: Deprecate registerViewForSupplementaryElement and add a new one that works with UICollectionView headers and footers
 - Change: Bump the minimum required version of Presentation to 1.9.0
 - Added: New initializers for RowsSelection that works with the latest version of Presentation framework. The old one is deprecated.
+- Change: Removed deprecated functions, symbols etc.
 
 ## 1.10.5
 - Bugfix: Fixed scroll-to-top not working correctly.

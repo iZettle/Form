@@ -79,12 +79,6 @@ public extension TextStyle {
         set { setAttribute(newValue, for: .kern, defaultValue: 0) }
     }
 
-    @available(*, deprecated, renamed: "letterSpacing")
-    var kerning: Float {
-        get { return letterSpacing }
-        set { letterSpacing = newValue }
-    }
-
     var numberOfLines: Int {
         get { return attribute(for: .numberOfLines) ?? 1 }
         set { setAttribute(newValue == 1 ? nil : newValue, for: .numberOfLines) }

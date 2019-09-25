@@ -99,11 +99,6 @@ public extension CollectionKit {
     convenience init(table: Table = Table(), layout: UICollectionViewLayout, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
         self.init(table: table, layout: layout, holdIn: nil, cellForRow: cellForRow)
     }
-
-    @available(*, deprecated, message: "use `init(table:layout:holdIn:cellForRow:)` instead")
-    convenience init(table: Table = Table(), layout: UICollectionViewLayout, bag: DisposeBag, cellForRow: @escaping (UICollectionView, Row, TableIndex) -> UICollectionViewCell) {
-        self.init(table: table, layout: layout, holdIn: bag, cellForRow: cellForRow)
-    }
 }
 
 public extension CollectionKit where Row: Reusable, Row.ReuseType: ViewRepresentable {
@@ -114,11 +109,6 @@ public extension CollectionKit where Row: Reusable, Row.ReuseType: ViewRepresent
         self.init(table: table, layout: layout) { collection, cell, index in
             return collection.dequeueCell(forItem: cell, at: IndexPath(row: index.row, section: index.section))
         }
-    }
-
-    @available(*, deprecated, message: "use `init(table:layout:holdIn:)` instead")
-    convenience init(table: Table = Table(), layout: UICollectionViewLayout, bag: DisposeBag) {
-        self.init(table: table, layout: layout, holdIn: bag)
     }
 
     convenience init(table: Table = Table(), layout: UICollectionViewLayout, holdIn externalBag: DisposeBag) {

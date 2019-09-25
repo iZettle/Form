@@ -70,7 +70,6 @@
 		F682048D20B5D8F300A32604 /* RowAndProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F682048C20B5D8F300A32604 /* RowAndProvider.swift */; };
 		F684BEF1209336780018EDE9 /* TableAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F684BEF0209336780018EDE9 /* TableAnimation.swift */; };
 		F684BEF4209337110018EDE9 /* ViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F684BEF3209337110018EDE9 /* ViewRepresentable.swift */; };
-		F684BEF820933D7B0018EDE9 /* EitherRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F684BEF720933D7B0018EDE9 /* EitherRow.swift */; };
 		F684BEFA20933E790018EDE9 /* UIImage+Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = F684BEF920933E790018EDE9 /* UIImage+Styling.swift */; };
 		F684BF09209348F30018EDE9 /* KeyboardAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F684BF08209348F30018EDE9 /* KeyboardAnimation.swift */; };
 		F684BF0C209349470018EDE9 /* ViewPortEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F684BF0B209349470018EDE9 /* ViewPortEvent.swift */; };
@@ -183,7 +182,6 @@
 		F682048C20B5D8F300A32604 /* RowAndProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RowAndProvider.swift; path = Form/RowAndProvider.swift; sourceTree = "<group>"; };
 		F684BEF0209336780018EDE9 /* TableAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TableAnimation.swift; path = Form/TableAnimation.swift; sourceTree = "<group>"; };
 		F684BEF3209337110018EDE9 /* ViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewRepresentable.swift; path = Form/ViewRepresentable.swift; sourceTree = "<group>"; };
-		F684BEF720933D7B0018EDE9 /* EitherRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EitherRow.swift; path = Form/EitherRow.swift; sourceTree = "<group>"; };
 		F684BEF920933E790018EDE9 /* UIImage+Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIImage+Styling.swift"; path = "Form/UIImage+Styling.swift"; sourceTree = "<group>"; };
 		F684BF08209348F30018EDE9 /* KeyboardAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KeyboardAnimation.swift; path = Form/KeyboardAnimation.swift; sourceTree = "<group>"; };
 		F684BF0B209349470018EDE9 /* ViewPortEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewPortEvent.swift; path = Form/ViewPortEvent.swift; sourceTree = "<group>"; };
@@ -425,7 +423,6 @@
 				1CEED6CF21341FF300893573 /* ScrollViewDelegate.swift */,
 				1C0656C11F82625E00E60465 /* UICollectionViewCell+Utilities.swift */,
 				1CDA23EB1F8E3A3300CCC541 /* TableAnimatable.swift */,
-				F684BEF720933D7B0018EDE9 /* EitherRow.swift */,
 				F647306A20BFDFB1002BC8E3 /* RowsSelection.swift */,
 			);
 			name = Tables;
@@ -606,7 +603,6 @@
 				F6A326E71F9492BC00C3A692 /* FieldStyle.swift in Sources */,
 				1CFA084E1F8CF6DD003D3834 /* CollectionKit.swift in Sources */,
 				F6DD5CB320A0408000975242 /* ButtonStateStyle.swift in Sources */,
-				F684BEF820933D7B0018EDE9 /* EitherRow.swift in Sources */,
 				F60102311DAE2D410020015B /* TableChange.swift in Sources */,
 				F6C2E5F01C69FA5A00453548 /* UITableViewCell+Utilities.swift in Sources */,
 				F65A9FA01C7B1EC6007007B4 /* SubviewOrderable.swift in Sources */,
