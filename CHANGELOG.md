@@ -1,4 +1,4 @@
-## 2.0.0
+## 2.0
 - Added: Support for Swift Package Manager
 - Change: Deprecate registerViewForSupplementaryElement and add a new one that works with UICollectionView headers and footers
 - Change: Bump the minimum required version of Presentation to 1.9.0
