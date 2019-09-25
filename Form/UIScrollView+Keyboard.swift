@@ -58,19 +58,19 @@ public extension UIScrollView {
         let bag = DisposeBag()
         var lastResponder = firstResponder
 
-        adjustContentOffset(adjustInsets)
+        self.adjustContentOffsetToRevealFirstResponder(adjustInsets)
 
         bag += keyboardSignal(priority: .contentOffset).onValue { event -> Void in
             lastResponder = self.firstResponder
             guard case let .willShow(_, animation) = event else { return }
-            animation.animate { self.adjustContentOffset(adjustInsets) }
+            animation.animate { self.adjustContentOffsetToRevealFirstResponder(adjustInsets) }
         }
 
         bag += NotificationCenter.default.signal(forName: UITextField.textDidBeginEditingNotification).onValue { _ in
             DispatchQueue.main.async { // Make sure to run after onKeyboardEvent above.
                 defer { lastResponder = self.firstResponder }
                 guard self.firstResponder != lastResponder else { return }
-                UIView.animate(withDuration: 0.3) { self.adjustContentOffset(adjustInsets) }
+                UIView.animate(withDuration: 0.3) { self.adjustContentOffsetToRevealFirstResponder(adjustInsets) }
             }
         }
 
@@ -150,33 +150,58 @@ private extension UIScrollView {
         }
     }
 
-    func adjustContentOffset(_ adjustInsets: (UIView) -> UIEdgeInsets) {
-        guard let firstResponder = firstResponder as? UIView else { return }
-
-        let viewRect = frame.inset(by: contentInset)
-        let firstBounds = firstResponder.bounds.inset(by: adjustInsets(firstResponder))
-        let firstFrame = convert(firstBounds, from: firstResponder)
-
-        var portRect = viewRect
-        portRect.origin.y += contentOffset.y
-
-        // Don't let horizontal values affect contains below.
-        portRect.origin.x -= 1000
-        portRect.size.width += 2000
-
-        guard !portRect.contains(firstFrame) else { return }
-
-        var offset = contentOffset
-        let bottom = firstFrame.maxY - viewRect.size.height - contentInset.top
-        let marginY = layoutMargins.top + contentInset.top
-
-        if bottom > -max(marginY, firstFrame.height) {
-            offset.y = bottom
-        } else {
-            offset.y = -marginY
+    func adjustContentOffsetToRevealFirstResponder(_ adjustInsets: (_ firstResponder: UIView) -> UIEdgeInsets) {
+        if let targetVisibleRect = self.targetVisibleRectToRevealFirstResponder(adjustInsets) {
+            self.scrollRectToVisible(targetVisibleRect, animated: false)
         }
+    }
 
-        setContentOffset(offset, animated: false)
+    func targetVisibleRectToRevealFirstResponder(_ adjustInsets: (_ firstResponder: UIView) -> UIEdgeInsets) -> CGRect? {
+        guard let frameToFocus = self.firstResponderAdjustedFrame(adjustInsets: adjustInsets) else { return nil }
+
+        let verticalFocusPosition = ScrollViewVerticalContext(
+            visibleRectHeight: self.bounds.height,
+            visibleRectOffsetY: self.contentOffset.y,
+            visibleRectInsetTop: self.contentInset.top,
+            visibleRectInsetBottom: self.contentInset.bottom
+        ).targetFocusPosition(for: frameToFocus)
+
+        return verticalFocusPosition.flatMap { CGRect(x: 0, y: $0, width: 1, height: 1) }
+    }
+
+    func firstResponderAdjustedFrame(adjustInsets: (_ firstResponder: UIView) -> UIEdgeInsets) -> CGRect? {
+        guard let firstResponder = firstResponder as? UIView else { return nil }
+        let insetAdjustment = adjustInsets(firstResponder)
+        let frameToFocus = firstResponder.frame.inset(by: insetAdjustment)
+        return self.convert(frameToFocus, from: firstResponder)
+    }
+}
+
+// Internal helper to move scroll view vertical position calculations outside of the view so that we can test them
+struct ScrollViewVerticalContext {
+    let visibleRectHeight: CGFloat
+    let visibleRectOffsetY: CGFloat
+    let visibleRectInsetTop: CGFloat
+    let visibleRectInsetBottom: CGFloat
+
+    // Calculates the vertical position of the area that needs to become visible for the given frame to be focused.
+    // It calculates the smallest movement needed based on the relative position on the `frameToFocus`.
+    // Nil if the frame is already focused.
+    func targetFocusPosition(for frameToFocus: CGRect) -> CGFloat? {
+        let visibleRectMinY = visibleRectOffsetY - visibleRectInsetTop
+        let visibleRectMaxY = visibleRectMinY + visibleRectHeight - visibleRectInsetBottom
+
+        let isBelowTop = frameToFocus.minY >= visibleRectMinY
+        let isAboveBottom = frameToFocus.maxY <= visibleRectMaxY
+        let isFirstResponderVisible = isBelowTop && isAboveBottom
+
+        guard !isFirstResponderVisible else { return nil }
+
+        if !isBelowTop {
+            return max(0, frameToFocus.minY)
+        } else {
+            return max(0, frameToFocus.maxY)
+        }
     }
 }
 
