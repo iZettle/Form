@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "FormFramework"
-  s.version      = "1.10.5"
+  s.version      = "2.0"
   s.module_name  = "Form"
   s.summary      = "Powerful iOS layout and styling"
   s.description  = <<-DESC
