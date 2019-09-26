@@ -1,3 +1,6 @@
+## 2.0.1
+- Bugfix: Fixed a bug where `ButtonStateStyle.init` was wrongfully failable, which could lead to buttons not receiving their text style.
+
 ## 2.0
 - Added: Support for Swift Package Manager
 - Change: Deprecate registerViewForSupplementaryElement and add a new one that works with UICollectionView headers and footers
