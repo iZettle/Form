@@ -1,4 +1,4 @@
-## 2.1
+## 2.0.1
 - Bugfix: Fixed a bug where `ButtonStateStyle.init` was wrongfully failable, which could lead to buttons not receiving their text style.
 
 ## 2.0
