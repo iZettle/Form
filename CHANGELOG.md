@@ -1,3 +1,6 @@
+## 2.0.2
+- Bugfix: Fix issue with `scrollToRevealFirstResponder` ([#122](https://github.com/iZettle/Form/issues/122))
+
 ## 2.0.1
 - Bugfix: Fixed a bug where `ButtonStateStyle.init` was wrongfully failable, which could lead to buttons not receiving their text style.
 
