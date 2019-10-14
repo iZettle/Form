@@ -106,7 +106,7 @@ public extension FieldStyle {
 
 public extension UIKeyboardType {
     /// `.numberPad` if iPhone or `.numbersAndPunctuation` if iPad.
-    static let numeric: UIKeyboardType = UIDevice.current.userInterfaceIdiom == .pad ? .numbersAndPunctuation : .numberPad
+    static let numeric: UIKeyboardType = (UIApplication.shared.keyWindow?.traitCollection.horizontalSizeClass == .regular) ? .numbersAndPunctuation : .numberPad
     /// `.numbersAndPunctuation`
     static let decimal: UIKeyboardType = .numbersAndPunctuation
 }

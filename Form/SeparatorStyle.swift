@@ -69,11 +69,11 @@ public extension UITraitCollection {
         return displayScale > 0 ? 1.0 / displayScale : UIScreen.main.hairlineWidth
     }
 
-    /// Returns true if userInterfaceIdiom is pad
-    var isPad: Bool { return userInterfaceIdiom == .pad }
+    /// Returns true if horizontal size class is `.regular`
+    var isRegular: Bool { return horizontalSizeClass == .regular }
 
-    /// Returns true if userInterfaceIdiom is phone
-    var isPhone: Bool { return userInterfaceIdiom == .phone }
+    /// Returns true if horizontal size class is `.compact`
+    var isCompact: Bool { return horizontalSizeClass == .compact }
 }
 
 public extension CGFloat {

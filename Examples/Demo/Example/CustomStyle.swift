@@ -24,14 +24,14 @@ extension DefaultStyling {
     }
 
     static let custom = DefaultStyling(
-        text: .normalText,
-        field: FieldStyle(text: .normalText, placeholder: .placeholderText, disabled: .disabledText, cursorColor: .mintGreen),
-        detailText: TitleSubtitleStyle.custom.subtitle,
-        titleSubtitle: .custom,
-        button: .custom,
-        barButton: .custom,
+        text: .normalText(),
+        field: FieldStyle(text: .normalText(), placeholder: .placeholderText(), disabled: .disabledText(), cursorColor: .mintGreen),
+        detailText: TitleSubtitleStyle.custom().subtitle,
+        titleSubtitle: .custom(),
+        button: .custom(),
+        barButton: .custom(),
         switch: .custom,
-        segmentedControl: .custom,
+        segmentedControl: .custom(),
         sectionGrouped: .form,
         sectionPlain: .list,
         formGrouped: .form,
@@ -45,7 +45,7 @@ extension DefaultStyling {
     )
 }
 
-let isIpad = UIDevice.current.userInterfaceIdiom == .pad
+let isRegular: () -> Bool = { UIApplication.shared.keyWindow?.traitCollection.horizontalSizeClass == .regular }
 
 extension UIColor {
     static let backgroundGray = UIColor(hue: 0, saturation: 0, brightness: 0.98, alpha: 1)
@@ -72,28 +72,28 @@ extension UIColor {
 }
 
 extension UIFont {
-    static let normalText = UIFont.systemFont(ofSize: isIpad ? 18 : 17, weight: .medium)
-    static let smallText = UIFont.systemFont(ofSize: 14, weight: .regular)
-    static let regularButton = UIFont.systemFont(ofSize: isIpad ? 20 : 19, weight: .medium)
-    static let headerText = UIFont.systemFont(ofSize: 13, weight: .medium)
+    static let normalText: () -> UIFont = { UIFont.systemFont(ofSize: isRegular() ? 18 : 17, weight: .medium) }
+    static let smallText: () -> UIFont = { UIFont.systemFont(ofSize: 14, weight: .regular) }
+    static let regularButton: () -> UIFont = { UIFont.systemFont(ofSize: isRegular() ? 20 : 19, weight: .medium) }
+    static let headerText: () -> UIFont = { UIFont.systemFont(ofSize: 13, weight: .medium) }
 }
 
 extension TextStyle {
-    static let normalText = TextStyle(font: .normalText, color: .black)
-    static let placeholderText = TextStyle(font: .normalText, color: .placeholderTextGray)
-    static let disabledText = TextStyle(font: .normalText, color: .disabledTextGray)
-    static let smallText = TextStyle(font: .smallText, color: .textGray)
-    static let regularButton = TextStyle(font: .regularButton, color: .mintGreenDark, alignment: .center)
-    static let disabledButton = TextStyle(font: .regularButton, color: .textGray, alignment: .center)
-    static let whiteButton = TextStyle(font: .regularButton, color: .white, alignment: .center)
-    static let headerText = TextStyle(font: .headerText, color: .textGray).restyled { $0.letterSpacing = 0.8 }.uppercased
-    static let footer = smallText.centerAligned.multilined()
-    static let headerBlack = headerText.colored(.black).multilined()
-    static let header = headerText.multilined()
+    static let normalText: () -> TextStyle = { TextStyle(font: .normalText(), color: .black) }
+    static let placeholderText: () -> TextStyle = { TextStyle(font: .normalText(), color: .placeholderTextGray) }
+    static let disabledText: () -> TextStyle = { TextStyle(font: .normalText(), color: .disabledTextGray) }
+    static let smallText: () -> TextStyle = { TextStyle(font: .smallText(), color: .textGray) }
+    static let regularButton: () -> TextStyle = { TextStyle(font: .regularButton(), color: .mintGreenDark, alignment: .center) }
+    static let disabledButton: () -> TextStyle = { TextStyle(font: .regularButton(), color: .textGray, alignment: .center) }
+    static let whiteButton: () -> TextStyle = { TextStyle(font: .regularButton(), color: .white, alignment: .center) }
+    static let headerText: () -> TextStyle = { TextStyle(font: .headerText(), color: .textGray).restyled { $0.letterSpacing = 0.8 }.uppercased }
+    static let footer: () -> TextStyle = { smallText().centerAligned.multilined() }
+    static let headerBlack: () -> TextStyle = { headerText().colored(.black).multilined() }
+    static let header: () -> TextStyle = { headerText().multilined() }
 }
 
 extension TitleSubtitleStyle {
-    static let custom = TitleSubtitleStyle(title: TextStyle.normalText.truncatedMiddle, subtitle: TextStyle.smallText.truncatedMiddle, spacing: 0, insets: .zero)
+    static let custom: () -> TitleSubtitleStyle = { TitleSubtitleStyle(title: TextStyle.normalText().truncatedMiddle, subtitle: TextStyle.smallText().truncatedMiddle, spacing: 0, insets: .zero) }
 }
 
 extension BorderStyle {
@@ -101,14 +101,18 @@ extension BorderStyle {
 }
 
 extension ButtonStyle {
-    static let custom = ButtonStyle(contentInsets: UIEdgeInsets(horizontalInset: 5, verticalInset: 3),
-                                    normal: ButtonStateStyle(color: .clear, border: .none, text: .regularButton),
-                                    highlighted: ButtonStateStyle(color: .mintGreen, border: BorderStyle(cornerRadius: 4), text: .whiteButton),
-                                    disabled: ButtonStateStyle(color: .clear, border: .none, text: .disabledButton))
+    static let custom: () -> ButtonStyle = {
+        ButtonStyle(
+            contentInsets: UIEdgeInsets(horizontalInset: 5, verticalInset: 3),
+            normal: ButtonStateStyle(color: .clear, border: .none, text: .regularButton()),
+            highlighted: ButtonStateStyle(color: .mintGreen, border: BorderStyle(cornerRadius: 4), text: .whiteButton()),
+            disabled: ButtonStateStyle(color: .clear, border: .none, text: .disabledButton())
+        )
+    }
 }
 
 extension BarButtonStyle {
-    static let custom = BarButtonStyle(text: TextStyle.normalText.colored(.mintGreenDark))
+    static let custom: () -> BarButtonStyle = { BarButtonStyle(text: TextStyle.normalText().colored(.mintGreenDark)) }
 }
 
 extension SwitchStyle {
@@ -117,13 +121,15 @@ extension SwitchStyle {
 
 extension SegmentedControlStyle {
 
-    static let custom = SegmentedControlStyle(
-        normal: ButtonStateStyle(color: .white, border: .init(width: UIScreen.main.hairlineWidth, color: .lineGray, cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.mintGreen).resized(to: 15)),
-        highlighted: ButtonStateStyle(color: .mintGreenDark, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.white).resized(to: 15)),
-        disabled: ButtonStateStyle(color: .mintGreen, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.textGray).resized(to: 15)),
-        selected: ButtonStateStyle(color: .mintGreen, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.white).resized(to: 15)),
-        tintColor: .mintGreen
-    )
+    static let custom: () -> SegmentedControlStyle = {
+        SegmentedControlStyle(
+            normal: ButtonStateStyle(color: .white, border: .init(width: UIScreen.main.hairlineWidth, color: .lineGray, cornerRadius: 4), text: TextStyle.normalText().centerAligned.colored(.mintGreen).resized(to: 15)),
+            highlighted: ButtonStateStyle(color: .mintGreenDark, border: .init(cornerRadius: 4), text: TextStyle.normalText().centerAligned.colored(.white).resized(to: 15)),
+            disabled: ButtonStateStyle(color: .mintGreen, border: .init(cornerRadius: 4), text: TextStyle.normalText().centerAligned.colored(.textGray).resized(to: 15)),
+            selected: ButtonStateStyle(color: .mintGreen, border: .init(cornerRadius: 4), text: TextStyle.normalText().centerAligned.colored(.white).resized(to: 15)),
+            tintColor: .mintGreen
+        )
+    }
 }
 
 enum FormType {
@@ -148,7 +154,7 @@ extension DynamicFormStyle {
 
 extension SectionStyle {
     init(traits: UITraitCollection, type: FormType) {
-        let rowInsets = UIEdgeInsets(horizontalInset: isIpad ? 18 : 16, verticalInset: isIpad ? 14 : 13)
+        let rowInsets = UIEdgeInsets(horizontalInset: traits.isRegular ? 18 : 16, verticalInset: traits.isRegular ? 14 : 13)
 
         let background, selectedBackground: Background
         switch (type, traits.horizontalSizeClass) {
@@ -163,30 +169,30 @@ extension SectionStyle {
             selectedBackground = .listSelected
         }
 
-        let footerInsets = UIEdgeInsets(top: 10, left: rowInsets.left, bottom: 6 + .standardFooterHeight, right: rowInsets.right)
-        let footerStyle = HeaderFooterStyle(text: .footer,
+        let footerInsets = UIEdgeInsets(top: 10, left: rowInsets.left, bottom: 6 + .standardFooterHeight(), right: rowInsets.right)
+        let footerStyle = HeaderFooterStyle(text: .footer(),
                                             backgroundImage: .plainSectionFooter,
                                             insets: footerInsets,
-                                            emptyHeight: .standardFooterHeight)
+                                            emptyHeight: .standardFooterHeight())
 
         let headerInsets = UIEdgeInsets(top: 11, left: rowInsets.left, bottom: 7, right: rowInsets.right)
-        let headerStyle = HeaderFooterStyle(text: .headerBlack,
+        let headerStyle = HeaderFooterStyle(text: .headerBlack(),
                                             backgroundImage: .plainFormSectionHeader,
                                             insets: headerInsets,
                                             emptyHeight: 0)
 
         let header, footer: HeaderFooterStyle
-        switch (type, traits.userInterfaceIdiom) {
+        switch (type, traits.horizontalSizeClass) {
         case (.list, _), (_, .unspecified):
             header = headerStyle.restyled {
-                $0.text = TextStyle.header.uppercased
+                $0.text = TextStyle.header().uppercased
                 $0.backgroundImage = .plainSectionHeader
             }
             footer = footerStyle
-        case (.form, .phone):
+        case (.form, .compact):
             header = headerStyle
             footer = footerStyle
-        case (.form, .pad):
+        case (.form, .regular):
             header = headerStyle.restyled {
                 $0.insets.top = 0
                 $0.backgroundImage = .none
@@ -196,7 +202,7 @@ extension SectionStyle {
             fatalError()
         }
 
-        self.init(rowInsets: rowInsets, itemSpacing: .standardItemSpacing, minRowHeight: .standardRowHeight,
+        self.init(rowInsets: rowInsets, itemSpacing: .standardItemSpacing(), minRowHeight: .standardRowHeight(),
                   background: background, selectedBackground: selectedBackground,
                   header: header, footer: footer)
     }
@@ -244,10 +250,10 @@ extension SectionStyle.Background {
 }
 
 extension CGFloat {
-    static let standardRowHeight: CGFloat = isIpad ? 60 : 56
-    static let standardItemSpacing: CGFloat = isIpad ? 12 : 10
-    static let standardHeaderHeight: CGFloat = 34
-    static let standardFooterHeight: CGFloat = 22
+    static let standardRowHeight: () -> CGFloat = { isRegular() ? 60 : 56 }
+    static let standardItemSpacing: () -> CGFloat = { isRegular() ? 12 : 10 }
+    static let standardHeaderHeight: () -> CGFloat = { 34 }
+    static let standardFooterHeight: () -> CGFloat = { 22 }
 }
 
 extension UIImage {
