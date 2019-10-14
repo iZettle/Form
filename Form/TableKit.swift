@@ -472,13 +472,17 @@ public extension MasterDetailSelection where Elements.Index == TableIndex {
             if let index = current?.index {
                 guard let indexPath = IndexPath(index, in: tableKit.table) else { return }
                 let isVisible = tableKit.view.indexPathsForVisibleRows?.contains(indexPath) ?? false
-                let scrollPosition: UITableView.ScrollPosition
-                if let prevIndex = prev?.index {
-                    scrollPosition = (prevIndex < index ? .bottom : .top)
+                if isVisible {
+                    let scrollPosition: UITableView.ScrollPosition
+                    if prev?.index == nil {
+                        scrollPosition = .middle
+                    } else {
+                        scrollPosition = .none
+                    }
+                    tableKit.view.selectRow(at: indexPath, animated: true, scrollPosition: scrollPosition)
                 } else {
-                    scrollPosition = .middle
+                    tableKit.view.deselectRow(at: indexPath, animated: false)
                 }
-                tableKit.view.selectRow(at: indexPath, animated: true, scrollPosition: isVisible ? .none : scrollPosition)
             } else if let prevIndex = prev?.index {
                 guard let indexPath = IndexPath(prevIndex, in: tableKit.table) else { return }
                 tableKit.view.deselectRow(at: indexPath, animated: true)
@@ -488,8 +492,6 @@ public extension MasterDetailSelection where Elements.Index == TableIndex {
         bag += tableKit.delegate.didSelect.onValue { index in
             self.select(index: index)
         }
-
-        tableKit.delegate.shouldAutomaticallyDeselect = false
 
         return bag
     }
