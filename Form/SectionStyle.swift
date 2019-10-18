@@ -60,11 +60,11 @@ public struct DynamicSectionStyle: DynamicStyle {
 }
 
 public extension DynamicSectionStyle {
-    static var systemGrouped: DynamicSectionStyle { return DynamicSectionStyle { Style(traits: $0, isGrouped: true) } }
-    static var systemPlain: DynamicSectionStyle { return DynamicSectionStyle { Style(traits: $0, isGrouped: false) } }
+    static let systemGrouped = DynamicSectionStyle { Style(traits: $0, isGrouped: true) }
+    static let systemPlain = DynamicSectionStyle { Style(traits: $0, isGrouped: false) }
 
-    static var defaultGrouped: DynamicSectionStyle { return DefaultStyling.current.sectionGrouped }
-    static var defaultPlain: DynamicSectionStyle { return DefaultStyling.current.sectionPlain }
+    static let defaultGrouped = DefaultStyling.current.sectionGrouped
+    static let defaultPlain = DefaultStyling.current.sectionPlain
 
     static var `default`: DynamicSectionStyle { return defaultGrouped }
 }
@@ -183,9 +183,9 @@ extension SectionStyle.Background {
 }
 
 private extension TextStyle {
-    static var headerFooterTextStyle: TextStyle { return TextStyle(font: .systemFont(ofSize: 13), color: UIColor(red: 0.43, green: 0.43, blue: 0.45, alpha: 1), alignment: .left) }
-    static var headerTextStyle: TextStyle { return headerFooterTextStyle.uppercased }
-    static var footerTextStyle: TextStyle { return headerFooterTextStyle }
+    static let headerFooterTextStyle = TextStyle(font: .systemFont(ofSize: 13), color: UIColor(red: 0.43, green: 0.43, blue: 0.45, alpha: 1), alignment: .left)
+    static let headerTextStyle = headerFooterTextStyle.uppercased
+    static let footerTextStyle = headerFooterTextStyle
 }
 
 private extension BackgroundStyle {
