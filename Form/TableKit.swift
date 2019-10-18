@@ -466,27 +466,61 @@ import Presentation
 
 public extension MasterDetailSelection where Elements.Index == TableIndex {
     func bindTo<Row, Section>(_ tableKit: TableKit<Row, Section>) -> Disposable {
+        return self.map { $0?.index }.bindTo(tableKit, select: self.select)
+    }
+}
+
+#endif
+
+public extension SignalProvider where Kind.DropWrite == Read, Value == TableIndex? {
+    func bindTo<Row, Section>(
+        _ tableKit: TableKit<Row, Section>,
+        animateSelectionChange: Bool = true,
+        select: @escaping (TableIndex) -> Void
+    ) -> Disposable {
         let bag = DisposeBag()
         tableKit.delegate.shouldAutomaticallyDeselect = false
         bag += self.atOnce().latestTwo().onValue { prev, current in
-            if let index = current?.index {
-                guard let indexPath = IndexPath(index, in: tableKit.table) else { return }
+            if let index = current {
+                guard let indexPath = IndexPath(index, in: tableKit.table) else {
+                    return
+                }
                 let isVisible = tableKit.view.indexPathsForVisibleRows?.contains(indexPath) ?? false
                 let scrollPosition: UITableView.ScrollPosition
-                if let prevIndex = prev?.index {
-                    scrollPosition = (prevIndex < index ? .bottom : .top)
-                } else {
+
+                switch (prev, isVisible) {
+                // Don't change scroll position if the row is already visible
+                case (_, true):
+                    scrollPosition = .none
+
+                // Don't change scroll position if the row was already selected
+                case (let prevIndex?, false) where prevIndex == index:
+                    scrollPosition = .none
+
+                // Scroll the row to the bottom when its below the previous selected one
+                case (let prevIndex?, false) where prevIndex < index:
+                    scrollPosition = .bottom
+
+                // Scroll the row to the top when its above the previous selected one
+                case (_?, false):
+                    scrollPosition = .top
+
+                // Scroll the row to the middle when there was no previous selection
+                case (nil, false):
                     scrollPosition = .middle
                 }
-                tableKit.view.selectRow(at: indexPath, animated: true, scrollPosition: isVisible ? .none : scrollPosition)
-            } else if let prevIndex = prev?.index {
-                guard let indexPath = IndexPath(prevIndex, in: tableKit.table) else { return }
-                tableKit.view.deselectRow(at: indexPath, animated: true)
+
+                tableKit.view.selectRow(at: indexPath, animated: animateSelectionChange, scrollPosition: scrollPosition)
+            } else if let prevIndex = prev {
+                guard let indexPath = IndexPath(prevIndex, in: tableKit.table) else {
+                    return
+                }
+                tableKit.view.deselectRow(at: indexPath, animated: animateSelectionChange)
             }
         }
 
         bag += tableKit.delegate.didSelect.onValue { index in
-            self.select(index: index)
+            select(index)
         }
 
         tableKit.delegate.shouldAutomaticallyDeselect = false
@@ -494,8 +528,6 @@ public extension MasterDetailSelection where Elements.Index == TableIndex {
         return bag
     }
 }
-
-#endif
 
 extension CGFloat {
     static let headerFooterAlmostZero: CGFloat = 0.0000001
