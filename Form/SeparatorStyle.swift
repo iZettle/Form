@@ -79,10 +79,10 @@ public extension UITraitCollection {
 // Deprecated
 public extension UITraitCollection {
 
-    @available(*, deprecated, message: "use `isRegular` instead")
+    @available(*, deprecated, message: "No longer supported as a convenience variable. Prefer size class checks (isRegular/isCompact) or check the userInterfaceIdiom manually")
     var isPad: Bool { return userInterfaceIdiom == .pad }
 
-    @available(*, deprecated, message: "use `isCompact` instead")
+    @available(*, deprecated, message: "No longer supported as a convenience variable. Prefer size class checks (isRegular/isCompact) or check the userInterfaceIdiom manually")
     var isPhone: Bool { return userInterfaceIdiom == .phone }
 
 }

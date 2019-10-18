@@ -72,28 +72,28 @@ extension UIColor {
 }
 
 extension UIFont {
-    static var normalText: UIFont { return UIFont.systemFont(ofSize: isRegular ? 18 : 17, weight: .medium) }
-    static let smallText: UIFont = UIFont.systemFont(ofSize: 14, weight: .regular)
-    static var regularButton: UIFont { return UIFont.systemFont(ofSize: isRegular ? 20 : 19, weight: .medium) }
-    static let headerText: UIFont = UIFont.systemFont(ofSize: 13, weight: .medium)
+    static let normalText = UIFont.systemFont(ofSize: 17, weight: .medium)
+    static let smallText = UIFont.systemFont(ofSize: 14, weight: .regular)
+    static let regularButton = UIFont.systemFont(ofSize: 20, weight: .medium)
+    static let headerText = UIFont.systemFont(ofSize: 14, weight: .medium)
 }
 
 extension TextStyle {
-    static var normalText: TextStyle { return TextStyle(font: .normalText, color: .black) }
-    static var placeholderText: TextStyle { return TextStyle(font: .normalText, color: .placeholderTextGray) }
-    static var disabledText: TextStyle { return TextStyle(font: .normalText, color: .disabledTextGray) }
-    static var smallText: TextStyle { return TextStyle(font: .smallText, color: .textGray) }
-    static var regularButton: TextStyle { return TextStyle(font: .regularButton, color: .mintGreenDark, alignment: .center) }
-    static var disabledButton: TextStyle { return TextStyle(font: .regularButton, color: .textGray, alignment: .center) }
-    static var whiteButton: TextStyle { return TextStyle(font: .regularButton, color: .white, alignment: .center) }
-    static var headerText: TextStyle { return TextStyle(font: .headerText, color: .textGray).restyled { $0.letterSpacing = 0.8 }.uppercased }
-    static var footer: TextStyle { return smallText.centerAligned.multilined() }
-    static var headerBlack: TextStyle { return headerText.colored(.black).multilined() }
-    static var header: TextStyle { return headerText.multilined() }
+    static let normalText = TextStyle(font: .normalText, color: .black)
+    static let placeholderText = TextStyle(font: .normalText, color: .placeholderTextGray)
+    static let disabledText = TextStyle(font: .normalText, color: .disabledTextGray)
+    static let smallText = TextStyle(font: .smallText, color: .textGray)
+    static let regularButton = TextStyle(font: .regularButton, color: .mintGreenDark, alignment: .center)
+    static let disabledButton = TextStyle(font: .regularButton, color: .textGray, alignment: .center)
+    static let whiteButton = TextStyle(font: .regularButton, color: .white, alignment: .center)
+    static let headerText = TextStyle(font: .headerText, color: .textGray).restyled { $0.letterSpacing = 0.8 }.uppercased
+    static let footer = smallText.centerAligned.multilined()
+    static let headerBlack = headerText.colored(.black).multilined()
+    static let header = headerText.multilined()
 }
 
 extension TitleSubtitleStyle {
-    static var custom: TitleSubtitleStyle { return TitleSubtitleStyle(title: TextStyle.normalText.truncatedMiddle, subtitle: TextStyle.smallText.truncatedMiddle, spacing: 0, insets: .zero) }
+    static let custom = TitleSubtitleStyle(title: TextStyle.normalText.truncatedMiddle, subtitle: TextStyle.smallText.truncatedMiddle, spacing: 0, insets: .zero)
 }
 
 extension BorderStyle {
@@ -101,18 +101,14 @@ extension BorderStyle {
 }
 
 extension ButtonStyle {
-    static var custom: ButtonStyle {
-        return ButtonStyle(
-            contentInsets: UIEdgeInsets(horizontalInset: 5, verticalInset: 3),
-            normal: ButtonStateStyle(color: .clear, border: .none, text: .regularButton),
-            highlighted: ButtonStateStyle(color: .mintGreen, border: BorderStyle(cornerRadius: 4), text: .whiteButton),
-            disabled: ButtonStateStyle(color: .clear, border: .none, text: .disabledButton)
-        )
-    }
+    static let custom = ButtonStyle(contentInsets: UIEdgeInsets(horizontalInset: 5, verticalInset: 3),
+                                    normal: ButtonStateStyle(color: .clear, border: .none, text: .regularButton),
+                                    highlighted: ButtonStateStyle(color: .mintGreen, border: BorderStyle(cornerRadius: 4), text: .whiteButton),
+                                    disabled: ButtonStateStyle(color: .clear, border: .none, text: .disabledButton))
 }
 
 extension BarButtonStyle {
-    static var custom: BarButtonStyle { return BarButtonStyle(text: TextStyle.normalText.colored(.mintGreenDark)) }
+    static let custom = BarButtonStyle(text: TextStyle.normalText.colored(.mintGreenDark))
 }
 
 extension SwitchStyle {
@@ -121,15 +117,13 @@ extension SwitchStyle {
 
 extension SegmentedControlStyle {
 
-    static var custom: SegmentedControlStyle {
-        return SegmentedControlStyle(
-            normal: ButtonStateStyle(color: .white, border: .init(width: UIScreen.main.hairlineWidth, color: .lineGray, cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.mintGreen).resized(to: 15)),
-            highlighted: ButtonStateStyle(color: .mintGreenDark, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.white).resized(to: 15)),
-            disabled: ButtonStateStyle(color: .mintGreen, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.textGray).resized(to: 15)),
-            selected: ButtonStateStyle(color: .mintGreen, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.white).resized(to: 15)),
-            tintColor: .mintGreen
-        )
-    }
+    static let custom = SegmentedControlStyle(
+        normal: ButtonStateStyle(color: .white, border: .init(width: UIScreen.main.hairlineWidth, color: .lineGray, cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.mintGreen).resized(to: 15)),
+        highlighted: ButtonStateStyle(color: .mintGreenDark, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.white).resized(to: 15)),
+        disabled: ButtonStateStyle(color: .mintGreen, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.textGray).resized(to: 15)),
+        selected: ButtonStateStyle(color: .mintGreen, border: .init(cornerRadius: 4), text: TextStyle.normalText.centerAligned.colored(.white).resized(to: 15)),
+        tintColor: .mintGreen
+    )
 }
 
 enum FormType {
