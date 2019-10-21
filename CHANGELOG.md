@@ -1,3 +1,6 @@
+## 2.0.3
+- Improvement: Improved size class handling to better support iPad multitasking, removed all hard references to device type.
+
 ## 2.0.2
 - Bugfix: Fix issue with `scrollToRevealFirstResponder` ([#122](https://github.com/iZettle/Form/issues/122))
 
