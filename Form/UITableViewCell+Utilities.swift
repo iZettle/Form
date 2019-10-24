@@ -107,6 +107,9 @@ public extension UITableViewCell {
 
         contentView.backgroundColor = .clear
 
+        (backgroundView as? CellBackgroundView)?.applyStyle(style)
+        (selectedBackgroundView as? CellBackgroundView)?.applyStyle(style)
+
         // Workaround for the reorder icon
         let reorderViewTag = 473659834
         if let reorderControlView = reorderControlView {
