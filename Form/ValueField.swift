@@ -208,7 +208,7 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
         updateText()
     }
 
-    /// MARK: UIKeyInput (compiler complains if moved to separate extension)
+    // MARK: UIKeyInput (compiler complains if moved to separate extension)
 
     public var hasText: Bool {
         return !editor.text.isEmpty

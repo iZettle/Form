@@ -31,7 +31,7 @@ public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UIC
         self.table = table
     }
 
-    /// MARK: UICollectionViewDelegate (compiler complains if moved to separate extension)
+    // MARK: UICollectionViewDelegate (compiler complains if moved to separate extension)
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let tableIndex = TableIndex(indexPath, in: table) else { return }
@@ -63,7 +63,7 @@ public final class CollectionViewDelegate<Section, Row>: ScrollViewDelegate, UIC
         willDisplayCellCallbacker.callAll(with: (cell, tableIndex))
     }
 
-    /// MARK: UICollectionViewDelegateFlowLayout (compiler complains if moved to separate extension)
+    // MARK: UICollectionViewDelegateFlowLayout (compiler complains if moved to separate extension)
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let collectionViewFlowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {

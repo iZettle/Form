@@ -30,7 +30,7 @@ public final class TableViewDataSource<Section, Row>: NSObject, UITableViewDataS
         self.table = table
     }
 
-    /// MARK: UITableViewDataSource (compiler complains if moved to separate extension)
+    // MARK: UITableViewDataSource (compiler complains if moved to separate extension)
 
     public func numberOfSections(in tableView: UITableView) -> Int {
         return table.sections.count

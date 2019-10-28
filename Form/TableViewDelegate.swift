@@ -41,7 +41,7 @@ public final class TableViewDelegate<Section, Row>: ScrollViewDelegate, UITableV
         self.table = table
     }
 
-    /// MARK: UITableViewDelegate (compiler complains if moved to separate extension)
+    // MARK: UITableViewDelegate (compiler complains if moved to separate extension)
 
     public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         guard let tableIndex = TableIndex(indexPath, in: table) else { return false }

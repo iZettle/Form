@@ -28,7 +28,7 @@ public final class CollectionViewDataSource<Section, Row>: NSObject, UICollectio
         self.table = table
     }
 
-    /// MARK: UICollectionViewDataSource (compiler complains if moved to separate extension)
+    // MARK: UICollectionViewDataSource (compiler complains if moved to separate extension)
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return table.sections[section].count
