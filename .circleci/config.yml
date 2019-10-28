@@ -3,7 +3,7 @@
 
 version: 2.1
 
-anchors: 
+anchors:
   - &test_device "iPhone Xs"
   - &clean_before_build true
   - &test_output_folder test_output
@@ -31,7 +31,7 @@ commands:
     steps:
       - fetch-pod-specs # Fetch the podspec repo changes first to be sure to always get the latest pods
       - run:
-          command: | 
+          command: |
             cd <<parameters.path>>
             pod install --verbose
 
@@ -61,7 +61,7 @@ commands:
           path: <<parameters.path>>
           test_output_folder: *test_output_folder
 
-  # We introduced two separate commands for projects and workspaces because we didnt find a generic and non-confusing way to introduce 
+  # We introduced two separate commands for projects and workspaces because we didnt find a generic and non-confusing way to introduce
   # a condition to only pass either the project or the workspace environment argument to the fastlane scan
   test_project_and_store_results:
     description: "Builds and tests a project and then stores the results of the tests as artifacts and test results report"
@@ -117,9 +117,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install swiftlint(0.35.0)
+          name: Install swiftlint(0.36.0)
           command: |
-            brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/ab64b13d26a3f8617689e3bc7e73a209d11f1bc8/Formula/swiftlint.rb
+            brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/29e4cdfdacb5143af4cdce837f7bf84c7eb52365/Formula/swiftlint.rb
       - run: swiftlint version && swiftlint --strict --reporter html > swiftlint.html
       - store_artifacts:
           path: swiftlint.html
@@ -130,7 +130,7 @@ jobs:
       xcode: "10.3.0"
     steps:
       - test_main_project
-      
+
   test-xcode11-ios13:
     <<: *default_executor
     steps:
@@ -157,4 +157,4 @@ workflows:
       - test-xcode11-ios13
       - test-example-messages
       - test-example-demo
-      
+
