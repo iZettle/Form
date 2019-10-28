@@ -1,3 +1,6 @@
+## 2.0.4
+- Bugfix: Re-apply form style to table cell backgrounds when reusing them and reloading data 
+
 ## 2.0.3
 - Improvement: Improved size class handling to better support iPad multitasking, removed all hard references to device type.
 
