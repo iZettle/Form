@@ -1,1 +1,2 @@
-github "iZettle/Flow" ~> 1.8
+#github "iZettle/Flow" ~> 1.8
+github "iZettle/Flow" "hack/mac-week"
