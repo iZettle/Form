@@ -59,14 +59,22 @@ public extension Sequence where Iterator.Element == UIView {
 public extension UIScreen {
     /// Returns the thinnest line representable on `self`.
     var hairlineWidth: CGFloat {
+        #if targetEnvironment(macCatalyst)
+        return 1.0
+        #else
         return 1.0 / scale
+        #endif
     }
 }
 
 public extension UITraitCollection {
     /// Returns the thinnest line representable on the current used trait's screen, or the main screen in `self`'s displayScale is not defined.
     var hairlineWidth: CGFloat {
+        #if targetEnvironment(macCatalyst)
+        return 1.0
+        #else
         return displayScale > 0 ? 1.0 / displayScale : UIScreen.main.hairlineWidth
+        #endif
     }
 
     /// Returns true if horizontal size class is `.regular`
