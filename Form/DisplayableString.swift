@@ -87,35 +87,4 @@ public extension UIViewController {
     }
 }
 
-#if canImport(Presentation)
-import Presentation
-
-public extension Alert {
-    init(title: DisplayableString? = nil, message: DisplayableString? = nil, tintColor: UIColor? = .defaultAlertTintColor, fields: [Field] = [], actions: [Action]) {
-        self.init(title: title?.displayValue, message: message?.displayValue, tintColor: tintColor, fields: fields, actions: actions)
-    }
-
-    init(title: DisplayableString? = nil, message: DisplayableString? = nil, tintColor: UIColor? = .defaultAlertTintColor, fields: [Field] = [], actions: Action...) {
-        self.init(title: title, message: message, tintColor: tintColor, fields: fields, actions: actions)
-    }
-}
-
-public extension Alert.Action {
-    init(title: DisplayableString, style: UIAlertAction.Style = .default, enabledPredicate: @escaping ([String]) -> Bool = { _ in true }, action: @escaping ([String]) throws -> Value) {
-        self.init(title: title.displayValue, style: style, enabledPredicate: enabledPredicate, action: action)
-    }
-
-    init(title: DisplayableString, style: UIAlertAction.Style = .default, action: @escaping () throws -> Value) {
-        self.init(title: title, style: style, action: { (_: [String]) in try action() })
-    }
-}
-
-public extension Alert.Field {
-    init(initial: String = "", style: FieldStyle = .default) {
-        self.init(initial: initial) { $0.style = style }
-    }
-}
-
-#endif
-
 private var titleKey: UInt8 = 0

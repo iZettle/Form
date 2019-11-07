@@ -47,7 +47,6 @@
 		F624C3CE1F7CFC9F00E1F5C1 /* UIViewController+Install.swift in Sources */ = {isa = PBXBuildFile; fileRef = F624C3CD1F7CFC9F00E1F5C1 /* UIViewController+Install.swift */; };
 		F62E45B91CABFB5300C6867E /* Form.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6A9D5DE1C1728BA009A0EEB /* Form.framework */; };
 		F63863122090B73F00A43824 /* RowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63863112090B73F00A43824 /* RowView.swift */; };
-		F647306C20BFDFB1002BC8E3 /* RowsSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647306A20BFDFB1002BC8E3 /* RowsSelection.swift */; };
 		F64C27F01C7B2C5B003CC378 /* TextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64C27EA1C7B2C5B003CC378 /* TextStyle.swift */; };
 		F64C27F11C7B2C5B003CC378 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64C27EB1C7B2C5B003CC378 /* ButtonStyle.swift */; };
 		F65A9F811C7B1E8F007007B4 /* Form.h in Headers */ = {isa = PBXBuildFile; fileRef = F65A9F7F1C7B1E8F007007B4 /* Form.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -156,7 +155,6 @@
 		F62E45B41CABFB5300C6867E /* FormTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FormTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F62E45B81CABFB5300C6867E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F63863112090B73F00A43824 /* RowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RowView.swift; path = Form/RowView.swift; sourceTree = "<group>"; };
-		F647306A20BFDFB1002BC8E3 /* RowsSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RowsSelection.swift; path = Form/RowsSelection.swift; sourceTree = "<group>"; };
 		F64C27EA1C7B2C5B003CC378 /* TextStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextStyle.swift; path = Form/TextStyle.swift; sourceTree = "<group>"; };
 		F64C27EB1C7B2C5B003CC378 /* ButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonStyle.swift; path = Form/ButtonStyle.swift; sourceTree = "<group>"; };
 		F65A9F7F1C7B1E8F007007B4 /* Form.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Form.h; path = Form/Form.h; sourceTree = SOURCE_ROOT; };
@@ -429,7 +427,6 @@
 				1CEED6CF21341FF300893573 /* ScrollViewDelegate.swift */,
 				1C0656C11F82625E00E60465 /* UICollectionViewCell+Utilities.swift */,
 				1CDA23EB1F8E3A3300CCC541 /* TableAnimatable.swift */,
-				F647306A20BFDFB1002BC8E3 /* RowsSelection.swift */,
 			);
 			name = Tables;
 			sourceTree = "<group>";
@@ -660,7 +657,6 @@
 				F6C34D3A1C7F37DC00168CD9 /* DefaultStyling.swift in Sources */,
 				F6A326EA1F94935200C3A692 /* UILabel+Styling.swift in Sources */,
 				F6BFAFAD2090746C00CBA6B1 /* BarButtonStyle.swift in Sources */,
-				F647306C20BFDFB1002BC8E3 /* RowsSelection.swift in Sources */,
 				F6C2E5EA1C69FA0300453548 /* Table.swift in Sources */,
 				F65A9F9C1C7B1EC6007007B4 /* SeparatorStyle.swift in Sources */,
 				F67D37921C7B2EDD00A35BD4 /* TextEditor.swift in Sources */,
