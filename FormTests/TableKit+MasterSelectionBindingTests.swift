@@ -105,6 +105,30 @@ class TableKitMasterSelectionBindingTests: XCTestCase {
         disposable.dispose()
     }
 
+    func testThatSelectingRowWithNoVisibleRowsDoesNotScroll() {
+        let bag = DisposeBag()
+        let kit = createTableKit(numberOfRows: 10, visibleRows: 0)
+
+        let signal = ReadWriteSignal<TableIndex?>(nil)
+        bag += signal.bindTo(kit, animateSelectionChange: false, select: { _ in })
+
+        let shouldNotScroll = XCTestExpectation(description: "table should not have scrolled")
+        shouldNotScroll.isInverted = true
+
+        bag += kit.view.signal(for: \.contentOffset)
+            .filter { $0 != .zero }
+            .onValue { _ in shouldNotScroll.fulfill() }
+
+        let newSelection = TableIndex(section: 0, row: 0)
+        signal.value = newSelection
+
+        XCTAssert(kit.view.indexPathForSelectedRow == IndexPath(newSelection, in: kit.table))
+
+        let timeout: TimeInterval = 0.1
+        wait(for: [shouldNotScroll], timeout: timeout)
+        bag.dispose(after: timeout)
+    }
+
     func createTableKit(numberOfRows: Int, visibleRows: Int) -> TableKit<EmptySection, Int> {
         let kit: TableKit! = TableKit(table: Table(rows: Array(1...numberOfRows))) { _, _ in UITableViewCell() }
         kit.view.frame.size = kit.view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
