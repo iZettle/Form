@@ -485,7 +485,19 @@ public extension SignalProvider where Kind.DropWrite == Read, Value == TableInde
                 guard let indexPath = IndexPath(index, in: tableKit.table) else {
                     return
                 }
-                let isVisible = tableKit.view.indexPathsForVisibleRows?.contains(indexPath) ?? false
+
+                // select the row
+                tableKit.view.selectRow(at: indexPath, animated: animateSelectionChange, scrollPosition: .none)
+
+                // try to scroll to the selected row
+                guard
+                    let indexPathsForVisibleRows = tableKit.view.indexPathsForVisibleRows,
+                    !indexPathsForVisibleRows.isEmpty
+                else {
+                    return
+                }
+
+                let isVisible = indexPathsForVisibleRows.contains(indexPath)
                 let scrollPosition: UITableView.ScrollPosition
 
                 switch (prev, isVisible) {
@@ -510,11 +522,15 @@ public extension SignalProvider where Kind.DropWrite == Read, Value == TableInde
                     scrollPosition = .middle
                 }
 
-                tableKit.view.selectRow(at: indexPath, animated: animateSelectionChange, scrollPosition: scrollPosition)
+                // .none does not mean no scrolling will occur
+                if scrollPosition != .none {
+                    tableKit.view.scrollToRow(at: indexPath, at: scrollPosition, animated: animateSelectionChange)
+                }
             } else if let prevIndex = prev {
                 guard let indexPath = IndexPath(prevIndex, in: tableKit.table) else {
                     return
                 }
+
                 tableKit.view.deselectRow(at: indexPath, animated: animateSelectionChange)
             }
         }
