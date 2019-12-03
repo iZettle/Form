@@ -235,7 +235,7 @@ public final class TableKit<Section, Row> {
 
         if let hfs = headerForSection {
             bag += delegate.viewForHeaderInSection.set { [weak self] section in
-                guard let `self` = self else { return nil }
+                guard let `self` = self, section < self.table.sections.count else { return nil }
                 return hfs(self.view, self.table.sections[section].value)
             }
         } else {
@@ -246,7 +246,7 @@ public final class TableKit<Section, Row> {
 
         if let ffs = footerForSection {
             bag += delegate.viewForFooterInSection.set { [weak self] section in
-                guard let `self` = self else { return nil }
+                guard let `self` = self, section < self.table.sections.count else { return nil }
                 return ffs(self.view, self.table.sections[section].value)
             }
         } else {

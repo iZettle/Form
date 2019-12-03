@@ -1,3 +1,6 @@
+## 2.0.6
+- Bugfix: Prevent corner case tablekit crash when the table is updated while reloading the view
+
 ## 2.0.5
 - Bugfix: Prevent TableKit scrolling on row selection when no rows are visible (see #145).
 
