@@ -88,12 +88,33 @@ class TableChangeTests: XCTestCase {
     }
 
     func testSectionInsertAndRemove() {
-        test(from: [("A", [1])], to: [("A", [1]), ("B", [1])])
-        test(from: [("A", [1])], to: [("A", [1]), ("B", [1]), ("C", [1])])
-        test(from: [("B", [1])], to: [("A", [1]), ("B", [1])])
-        test(from: [("C", [1])], to: [("A", [1]), ("B", [1]), ("C", [1])])
-        test(from: [("B", [1])], to: [("A", [1]), ("B", [1]), ("C", [1])])
-        test(from: [("C", [1]), ("B", [1]), ("A", [1])], to: [("A", [1]), ("B", [1]), ("C", [1])])
+        test(from: [("A", [1])], to: [("A", [1]), ("B", [1])]) // insert at the end
+        test(from: [("A", [1])], to: [("A", [1]), ("B", [1]), ("C", [1])]) // insert at the end
+        test(from: [("B", [1])], to: [("A", [1]), ("B", [1])]) // insert at the beginning
+        test(from: [("C", [1])], to: [("A", [1]), ("B", [1]), ("C", [1])]) // insert at the beginning
+        test(from: [("B", [1])], to: [("A", [1]), ("B", [1]), ("C", [1])]) // insert at the end and at the beginning
+
+        test(from: [("A", [1]), ("B", [1])], to: [("B", [1])]) // remove first
+        test(from: [("A", [1]), ("B", [1])], to: [("A", [1])]) // remove last
+
+        test(from: [("C", [1]), ("B", [1]), ("A", [1])], to: [("A", [1]), ("B", [1]), ("C", [1])]) // reorder
+    }
+
+    func testSectionRemove_sectionWithHeaderAndFooter_beforeTableIsLaidOut() {
+        let oldTable = Table(sections: [("1", [0, 1, 2]), ("2", [3, 4])])
+        let newTable = Table(sections: [("1", [0, 1, 2])])
+
+        let tableKit = TableKit<String, Int>(
+            table: oldTable,
+            headerForSection: { _, _ in UILabel() },
+            footerForSection: { _, _ in UILabel() },
+            cellForRow: { _, _ in UITableViewCell() }
+        )
+
+        tableKit.view.frame = window.bounds
+        window.addSubview(tableKit.view)
+
+        tableKit.set(newTable, rowIdentifier: { $0 })
     }
 
     func testSectionAndRowInsertAndRemove() {
