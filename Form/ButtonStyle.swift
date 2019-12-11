@@ -132,7 +132,7 @@ private extension UIButton {
             }
         }
 
-        if let normalTextStyle = style.states[.normal]?.text {
+        if #available(iOS 10.0, *), let normalTextStyle = style.states[.normal]?.text {
             self.titleLabel?.refreshTextScaling(for: normalTextStyle)
         }
     }

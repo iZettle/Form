@@ -68,6 +68,7 @@ public extension UILabel {
     }
 }
 
+@available(iOS 10.0, *)
 internal extension UIContentSizeCategoryAdjusting {
 
     /// Resets the automatic font adjusting to the current value provided by `textStyle`
@@ -75,12 +76,18 @@ internal extension UIContentSizeCategoryAdjusting {
     /// - Note: This is a workaround. UI elements conforming to this protocol usually scale properly when they are on screen when the content size category changes. However when configured for the first time with font that was scaled for different font metrics the adjusting doesn't happen automatically.
     /// - Parameter textStyle: Contains the preference about font content size adjustment
     func refreshTextScaling(for textStyle: TextStyle) {
+        self.adjustsFontForContentSizeCategory = false
+        let adjusts = textStyle.adjustsFontForContentSizeCategory
+        if adjusts {
+            self.adjustsFontForContentSizeCategory = adjusts
+        }
+    }
+}
+
+extension UILabel {
+    func refreshTextScaling() {
         if #available(iOS 10.0, *) {
-            self.adjustsFontForContentSizeCategory = false
-            let adjusts = textStyle.adjustsFontForContentSizeCategory
-            if adjusts {
-                self.adjustsFontForContentSizeCategory = adjusts
-            }
+            self.refreshTextScaling(for: self.style)
         }
     }
 }
@@ -118,7 +125,7 @@ private extension UILabel {
             attributedText = NSAttributedString(styledText: styledText)
         }
 
-        self.refreshTextScaling(for: style)
+        self.refreshTextScaling()
 
         guard let accessibilityIdentifier = styledText.text.accessibilityIdentifier else { return }
         self.accessibilityIdentifier = accessibilityIdentifier
