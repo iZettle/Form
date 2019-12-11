@@ -16,6 +16,9 @@ public struct TextStyle: Style {
 
     public typealias Attributes = [NSAttributedString.Key: Any]
     public private(set) var attributes: Attributes = [:]
+
+    /// Indicates whether the object configured with the style should automatically update its font when the device's content size category changes
+    public var adjustsFontForContentSizeCategory: Bool = true
 }
 
 public extension TextStyle {

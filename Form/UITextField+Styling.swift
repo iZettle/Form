@@ -59,6 +59,8 @@ public extension UITextField {
             attributedText = NSAttributedString(styledText: styledText)
             attributedPlaceholder = NSAttributedString(text: placeholder ?? "", style: newValue.placeholder)
 
+            self.refreshTextScaling(for: newValue.text)
+
             textAlignment = newValue.text.alignment
 
             self.selectedTextRange = selectedTextRange
