@@ -76,8 +76,9 @@ internal extension UIContentSizeCategoryAdjusting {
     /// - Note: This is a workaround. UI elements conforming to this protocol usually scale properly when they are on screen when the content size category changes. However when configured for the first time with font that was scaled for different font metrics the adjusting doesn't happen automatically.
     /// - Parameter textStyle: Contains the preference about font content size adjustment
     func refreshTextScaling(for textStyle: TextStyle) {
+        let adjustsFont = textStyle.adjustsFontForContentSizeCategory ?? self.adjustsFontForContentSizeCategory
         self.adjustsFontForContentSizeCategory = false
-        if textStyle.adjustsFontForContentSizeCategory {
+        if adjustsFont {
             self.adjustsFontForContentSizeCategory = true
         }
     }

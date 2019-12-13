@@ -26,7 +26,7 @@ class UILabelScalingTests: XCTestCase {
     }
 
     func testScalingWhenSwitchingSizeCategory_plainTextStyle() {
-        let label = UILabel(value: "Test", style: .plain)
+        let label = UILabel(value: "Test", style: TextStyle.plain.restyled { $0.adjustsFontForContentSizeCategory = true })
 
         let regularSize = labelPointSizeInScalingWindow(label, windowSizeCategory: .large)
         let largerSize = labelPointSizeInScalingWindow(label, windowSizeCategory: .extraExtraLarge)
@@ -50,7 +50,7 @@ class UILabelScalingTests: XCTestCase {
     }
 
     func testScalingWhenSwitchingSizeCategory_customAttributesTextStyle() {
-        let label = UILabel(value: "Test", style: .withCustomAttributes)
+        let label = UILabel(value: "Test", style: TextStyle.withCustomAttributes.restyled { $0.adjustsFontForContentSizeCategory = true })
 
         let regularSize = labelPointSizeInScalingWindow(label, windowSizeCategory: .large)
         let largerSize = labelPointSizeInScalingWindow(label, windowSizeCategory: .extraExtraLarge)
