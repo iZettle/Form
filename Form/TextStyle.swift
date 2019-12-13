@@ -19,7 +19,15 @@ public struct TextStyle: Style {
 }
 
 public extension TextStyle {
-    init(font: UIFont, color: UIColor, alignment: NSTextAlignment = .natural, numberOfLines: Int = 1, lineBreakMode: NSLineBreakMode = .byTruncatingMiddle, minimumScaleFactor: CGFloat = 0) {
+    init(
+        font: UIFont,
+        color: UIColor,
+        alignment: NSTextAlignment = .natural,
+        numberOfLines: Int = 1,
+        lineBreakMode: NSLineBreakMode = .byTruncatingMiddle,
+        minimumScaleFactor: CGFloat = 0,
+        adjustsFontForContentSizeCategory: Bool? = nil
+    ) {
         // Don't set attributes directly to make sure lookups such as equatableForAttribute is being correctly updated.
         self.font = font
         self.color = color
@@ -27,6 +35,7 @@ public extension TextStyle {
         self.alignment = alignment
         self.lineBreakMode = lineBreakMode
         self.minimumScaleFactor = minimumScaleFactor
+        self.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory
     }
 }
 
