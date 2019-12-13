@@ -77,9 +77,8 @@ internal extension UIContentSizeCategoryAdjusting {
     /// - Parameter textStyle: Contains the preference about font content size adjustment
     func refreshTextScaling(for textStyle: TextStyle) {
         self.adjustsFontForContentSizeCategory = false
-        let adjusts = textStyle.adjustsFontForContentSizeCategory
-        if adjusts {
-            self.adjustsFontForContentSizeCategory = adjusts
+        if textStyle.adjustsFontForContentSizeCategory {
+            self.adjustsFontForContentSizeCategory = true
         }
     }
 }
