@@ -1,3 +1,6 @@
+## 2.1.0
+- Added: Optional `adjustsFontForContentSizeCategory` property to specify on a TextStyle
+
 ## 2.0.6
 - Bugfix: Prevent corner case tablekit crash when the table is updated while reloading the view
 
