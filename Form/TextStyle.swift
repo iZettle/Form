@@ -100,7 +100,8 @@ public extension TextStyle {
         set { setAttribute(newValue, for: .minimumScaleFactor) }
     }
 
-    /// Indicates whether the object configured with the style should automatically update its font when the device's content size category changes
+    /// Indicates whether the object configured with the style should automatically update its font when the device's content size category changes.
+    /// If `nil`, no changes will be applied to the object preserving its current behaviour (which may vary based on OS version)
     var adjustsFontForContentSizeCategory: Bool? {
         get { return attribute(for: .adjustsFontForContentSizeCategory) }
         set { setAttribute(newValue, for: .adjustsFontForContentSizeCategory) }
