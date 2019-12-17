@@ -14,7 +14,8 @@ class UILabelScalingTests: XCTestCase {
 
     func testInitialScaling_plainTextStyle() {
         func makeLabel() -> UILabel {
-            return UILabel(value: "Test", style: .plain)
+            let style = TextStyle.plain.restyled { $0.adjustsFontForContentSizeCategory = true }
+            return UILabel(value: "Test", style: style)
         }
 
         let regularSize = labelPointSizeInScalingWindow(makeLabel(), windowSizeCategory: .large)
@@ -26,7 +27,8 @@ class UILabelScalingTests: XCTestCase {
     }
 
     func testScalingWhenSwitchingSizeCategory_plainTextStyle() {
-        let label = UILabel(value: "Test", style: TextStyle.plain.restyled { $0.adjustsFontForContentSizeCategory = true })
+        let style = TextStyle.plain.restyled { $0.adjustsFontForContentSizeCategory = true }
+        let label = UILabel(value: "Test", style: style)
 
         let regularSize = labelPointSizeInScalingWindow(label, windowSizeCategory: .large)
         let largerSize = labelPointSizeInScalingWindow(label, windowSizeCategory: .extraExtraLarge)
@@ -38,7 +40,8 @@ class UILabelScalingTests: XCTestCase {
 
     func testInitialScaling_customAttributesTextStyle() {
         func makeLabel() -> UILabel {
-            return UILabel(value: "Test", style: .withCustomAttributes)
+            let style = TextStyle.withCustomAttributes.restyled { $0.adjustsFontForContentSizeCategory = true }
+            return UILabel(value: "Test", style: style)
         }
 
         let regularSize = labelPointSizeInScalingWindow(makeLabel(), windowSizeCategory: .large)
@@ -50,7 +53,8 @@ class UILabelScalingTests: XCTestCase {
     }
 
     func testScalingWhenSwitchingSizeCategory_customAttributesTextStyle() {
-        let label = UILabel(value: "Test", style: TextStyle.withCustomAttributes.restyled { $0.adjustsFontForContentSizeCategory = true })
+        let style = TextStyle.withCustomAttributes.restyled { $0.adjustsFontForContentSizeCategory = true }
+        let label = UILabel(value: "Test", style: style)
 
         let regularSize = labelPointSizeInScalingWindow(label, windowSizeCategory: .large)
         let largerSize = labelPointSizeInScalingWindow(label, windowSizeCategory: .extraExtraLarge)

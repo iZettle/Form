@@ -16,6 +16,9 @@ public struct TextStyle: Style {
 
     public typealias Attributes = [NSAttributedString.Key: Any]
     public private(set) var attributes: Attributes = [:]
+
+    // Don't set attributes as custom properties to make sure lookups such as equatableForAttribute is being correctly updated.
+    // When adding attributes that don't need attributed text updates, add them to `plainAttributes`
 }
 
 public extension TextStyle {
@@ -28,7 +31,6 @@ public extension TextStyle {
         minimumScaleFactor: CGFloat = 0,
         adjustsFontForContentSizeCategory: Bool? = nil
     ) {
-        // Don't set attributes directly to make sure lookups such as equatableForAttribute is being correctly updated.
         self.font = font
         self.color = color
         self.numberOfLines = numberOfLines
