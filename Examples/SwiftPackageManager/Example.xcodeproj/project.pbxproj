@@ -7,14 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4741CE9814DE8D2639507D10 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5B9475F8BEE0CBFE0122705 /* Pods_Example.framework */; };
 		536D90FC2338FE5C0070F3D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536D90FB2338FE5C0070F3D5 /* AppDelegate.swift */; };
 		536D90FE2338FE5C0070F3D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536D90FD2338FE5C0070F3D5 /* SceneDelegate.swift */; };
 		536D91002338FE5C0070F3D5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536D90FF2338FE5C0070F3D5 /* ViewController.swift */; };
 		536D91032338FE5C0070F3D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 536D91012338FE5C0070F3D5 /* Main.storyboard */; };
 		536D91052338FE5D0070F3D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 536D91042338FE5D0070F3D5 /* Assets.xcassets */; };
 		536D91082338FE5D0070F3D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 536D91062338FE5D0070F3D5 /* LaunchScreen.storyboard */; };
-		536D913723390BAB0070F3D5 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 536D913623390BAB0070F3D5 /* SwiftPackageProductDependency */; };
+		536D913723390BAB0070F3D5 /* Form in Frameworks */ = {isa = PBXBuildFile; productRef = 536D913623390BAB0070F3D5 /* Form */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,9 +25,6 @@
 		536D91042338FE5D0070F3D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		536D91072338FE5D0070F3D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		536D91092338FE5D0070F3D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A5B9475F8BEE0CBFE0122705 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CF5A19350A4EE4B673E67686 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
-		FF5D6260CBF760B32BEF1249 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,8 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				536D913723390BAB0070F3D5 /* BuildFile in Frameworks */,
-				4741CE9814DE8D2639507D10 /* Pods_Example.framework in Frameworks */,
+				536D913723390BAB0070F3D5 /* Form in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,8 +44,6 @@
 			children = (
 				536D90FA2338FE5C0070F3D5 /* Example */,
 				536D90F92338FE5C0070F3D5 /* Products */,
-				536D913523390BAB0070F3D5 /* Frameworks */,
-				701FD60C9B6A41945258136E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -76,24 +69,6 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
-		536D913523390BAB0070F3D5 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				A5B9475F8BEE0CBFE0122705 /* Pods_Example.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		701FD60C9B6A41945258136E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				CF5A19350A4EE4B673E67686 /* Pods-Example.debug.xcconfig */,
-				FF5D6260CBF760B32BEF1249 /* Pods-Example.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -101,7 +76,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 536D910C2338FE5D0070F3D5 /* Build configuration list for PBXNativeTarget "Example" */;
 			buildPhases = (
-				965A11B955C387FA845CAB7A /* [CP] Check Pods Manifest.lock */,
 				536D90F42338FE5C0070F3D5 /* Sources */,
 				536D90F52338FE5C0070F3D5 /* Frameworks */,
 				536D90F62338FE5C0070F3D5 /* Resources */,
@@ -112,7 +86,7 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				536D913623390BAB0070F3D5 /* SwiftPackageProductDependency */,
+				536D913623390BAB0070F3D5 /* Form */,
 			);
 			productName = Example;
 			productReference = 536D90F82338FE5C0070F3D5 /* Form SPM.app */;
@@ -143,7 +117,7 @@
 			);
 			mainGroup = 536D90EF2338FE5C0070F3D5;
 			packageReferences = (
-				536D910F2338FF8F0070F3D5 /* RemoteSwiftPackageReference */,
+				536D910F2338FF8F0070F3D5 /* XCRemoteSwiftPackageReference "Form" */,
 			);
 			productRefGroup = 536D90F92338FE5C0070F3D5 /* Products */;
 			projectDirPath = "";
@@ -166,31 +140,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		965A11B955C387FA845CAB7A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Example-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		536D90F42338FE5C0070F3D5 /* Sources */ = {
@@ -341,7 +290,6 @@
 		};
 		536D910D2338FE5D0070F3D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CF5A19350A4EE4B673E67686 /* Pods-Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -360,7 +308,6 @@
 		};
 		536D910E2338FE5D0070F3D5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF5D6260CBF760B32BEF1249 /* Pods-Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -401,7 +348,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		536D910F2338FF8F0070F3D5 /* RemoteSwiftPackageReference */ = {
+		536D910F2338FF8F0070F3D5 /* XCRemoteSwiftPackageReference "Form" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/iZettle/Form";
 			requirement = {
@@ -412,9 +359,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		536D913623390BAB0070F3D5 /* SwiftPackageProductDependency */ = {
+		536D913623390BAB0070F3D5 /* Form */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 536D910F2338FF8F0070F3D5 /* RemoteSwiftPackageReference */;
+			package = 536D910F2338FF8F0070F3D5 /* XCRemoteSwiftPackageReference "Form" */;
 			productName = Form;
 		};
 /* End XCSwiftPackageProductDependency section */
