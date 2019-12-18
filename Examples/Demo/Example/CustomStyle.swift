@@ -72,10 +72,20 @@ extension UIColor {
 }
 
 extension UIFont {
-    static let normalText = UIFont.systemFont(ofSize: 17, weight: .medium)
-    static let smallText = UIFont.systemFont(ofSize: 14, weight: .regular)
-    static let regularButton = UIFont.systemFont(ofSize: 20, weight: .medium)
-    static let headerText = UIFont.systemFont(ofSize: 14, weight: .medium)
+    static let normalTextStatic: UIFont = {
+        if #available(iOS 10.0, *) {
+            return UIFont.preferredFont(
+                forTextStyle: .body,
+                compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)
+            )
+        } else {
+            return UIFont.systemFont(ofSize: 17, weight: .medium)
+        }
+    }()
+    static let normalText = UIFont.preferredFont(forTextStyle: .body)
+    static let smallText = UIFont.preferredFont(forTextStyle: .callout)
+    static let regularButton = UIFont.preferredFont(forTextStyle: .title3)
+    static let headerText = UIFont.preferredFont(forTextStyle: .subheadline)
 }
 
 extension TextStyle {
@@ -108,7 +118,9 @@ extension ButtonStyle {
 }
 
 extension BarButtonStyle {
-    static let custom = BarButtonStyle(text: TextStyle.normalText.colored(.mintGreenDark))
+    static let custom = BarButtonStyle(text: TextStyle.normalText.colored(.mintGreenDark).restyled {
+        $0.font = .normalTextStatic
+    })
 }
 
 extension SwitchStyle {

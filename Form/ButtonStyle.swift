@@ -91,19 +91,6 @@ extension ButtonStyle {
 }
 
 private extension UIButton {
-    func applyStateStyle(_ style: ButtonStateStyle, forState state: UIControl.State) {
-        setBackgroundImage(style.backgroundImage, for: state)
-        if style.text.isPlain {
-            setTitleColor(style.text.color, for: state)
-            if state == .normal {
-                titleLabel?.styledText = StyledText(text: title(for: .normal) ?? "", style: style.text)
-            }
-        } else {
-            let attrTitle = NSAttributedString(string: title(for: state) ?? "", attributes: style.text.attributes)
-            setAttributedTitle(attrTitle, for: state)
-        }
-    }
-
     func buttonStyle(for state: UIControl.State) -> ButtonStateStyle? {
         switch state {
         case UIControl.State.normal, UIControl.State.disabled, UIControl.State.selected, UIControl.State.highlighted: break
@@ -143,6 +130,10 @@ private extension UIButton {
                 let attrTitle = NSAttributedString(string: title(for: state) ?? "", attributes: style.text.attributes)
                 setAttributedTitle(attrTitle, for: state)
             }
+        }
+
+        if #available(iOS 10.0, *), let normalTextStyle = style.states[.normal]?.text {
+            self.titleLabel?.refreshTextScaling(for: normalTextStyle)
         }
     }
 

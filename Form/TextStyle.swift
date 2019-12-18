@@ -16,17 +16,28 @@ public struct TextStyle: Style {
 
     public typealias Attributes = [NSAttributedString.Key: Any]
     public private(set) var attributes: Attributes = [:]
+
+    // Don't set attributes as custom properties to make sure lookups such as equatableForAttribute is being correctly updated.
+    // When adding attributes that don't need attributed text updates, add them to `plainAttributes`
 }
 
 public extension TextStyle {
-    init(font: UIFont, color: UIColor, alignment: NSTextAlignment = .natural, numberOfLines: Int = 1, lineBreakMode: NSLineBreakMode = .byTruncatingMiddle, minimumScaleFactor: CGFloat = 0) {
-        // Don't set attributes directly to make sure lookups such as equatableForAttribute is being correctly updated.
+    init(
+        font: UIFont,
+        color: UIColor,
+        alignment: NSTextAlignment = .natural,
+        numberOfLines: Int = 1,
+        lineBreakMode: NSLineBreakMode = .byTruncatingMiddle,
+        minimumScaleFactor: CGFloat = 0,
+        adjustsFontForContentSizeCategory: Bool? = nil
+    ) {
         self.font = font
         self.color = color
         self.numberOfLines = numberOfLines
         self.alignment = alignment
         self.lineBreakMode = lineBreakMode
         self.minimumScaleFactor = minimumScaleFactor
+        self.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory
     }
 }
 
@@ -87,6 +98,13 @@ public extension TextStyle {
     var minimumScaleFactor: CGFloat {
         get { return attribute(for: .minimumScaleFactor) ?? 0 }
         set { setAttribute(newValue, for: .minimumScaleFactor) }
+    }
+
+    /// Indicates whether the object configured with the style should automatically update its font when the device's content size category changes.
+    /// If `nil`, no changes will be applied to the object preserving its current behaviour (which may vary based on OS version)
+    var adjustsFontForContentSizeCategory: Bool? {
+        get { return attribute(for: .adjustsFontForContentSizeCategory) }
+        set { setAttribute(newValue, for: .adjustsFontForContentSizeCategory) }
     }
 
     var highlightedColor: UIColor {
@@ -268,6 +286,7 @@ extension NSAttributedString.Key {
     static let lineSpacing = NSAttributedString.Key(rawValue: "_lineSpacing")
     static let textAlignment = NSAttributedString.Key(rawValue: "_textAligment")
     static let minimumScaleFactor = NSAttributedString.Key(rawValue: "_minimumScaleFactor")
+    static let adjustsFontForContentSizeCategory = NSAttributedString.Key(rawValue: "_adjustsFontForContentSizeCategory")
 }
 
 extension TextStyle {
@@ -305,7 +324,7 @@ private extension TextStyle {
 private var equatableForAttribute = [NSAttributedString.Key: (Any, Any) -> Bool]()
 private var nextTextStyleChangeIndex = 0
 private let plainAttributes: Set<NSAttributedString.Key> = [
-    .foregroundColor, .font, .numberOfLines, .highlightedColor, .lineBreakMode, .textAlignment, .minimumScaleFactor
+    .foregroundColor, .font, .numberOfLines, .highlightedColor, .lineBreakMode, .textAlignment, .minimumScaleFactor, .adjustsFontForContentSizeCategory
 ]
 private var customAttributes = [NSAttributedString.Key: ((NSAttributedString, Any) -> NSAttributedString)]()
 

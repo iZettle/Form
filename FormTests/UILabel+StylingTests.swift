@@ -95,7 +95,7 @@ class UILabelStylingTests: XCTestCase {
     }
 }
 
-private extension TextStyle {
-    static let plain = TextStyle(font: .systemFont(ofSize: 14.0), color: .black)
-    static let withCustomAttributes = TextStyle.plain.restyled { $0.letterSpacing = 1.0 }
+extension TextStyle {
+    static let plain = TextStyle(font: .preferredFont(forTextStyle: .body), color: .black)
+    static let withCustomAttributes = TextStyle.plain.restyled { $0.letterSpacing = 1.0 }.uppercased
 }

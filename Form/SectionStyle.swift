@@ -63,8 +63,8 @@ public extension DynamicSectionStyle {
     static let systemGrouped = DynamicSectionStyle { Style(traits: $0, isGrouped: true) }
     static let systemPlain = DynamicSectionStyle { Style(traits: $0, isGrouped: false) }
 
-    static let defaultGrouped = DefaultStyling.current.sectionGrouped
-    static let defaultPlain = DefaultStyling.current.sectionPlain
+    static var defaultGrouped: DynamicSectionStyle { return DefaultStyling.current.sectionGrouped }
+    static var defaultPlain: DynamicSectionStyle { return DefaultStyling.current.sectionPlain }
 
     static var `default`: DynamicSectionStyle { return defaultGrouped }
 }

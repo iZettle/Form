@@ -31,6 +31,7 @@
 		7222DD03235A34310036619F /* TableKit+MasterSelectionBindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7222DD02235A34310036619F /* TableKit+MasterSelectionBindingTests.swift */; };
 		722EB63723242D37003AA360 /* ScrollViewVerticalContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722EB63623242D37003AA360 /* ScrollViewVerticalContextTests.swift */; };
 		722EB65023266A99003AA360 /* CollectionKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722EB64F23266A99003AA360 /* CollectionKitTests.swift */; };
+		723C684B23A3CEA1008FD4B6 /* UILabel+ScalingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723C684A23A3CEA1008FD4B6 /* UILabel+ScalingTests.swift */; };
 		724EC30D2241513D001F3E11 /* UILabel+StylingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724EC30C2241513D001F3E11 /* UILabel+StylingTests.swift */; };
 		7270AFB0201FAB7C004DAAA3 /* ViewLayoutArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7270AFAF201FAB7C004DAAA3 /* ViewLayoutArea.swift */; };
 		72C5ED6F226F432600E32125 /* UIScrollView+PinningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5ED6E226F432600E32125 /* UIScrollView+PinningTests.swift */; };
@@ -140,6 +141,7 @@
 		7222DD02235A34310036619F /* TableKit+MasterSelectionBindingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableKit+MasterSelectionBindingTests.swift"; sourceTree = "<group>"; };
 		722EB63623242D37003AA360 /* ScrollViewVerticalContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewVerticalContextTests.swift; sourceTree = "<group>"; };
 		722EB64F23266A99003AA360 /* CollectionKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionKitTests.swift; sourceTree = "<group>"; };
+		723C684A23A3CEA1008FD4B6 /* UILabel+ScalingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+ScalingTests.swift"; sourceTree = "<group>"; };
 		724EC30C2241513D001F3E11 /* UILabel+StylingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+StylingTests.swift"; sourceTree = "<group>"; };
 		7270AFAF201FAB7C004DAAA3 /* ViewLayoutArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewLayoutArea.swift; path = Form/ViewLayoutArea.swift; sourceTree = "<group>"; };
 		72C5ED6E226F432600E32125 /* UIScrollView+PinningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+PinningTests.swift"; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				F604260920B6A47E00BC4CAB /* ParentChildRelationalTests.swift */,
 				F6B81B9320CA906000B6AC39 /* NumberEditorTests.swift */,
 				724EC30C2241513D001F3E11 /* UILabel+StylingTests.swift */,
+				723C684A23A3CEA1008FD4B6 /* UILabel+ScalingTests.swift */,
 				72C5ED6E226F432600E32125 /* UIScrollView+PinningTests.swift */,
 				722EB63623242D37003AA360 /* ScrollViewVerticalContextTests.swift */,
 				F62E45B81CABFB5300C6867E /* Info.plist */,
@@ -586,6 +589,7 @@
 			files = (
 				722EB63723242D37003AA360 /* ScrollViewVerticalContextTests.swift in Sources */,
 				CFD2FFE3221323BF002D4D36 /* TextStyleTests.swift in Sources */,
+				723C684B23A3CEA1008FD4B6 /* UILabel+ScalingTests.swift in Sources */,
 				F604260A20B6A47E00BC4CAB /* ParentChildRelationalTests.swift in Sources */,
 				F6B81B9420CA906000B6AC39 /* NumberEditorTests.swift in Sources */,
 				7222DD03235A34310036619F /* TableKit+MasterSelectionBindingTests.swift in Sources */,
