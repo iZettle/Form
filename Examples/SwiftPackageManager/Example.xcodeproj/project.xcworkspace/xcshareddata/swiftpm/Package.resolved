@@ -6,7 +6,7 @@
         "repositoryURL": "https://github.com/izettle/Flow.git",
         "state": {
           "branch": null,
-          "revision": "0563b5bc4b3a5a4869f9d7ff498a8de5031e3dc5",
+          "revision": "cae0957c8ccd8e4ec8c4bbe533579a421d4d654d",
           "version": "1.8.3"
         }
       },
@@ -15,7 +15,7 @@
         "repositoryURL": "https://github.com/iZettle/Form",
         "state": {
           "branch": "master",
-          "revision": "bde9cd6f47de3fba0ff55dcad7224ce3ac37b0bb",
+          "revision": "199982a3a75b7d8ecc28ff2871fb09096c54b419",
           "version": null
         }
       }
