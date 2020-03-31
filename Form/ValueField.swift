@@ -36,6 +36,8 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
         didSet { applyStyle() }
     }
 
+    public var shouldResetBeforeNextInsertion: Bool = false
+
     public init<Editor: TextEditor>(value: Value, placeholder: DisplayableString = "", editor: Editor, style: FieldStyle = .default) where Editor.Value == Value {
         self.editor = editor.anyEditor
         self.editor.value = value
@@ -204,7 +206,14 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
     }
 
     public override func paste(_ sender: Any?) {
-        editor.insertText(UIPasteboard.general.string ?? "")
+        let textToPaste = UIPasteboard.general.string ?? ""
+
+        if shouldResetBeforeNextInsertion && editor.isValidText(textToPaste) {
+            editor.reset()
+            shouldResetBeforeNextInsertion = false
+        }
+
+        editor.insertText(textToPaste)
         updateText()
     }
 
@@ -215,6 +224,11 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
     }
 
     public func insertText(_ text: String) {
+        if shouldResetBeforeNextInsertion && editor.isValidText(text) {
+            editor.reset()
+            shouldResetBeforeNextInsertion = false
+        }
+
         for char in text {
             switch char {
             case "\n":

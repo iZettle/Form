@@ -12,14 +12,19 @@ import Foundation
 public protocol TextEditor {
     associatedtype Value
 
-    /// The current value of the editied text
+    /// The current value of the edited text
     var value: Value { get set }
 
     /// The current formatted text of value and the index into text where insertions happen, useful for placing cursors etc.
     var textAndInsertionIndex: (text: String, index: String.Index) { get }
 
+    func isValidCharacter(_ char: Character) -> Bool
+
     mutating func insertCharacter(_ char: Character)
+
     mutating func deleteBackward()
+
+    mutating func reset()
 }
 
 public extension TextEditor {
@@ -29,6 +34,10 @@ public extension TextEditor {
 
     var insertionIndex: String.Index {
         return textAndInsertionIndex.index
+    }
+
+    func isValidText(_ text: String) -> Bool {
+        return text.allSatisfy(isValidCharacter)
     }
 
     mutating func insertText(_ text: String) {
@@ -71,11 +80,19 @@ public class AnyTextEditor<Value>: TextEditor {
         fatalError()
     }
 
+    public func isValidCharacter(_ char: Character) -> Bool {
+        fatalError()
+    }
+
     public func insertCharacter(_ char: Character) {
         fatalError()
     }
 
     public func deleteBackward() {
+        fatalError()
+    }
+
+    public func reset() {
         fatalError()
     }
 }
@@ -100,6 +117,10 @@ final class KeyPathTextEditor<Value, Editor: TextEditor>: TextEditor {
         return editor.textAndInsertionIndex
     }
 
+    func isValidCharacter(_ char: Character) -> Bool {
+        return editor.isValidCharacter(char)
+    }
+
     func insertCharacter(_ char: Character) {
         editor.insertCharacter(char)
         value[keyPath: keyPath] = editor.value
@@ -107,6 +128,12 @@ final class KeyPathTextEditor<Value, Editor: TextEditor>: TextEditor {
 
     func deleteBackward() {
         editor.deleteBackward()
+        let val = editor.value
+        value[keyPath: keyPath] = val
+    }
+
+    func reset() {
+        editor.reset()
         let val = editor.value
         value[keyPath: keyPath] = val
     }
@@ -129,11 +156,19 @@ private final class _AnyTextEditor<Editor: TextEditor>: AnyTextEditor<Editor.Val
         return editor.textAndInsertionIndex
     }
 
+    public override func isValidCharacter(_ char: Character) -> Bool {
+        return editor.isValidCharacter(char)
+    }
+
     public override func insertCharacter(_ char: Character) {
         editor.insertCharacter(char)
     }
 
     public override func deleteBackward() {
         editor.deleteBackward()
+    }
+
+    public override func reset() {
+        editor.reset()
     }
 }

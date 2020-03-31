@@ -10,18 +10,22 @@ import XCTest
 import Form
 
 class DecimalEditorTests: XCTestCase {
-    /// '<' is delete backward
+    /// '<' is delete backward, 'r' is reset
     @discardableResult
-    func test<TE: TextEditor>(_ editor: TE, _ characters: String, _ expectedText: String, _ expectedValue: TE.Value, _ distance: Int) -> TE where TE.Value: Equatable {
+    func test<TE: TextEditor>(_ editor: TE, _ characters: String, _ expectedText: String, _ expectedValue: TE.Value, _ distance: Int) -> TE where TE.Value: NSDecimalNumber {
         var editor = editor
         for character in characters {
             if character == "<" {
                 editor.deleteBackward()
+            } else if character == "r" {
+                editor.reset()
             } else {
                 editor.insertCharacter(character)
             }
         }
-        XCTAssertEqual(editor.value, expectedValue, "Comparing values")
+
+        let valuesAreEqual = abs((editor.value as Decimal) - (expectedValue as Decimal)) < 0.0000000001
+        XCTAssert(valuesAreEqual, "Comparing values")
         XCTAssertEqual(editor.text, expectedText, "Comparing text")
         XCTAssertEqual(editor.text.distance(from: editor.insertionIndex, to: editor.text.endIndex), distance, "Comparing insertion index")
 
@@ -186,5 +190,25 @@ class DecimalEditorTests: XCTestCase {
         test(editor, "-123", "-N1.23", -1.23, 0)
         test(editor, "-12-3", "P1.23", 1.23, 0)
         test(editor, "-12-3-", "-N1.23", -1.23, 0)
+    }
+
+    func testReset() {
+        let formatter = decimalFormatter
+        let editor = NumberEditor(formatter: formatter)
+
+        test(editor, "0r", "0", 0, 0)
+        test(editor, "111111111111111111111111111111111r", "0", 0, 0)
+        test(editor, "1234r", "0", 0, 0)
+        test(editor, "1.2r", "0", 0, 0)
+        test(editor, "1.111111111111111111111111111111111r", "0", 0, 0)
+        test(editor, "-1r", "0", 0, 0)
+        test(editor, "-1.r", "0", 0, 0)
+        test(editor, "1234<<r", "0", 0, 0)
+        test(editor, "123<<<34r", "0", 0, 0)
+        test(editor, "12345r<", "0", 0, 0)
+        test(editor, "12345r111", "111", 111, 0)
+        test(editor, "12345r-111", "-111", -111, 0)
+        test(editor, "12345r1.11", "1.11", 1.11, 0)
+        test(editor, "12345r-1.11", "-1.11", -1.11, 0)
     }
 }
