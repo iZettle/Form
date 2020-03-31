@@ -13,7 +13,7 @@ import Foundation
 public struct NumberEditor<Value> {
     private var formatterBox: Box<NumberFormatter> // Need to box the formatter to assure we respect value semantics
     private var minFractionDigits: Int // If greater than zero, "cash register" will be used
-    private var internalText: String = "0" // The internal text is just a string of digits [0-9]
+    private var internalText: String = .initialTextValue // The internal text is just a string of digits [0-9]. The initial value is "0"
     private var isNegative: Bool = false
     private let valueToDecimal: (Value) -> NSDecimalNumber
     private let decimalToValue: (NSDecimalNumber) -> Value
@@ -43,6 +43,10 @@ extension NumberEditor: TextEditor {
 
         guard let insertionIndexFromBack = formatter.insertionIndexFromBack else { return (text, text.endIndex) }
         return (text, text.index(text.endIndex, offsetBy: -insertionIndexFromBack))
+    }
+
+    public func isValidCharacter(_ char: Character) -> Bool {
+        return char.isDigit || char == decimalCharacter || char == negativeCharacter
     }
 
     mutating public func insertCharacter(_ char: Character) {
@@ -83,6 +87,14 @@ extension NumberEditor: TextEditor {
 
         deleteLast()
     }
+
+    mutating public func reset() {
+        // reset to "0"
+        let initialDecimalValue = decimalFromInternalText(.initialTextValue)
+        let nextDecimalValue = initialDecimalValue == .negativeZero ? .zero : initialDecimalValue
+
+        self.value = decimalToValue(nextDecimalValue)
+    }
 }
 
 public extension NumberEditor where Value == NSDecimalNumber {
@@ -111,6 +123,10 @@ public extension NumberEditor where Value: BinaryFloatingPoint & CustomStringCon
 public extension NumberFormatter {
     static var defaultInteger: NumberFormatter { return integerFormatter.copy }
     static var defaultDecimal: NumberFormatter { return decimalFormatter.copy }
+}
+
+private extension String {
+    static let initialTextValue = "0"
 }
 
 private extension NumberFormatter {
