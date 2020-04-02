@@ -12,7 +12,7 @@ import Form
 class DecimalEditorTests: XCTestCase {
     /// '<' is delete backward, 'R' toggles `shouldResetOnInsertion`
     @discardableResult
-    func test<TE: TextEditor>(_ editor: TE, _ characters: String, _ expectedText: String, _ expectedValue: TE.Value, _ distance: Int, file: StaticString = #file, line: UInt = #line) -> TE where TE.Value: NSDecimalNumber {
+    func test(_ editor: NumberEditor<NSDecimalNumber>, _ characters: String, _ expectedText: String, _ expectedValue: NSDecimalNumber, _ distance: Int, file: StaticString = #file, line: UInt = #line) -> NumberEditor<NSDecimalNumber> {
         var editor = editor
         for character in characters {
             if character == "<" {

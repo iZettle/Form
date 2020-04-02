@@ -8,7 +8,7 @@ import Form
 class ValueEditorTests: XCTestCase {
     /// '<' is delete backward, 'R' toggles `shouldResetOnInsertion`
     @discardableResult
-    func test<TE: TextEditor>(_ editor: TE, _ inputSequence: String, _ expectedValue: TE.Value, _ distance: Int, file: StaticString = #file, line: UInt = #line) -> TE where TE.Value: Equatable {
+    func test(_ editor: ValueEditor<String>, _ inputSequence: String, _ expectedValue: String, _ distance: Int, file: StaticString = #file, line: UInt = #line) -> ValueEditor<String> {
         var editor = editor
         for character in inputSequence {
             if character == "<" {

@@ -15,11 +15,6 @@ public protocol TextEditor {
     /// The current value of the edited text
     var value: Value { get set }
 
-    /// This property emulates the behavior of `UITextField.clearOnInsertion`. The default value is `false`. When the
-    /// value is `true`, inserting new characters resets `value` to `defaultValue` and sets this property back to
-    /// `false`.
-    var shouldResetOnInsertion: Bool { get set }
-
     /// The current formatted text of value and the index into text where insertions happen, useful for placing cursors etc.
     var textAndInsertionIndex: (text: String, index: String.Index) { get }
 
@@ -78,12 +73,6 @@ public class AnyTextEditor<Value>: TextEditor {
         fatalError()
     }
 
-    public var shouldResetOnInsertion: Bool {
-        get { fatalError() }
-        // swiftlint:disable:next unused_setter_value
-        set { fatalError() }
-    }
-
     public var textAndInsertionIndex: (text: String, index: String.Index) {
         fatalError()
     }
@@ -117,11 +106,6 @@ final class KeyPathTextEditor<Value, Editor: TextEditor>: TextEditor {
         fatalError()
     }
 
-    public var shouldResetOnInsertion: Bool {
-        get { return editor.shouldResetOnInsertion }
-        set { editor.shouldResetOnInsertion = newValue }
-    }
-
     var textAndInsertionIndex: (text: String, index: String.Index) {
         return editor.textAndInsertionIndex
     }
@@ -150,11 +134,6 @@ private final class _AnyTextEditor<Editor: TextEditor>: AnyTextEditor<Editor.Val
     public override var value: Value {
         get { return editor.value }
         set { editor.value = newValue }
-    }
-
-    public override var shouldResetOnInsertion: Bool {
-        get { return editor.shouldResetOnInsertion }
-        set { editor.shouldResetOnInsertion = newValue }
     }
 
     public override var textAndInsertionIndex: (text: String, index: String.Index) {

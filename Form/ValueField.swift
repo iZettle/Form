@@ -36,11 +36,6 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
         didSet { applyStyle() }
     }
 
-    public var shouldResetOnInsertion: Bool {
-        get { return editor.shouldResetOnInsertion }
-        set { editor.shouldResetOnInsertion = newValue }
-    }
-
     public init<Editor: TextEditor>(value: Value, placeholder: DisplayableString = "", editor: Editor, style: FieldStyle = .default) where Editor.Value == Value {
         self.editor = editor.anyEditor
         self.editor.value = value
