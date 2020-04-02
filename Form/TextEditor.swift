@@ -15,8 +15,6 @@ public protocol TextEditor {
     /// The current value of the edited text
     var value: Value { get set }
 
-    var defaultValue: Value { get }
-
     /// This property emulates the behavior of `UITextField.clearOnInsertion`. The default value is `false`. When the
     /// value is `true`, inserting new characters resets `value` to `defaultValue` and sets this property back to
     /// `false`.
@@ -28,8 +26,6 @@ public protocol TextEditor {
     mutating func insertCharacter(_ char: Character)
 
     mutating func deleteBackward()
-
-    mutating func reset()
 }
 
 public extension TextEditor {
@@ -51,10 +47,6 @@ public extension TextEditor {
         for _ in 0..<repeatCount {
             deleteBackward()
         }
-    }
-
-    mutating func reset() {
-        self.value = self.defaultValue
     }
 }
 
@@ -103,10 +95,6 @@ public class AnyTextEditor<Value>: TextEditor {
     public func deleteBackward() {
         fatalError()
     }
-
-    public func reset() {
-        fatalError()
-    }
 }
 
 final class KeyPathTextEditor<Value, Editor: TextEditor>: TextEditor {
@@ -148,20 +136,10 @@ final class KeyPathTextEditor<Value, Editor: TextEditor>: TextEditor {
         let val = editor.value
         value[keyPath: keyPath] = val
     }
-
-    func reset() {
-        editor.reset()
-        let val = editor.value
-        value[keyPath: keyPath] = val
-    }
 }
 
 private final class _AnyTextEditor<Editor: TextEditor>: AnyTextEditor<Editor.Value> {
     public typealias Value = Editor.Value
-
-    public override var defaultValue: Value {
-        return editor.defaultValue
-    }
 
     private var editor: Editor
 
@@ -189,9 +167,5 @@ private final class _AnyTextEditor<Editor: TextEditor>: AnyTextEditor<Editor.Val
 
     public override func deleteBackward() {
         editor.deleteBackward()
-    }
-
-    public override func reset() {
-        editor.reset()
     }
 }

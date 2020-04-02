@@ -6,15 +6,13 @@ import XCTest
 import Form
 
 class ValueEditorTests: XCTestCase {
-    /// '<' is delete backward, 'r' resets the editor, 'R' toggles `shouldResetOnInsertion`
+    /// '<' is delete backward, 'R' toggles `shouldResetOnInsertion`
     @discardableResult
-    func test<TE: TextEditor>(_ editor: TE, _ inputSequence: String, _ expectedValue: TE.Value, _ distance: Int) -> TE where TE.Value: Equatable {
+    func test<TE: TextEditor>(_ editor: TE, _ inputSequence: String, _ expectedValue: TE.Value, _ distance: Int, file: StaticString = #file, line: UInt = #line) -> TE where TE.Value: Equatable {
         var editor = editor
         for character in inputSequence {
             if character == "<" {
                 editor.deleteBackward()
-            } else if character == "r" {
-                editor.reset()
             } else if character == "R" {
                 editor.shouldResetOnInsertion = !editor.shouldResetOnInsertion
             } else {
@@ -22,23 +20,10 @@ class ValueEditorTests: XCTestCase {
             }
         }
 
-        XCTAssertEqual(editor.value, expectedValue, "Comparing values")
-        XCTAssertEqual(editor.text.distance(from: editor.insertionIndex, to: editor.text.endIndex), distance, "Comparing insertion index")
+        XCTAssertEqual(editor.value, expectedValue, "Comparing values", file: file, line: line)
+        XCTAssertEqual(editor.text.distance(from: editor.insertionIndex, to: editor.text.endIndex), distance, "Comparing insertion index", file: file, line: line)
 
         return editor
-    }
-
-    func testReset() {
-        let editor = ValueEditor<String>()
-
-        test(editor, "r", "", 0)
-        test(editor, "1234rrrr", "", 0)
-        test(editor, "111111111111111111111111111111111r", "", 0)
-        test(editor, "1234<<r", "", 0)
-        test(editor, "123<<<34r", "", 0)
-        test(editor, "12345r<", "", 0)
-        test(editor, "12345r111", "111", 0)
-        test(editor, "12345r111<", "11", 0)
     }
 
     func testResetOnInsertion_isDisabledByDefault() {
@@ -78,6 +63,6 @@ class ValueEditorTests: XCTestCase {
         test(editor, "12R<", "1", 0)
         test(editor, "12R<3", "3", 0)
         test(editor, "12RR<3", "13", 0)
-        test(editor, "12R34r", "", 0)
+        test(editor, "12R34R1<", "", 0)
     }
 }

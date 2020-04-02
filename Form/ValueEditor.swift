@@ -51,7 +51,7 @@ public struct ValueEditor<Value>: TextEditor {
 
         if shouldResetOnInsertion {
             shouldResetOnInsertion = false
-            reset()
+            self.value = self.defaultValue
         }
 
         guard valueToText(value).count < maxCharacters else { return }

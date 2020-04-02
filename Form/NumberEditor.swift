@@ -74,7 +74,7 @@ extension NumberEditor: TextEditor {
 
             if shouldResetOnInsertion {
                 shouldResetOnInsertion = false
-                reset()
+                self.value = self.defaultValue
             }
 
             append(char)
