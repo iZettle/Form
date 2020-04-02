@@ -103,7 +103,7 @@ public func chainResponders(_ controls: UIControl..., shouldLoop: Bool = false, 
     return chainResponders(controls, shouldLoop: shouldLoop, returnKey: returnKey)
 }
 
-public extension ParentChildRelational where Member: UIView, Self: UIView {
+public extension ParentChildRelational where Self: UIView {
     /// Returns whether `self` of any ancestors are hidden.
     var isSelfOrAnyAncenstorHidden: Bool {
         return isHidden || allAncestors.contains { $0.isHidden }
