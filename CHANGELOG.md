@@ -1,3 +1,8 @@
+## 3.0.0
+- Added: `.shouldResetOnInsertion` to `ValueField`.
+- Added: `reset()`, `defaultValue`, and `.shouldResetOnInsertion` to the `TextEditor` protocol (breaking change).
+- Changed: Removed deprecated symbols.
+
 ## 2.2.0
 - Added: Swift 5.2 support
 - Bugfix: Remove circular reference from ParentChildRelational
