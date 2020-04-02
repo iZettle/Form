@@ -104,7 +104,7 @@
 		F6DC5681208F469200F2DF3C /* InsettedStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DC5680208F469200F2DF3C /* InsettedStyle.swift */; };
 		F6DD5CB320A0408000975242 /* ButtonStateStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DD5CB220A0408000975242 /* ButtonStateStyle.swift */; };
 		F6FBC82D20AF197B004BC82A /* SectionBackgroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FBC82C20AF197B004BC82A /* SectionBackgroundStyle.swift */; };
-		F7E4DD632433C276009404FB /* ValueFieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E4DD622433C276009404FB /* ValueFieldTests.swift */; };
+		F704C9662436411200208560 /* ValueEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F704C9652436411200208560 /* ValueEditorTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -228,7 +228,7 @@
 		F6DC5680208F469200F2DF3C /* InsettedStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InsettedStyle.swift; path = Form/InsettedStyle.swift; sourceTree = "<group>"; };
 		F6DD5CB220A0408000975242 /* ButtonStateStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ButtonStateStyle.swift; path = Form/ButtonStateStyle.swift; sourceTree = "<group>"; };
 		F6FBC82C20AF197B004BC82A /* SectionBackgroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SectionBackgroundStyle.swift; path = Form/SectionBackgroundStyle.swift; sourceTree = "<group>"; };
-		F7E4DD622433C276009404FB /* ValueFieldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueFieldTests.swift; sourceTree = "<group>"; };
+		F704C9652436411200208560 /* ValueEditorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueEditorTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -284,7 +284,7 @@
 				B35F8B4B1F3783E400904E37 /* CollectionDiffTests.swift */,
 				F604260920B6A47E00BC4CAB /* ParentChildRelationalTests.swift */,
 				F6B81B9320CA906000B6AC39 /* NumberEditorTests.swift */,
-				F7E4DD622433C276009404FB /* ValueFieldTests.swift */,
+				F704C9652436411200208560 /* ValueEditorTests.swift */,
 				724EC30C2241513D001F3E11 /* UILabel+StylingTests.swift */,
 				723C684A23A3CEA1008FD4B6 /* UILabel+ScalingTests.swift */,
 				72C5ED6E226F432600E32125 /* UIScrollView+PinningTests.swift */,
@@ -594,11 +594,11 @@
 				CFD2FFE3221323BF002D4D36 /* TextStyleTests.swift in Sources */,
 				723C684B23A3CEA1008FD4B6 /* UILabel+ScalingTests.swift in Sources */,
 				F604260A20B6A47E00BC4CAB /* ParentChildRelationalTests.swift in Sources */,
-				F7E4DD632433C276009404FB /* ValueFieldTests.swift in Sources */,
 				F6B81B9420CA906000B6AC39 /* NumberEditorTests.swift in Sources */,
 				7222DD03235A34310036619F /* TableKit+MasterSelectionBindingTests.swift in Sources */,
 				5B4ABD3A2257365C0073FACE /* TableKitTests.swift in Sources */,
 				CDD2A5211F42DE7500E2B78B /* HighlightedTests.swift in Sources */,
+				F704C9662436411200208560 /* ValueEditorTests.swift in Sources */,
 				B35F8B4C1F3783E400904E37 /* CollectionDiffTests.swift in Sources */,
 				722EB65023266A99003AA360 /* CollectionKitTests.swift in Sources */,
 				72C5ED6F226F432600E32125 /* UIScrollView+PinningTests.swift in Sources */,
