@@ -10,7 +10,7 @@ import XCTest
 import Form
 
 class DecimalEditorTests: XCTestCase {
-    /// '<' is delete backward, 'r' is reset
+    /// '<' is delete backward, 'r' resets the editor, 'R' toggles `shouldResetOnInsertion`
     @discardableResult
     func test<TE: TextEditor>(_ editor: TE, _ characters: String, _ expectedText: String, _ expectedValue: TE.Value, _ distance: Int) -> TE where TE.Value: NSDecimalNumber {
         var editor = editor
@@ -19,6 +19,8 @@ class DecimalEditorTests: XCTestCase {
                 editor.deleteBackward()
             } else if character == "r" {
                 editor.reset()
+            } else if character == "R" {
+                editor.shouldResetOnInsertion = !editor.shouldResetOnInsertion
             } else {
                 editor.insertCharacter(character)
             }
@@ -210,5 +212,38 @@ class DecimalEditorTests: XCTestCase {
         test(editor, "12345r-111", "-111", -111, 0)
         test(editor, "12345r1.11", "1.11", 1.11, 0)
         test(editor, "12345r-1.11", "-1.11", -1.11, 0)
+    }
+
+    func testResetOnInsertion_isDisabledByDefault() {
+        let formatter = decimalFormatter
+        let editor = NumberEditor(formatter: formatter)
+
+        XCTAssertFalse(editor.shouldResetOnInsertion)
+    }
+
+    func testResetOnInsertion_isDisabledAfterInsertion() {
+        let formatter = decimalFormatter
+        var editor = NumberEditor(formatter: formatter)
+
+        editor.shouldResetOnInsertion = true
+        editor.insertCharacter("1")
+        XCTAssertFalse(editor.shouldResetOnInsertion)
+    }
+
+    func testResetOnInsertion() {
+        let formatter = decimalFormatter
+        let editor = NumberEditor(formatter: formatter)
+
+        test(editor, "12R", "12", 12, 0)
+        test(editor, "12R3", "3", 3, 0)
+        test(editor, "1R23", "23", 23, 0)
+        test(editor, "12RR3", "123", 123, 0)
+        test(editor, "12RRR3", "3", 3, 0)
+        test(editor, "12R23R34R45", "45", 45, 0)
+        test(editor, "12R<", "1", 1, 0)
+        test(editor, "12R<3", "3", 3, 0)
+        test(editor, "12RR<3", "13", 13, 0)
+        test(editor, "12R34r", "0", 0, 0)
+        test(editor, "12R\n", "12", 12, 0)
     }
 }
