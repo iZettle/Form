@@ -1,3 +1,6 @@
+## 2.2.0
+- Added: Swift 5.2 support
+
 ## 2.1.0
 - Added: Optional `adjustsFontForContentSizeCategory` property to specify on a TextStyle
 
