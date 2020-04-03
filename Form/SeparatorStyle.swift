@@ -76,17 +76,6 @@ public extension UITraitCollection {
     var isCompact: Bool { return horizontalSizeClass == .compact }
 }
 
-// Deprecated
-public extension UITraitCollection {
-
-    @available(*, deprecated, message: "No longer supported as a convenience variable. Prefer size class checks (isRegular/isCompact) or check the userInterfaceIdiom manually")
-    var isPad: Bool { return userInterfaceIdiom == .pad }
-
-    @available(*, deprecated, message: "No longer supported as a convenience variable. Prefer size class checks (isRegular/isCompact) or check the userInterfaceIdiom manually")
-    var isPhone: Bool { return userInterfaceIdiom == .phone }
-
-}
-
 public extension CGFloat {
     /// Returns the thinnest line representable by the main screen.
     static var hairlineWidth: CGFloat {

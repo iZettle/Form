@@ -193,29 +193,6 @@ public extension CollectionKit {
         }
         return bag
     }
-
-    @available(*, deprecated, message: "use `registerViewForSupplementaryElement(kind:item:)` instead")
-    func registerViewForSupplementaryElement<S: Reusable>(item: @escaping (TableIndex) -> (S)) -> Disposable where S.ReuseType: ViewRepresentable {
-        let kind = String(describing: S.self)
-        let bag = DisposeBag()
-        bag += dataSource.supplementaryElement(for: kind).set { index -> UICollectionReusableView in
-            guard let indexPath = IndexPath(index, in: self.table) else {
-                return UICollectionReusableView()
-            }
-            let item = item(index)
-            let view = self.view.dequeueSupplementaryView(forItem: item, kind: kind, at: indexPath)
-            return view
-        }
-        bag += {
-            for cell in self.view.visibleSupplementaryViews(ofKind: kind) {
-                cell.releaseBag(forType: S.self)
-            }
-        }
-        bag += delegate.didEndDisplayingSupplementaryView(forKind: kind).onValue { view in
-            view.releaseBag(forType: S.self)
-        }
-        return bag
-    }
 }
 
 private extension CollectionKit {

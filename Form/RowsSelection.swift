@@ -36,11 +36,6 @@ public struct RowsSelection<Row: SelectableRow> {
         return lazySelection.unbox
     }
 
-    @available(*, deprecated, message: "pass isCollapsed as a ReadSignal<Bool?> instead")
-    public init(isCollapsed: ReadSignal<Bool>, isInline: @escaping (Row) -> Bool = { _ in true }, bag: DisposeBag) {
-        self.init(isCollapsed: isCollapsed.map { value -> Bool? in return value }, isInline: isInline, bag: bag)
-    }
-
     /// Creates a new instance.
     /// - Parameters:
     ///   - isCollapsed: Whether or not details are displayed.
