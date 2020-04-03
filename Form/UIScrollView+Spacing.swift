@@ -12,8 +12,8 @@ import Flow
 public extension UIScrollView {
     /// Will evenly add spacing between the `orderedViews` to fill out any empty space in the scroll view.
     /// The height of the added spacing will be dynamically updated to react on layout changes.
-    // - Parameter disembedBag: Will add disembedding of views and constraints to bag in not nil.
-    // - Returns: A disposable that upon disposal will end the the dynamic update of added spacing.
+    /// - Parameter disembedBag: Will add disembedding of views and constraints to bag in not nil.
+    /// - Returns: A disposable that upon disposal will end the the dynamic update of added spacing.
     func embedWithSpacingBetween(_ orderedViews: [UIView], disembedBag: DisposeBag? = nil) -> Disposable {
         let bag = DisposeBag()
 

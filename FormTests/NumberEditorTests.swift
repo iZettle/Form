@@ -10,18 +10,24 @@ import XCTest
 import Form
 
 class DecimalEditorTests: XCTestCase {
-    /// '<' is delete backward
+    /// '<' is delete backward, 'r' resets the editor, 'R' toggles `shouldResetOnInsertion`
     @discardableResult
-    func test<TE: TextEditor>(_ editor: TE, _ characters: String, _ expectedText: String, _ expectedValue: TE.Value, _ distance: Int) -> TE where TE.Value: Equatable {
+    func test<TE: TextEditor>(_ editor: TE, _ characters: String, _ expectedText: String, _ expectedValue: TE.Value, _ distance: Int) -> TE where TE.Value: NSDecimalNumber {
         var editor = editor
         for character in characters {
             if character == "<" {
                 editor.deleteBackward()
+            } else if character == "r" {
+                editor.reset()
+            } else if character == "R" {
+                editor.shouldResetOnInsertion = !editor.shouldResetOnInsertion
             } else {
                 editor.insertCharacter(character)
             }
         }
-        XCTAssertEqual(editor.value, expectedValue, "Comparing values")
+
+        let valuesAreEqual = abs((editor.value as Decimal) - (expectedValue as Decimal)) < 0.0000000001
+        XCTAssert(valuesAreEqual, "Comparing values")
         XCTAssertEqual(editor.text, expectedText, "Comparing text")
         XCTAssertEqual(editor.text.distance(from: editor.insertionIndex, to: editor.text.endIndex), distance, "Comparing insertion index")
 
@@ -186,5 +192,58 @@ class DecimalEditorTests: XCTestCase {
         test(editor, "-123", "-N1.23", -1.23, 0)
         test(editor, "-12-3", "P1.23", 1.23, 0)
         test(editor, "-12-3-", "-N1.23", -1.23, 0)
+    }
+
+    func testReset() {
+        let formatter = decimalFormatter
+        let editor = NumberEditor(formatter: formatter)
+
+        test(editor, "0r", "0", 0, 0)
+        test(editor, "111111111111111111111111111111111r", "0", 0, 0)
+        test(editor, "1234r", "0", 0, 0)
+        test(editor, "1.2r", "0", 0, 0)
+        test(editor, "1.111111111111111111111111111111111r", "0", 0, 0)
+        test(editor, "-1r", "0", 0, 0)
+        test(editor, "-1.r", "0", 0, 0)
+        test(editor, "1234<<r", "0", 0, 0)
+        test(editor, "123<<<34r", "0", 0, 0)
+        test(editor, "12345r<", "0", 0, 0)
+        test(editor, "12345r111", "111", 111, 0)
+        test(editor, "12345r-111", "-111", -111, 0)
+        test(editor, "12345r1.11", "1.11", 1.11, 0)
+        test(editor, "12345r-1.11", "-1.11", -1.11, 0)
+    }
+
+    func testResetOnInsertion_isDisabledByDefault() {
+        let formatter = decimalFormatter
+        let editor = NumberEditor(formatter: formatter)
+
+        XCTAssertFalse(editor.shouldResetOnInsertion)
+    }
+
+    func testResetOnInsertion_isDisabledAfterInsertion() {
+        let formatter = decimalFormatter
+        var editor = NumberEditor(formatter: formatter)
+
+        editor.shouldResetOnInsertion = true
+        editor.insertCharacter("1")
+        XCTAssertFalse(editor.shouldResetOnInsertion)
+    }
+
+    func testResetOnInsertion() {
+        let formatter = decimalFormatter
+        let editor = NumberEditor(formatter: formatter)
+
+        test(editor, "12R", "12", 12, 0)
+        test(editor, "12R3", "3", 3, 0)
+        test(editor, "1R23", "23", 23, 0)
+        test(editor, "12RR3", "123", 123, 0)
+        test(editor, "12RRR3", "3", 3, 0)
+        test(editor, "12R23R34R45", "45", 45, 0)
+        test(editor, "12R<", "1", 1, 0)
+        test(editor, "12R<3", "3", 3, 0)
+        test(editor, "12RR<3", "13", 13, 0)
+        test(editor, "12R34r", "0", 0, 0)
+        test(editor, "12R\n", "12", 12, 0)
     }
 }

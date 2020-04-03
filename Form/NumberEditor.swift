@@ -13,10 +13,13 @@ import Foundation
 public struct NumberEditor<Value> {
     private var formatterBox: Box<NumberFormatter> // Need to box the formatter to assure we respect value semantics
     private var minFractionDigits: Int // If greater than zero, "cash register" will be used
-    private var internalText: String = "0" // The internal text is just a string of digits [0-9]
+    private var internalText: String // The internal text is just a string of digits [0-9].
     private var isNegative: Bool = false
     private let valueToDecimal: (Value) -> NSDecimalNumber
     private let decimalToValue: (NSDecimalNumber) -> Value
+
+    public var shouldResetOnInsertion: Bool = false
+    public let defaultValue: Value
 
     /// Creates a new instance with using `formatter` settings for editing.
     /// Parameters:
@@ -27,6 +30,10 @@ public struct NumberEditor<Value> {
         formatter.generatesDecimalNumbers = true
         minFractionDigits = formatter.minimumFractionDigits
         formatterBox = Box(formatter)
+
+        self.defaultValue = decimalToValue(0)
+        self.internalText = "0"
+
         self.valueToDecimal = valueToDecimal
         self.decimalToValue = decimalToValue
     }
@@ -47,6 +54,7 @@ extension NumberEditor: TextEditor {
 
     mutating public func insertCharacter(_ char: Character) {
         let maxLength = formatter.maximumIntegerDigits + minimumFractionDigits
+
         guard internalText.count < maxLength || char == decimalCharacter || (alwaysShowsDecimalSeparator && minFractionDigits == 0) else {
             return
         }
@@ -62,6 +70,11 @@ extension NumberEditor: TextEditor {
                 if alwaysShowsDecimalSeparator {
                     minimumFractionDigits += 1
                 }
+            }
+
+            if shouldResetOnInsertion {
+                shouldResetOnInsertion = false
+                reset()
             }
 
             append(char)

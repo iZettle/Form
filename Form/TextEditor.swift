@@ -12,14 +12,26 @@ import Foundation
 public protocol TextEditor {
     associatedtype Value
 
-    /// The current value of the editied text
+    /// The current value of the edited text
     var value: Value { get set }
+
+    /// The value to which the editor will be reset.
+    var defaultValue: Value { get }
+
+    /// This property emulates the behavior of `UITextField.clearOnInsertion`. The default value is `false`. When the
+    /// value is `true`, inserting new characters resets `value` to `defaultValue` and sets this property back to
+    /// `false`.
+    var shouldResetOnInsertion: Bool { get set }
 
     /// The current formatted text of value and the index into text where insertions happen, useful for placing cursors etc.
     var textAndInsertionIndex: (text: String, index: String.Index) { get }
 
     mutating func insertCharacter(_ char: Character)
+
     mutating func deleteBackward()
+
+    /// Reset the value of editor to `defaultValue`
+    mutating func reset()
 }
 
 public extension TextEditor {
@@ -42,6 +54,10 @@ public extension TextEditor {
             deleteBackward()
         }
     }
+
+    mutating func reset() {
+        self.value = self.defaultValue
+    }
 }
 
 public extension TextEditor {
@@ -61,7 +77,18 @@ public func isDigit(_ character: Character) -> Bool {
 }
 
 public class AnyTextEditor<Value>: TextEditor {
+
     public var value: Value {
+        get { fatalError() }
+        // swiftlint:disable:next unused_setter_value
+        set { fatalError() }
+    }
+
+    public var defaultValue: Value {
+        fatalError()
+    }
+
+    public var shouldResetOnInsertion: Bool {
         get { fatalError() }
         // swiftlint:disable:next unused_setter_value
         set { fatalError() }
@@ -78,6 +105,10 @@ public class AnyTextEditor<Value>: TextEditor {
     public func deleteBackward() {
         fatalError()
     }
+
+    public func reset() {
+        fatalError()
+    }
 }
 
 final class KeyPathTextEditor<Value, Editor: TextEditor>: TextEditor {
@@ -91,9 +122,16 @@ final class KeyPathTextEditor<Value, Editor: TextEditor>: TextEditor {
     }
 
     var value: Value {
-        didSet {
-            editor.value = value[keyPath: keyPath]
-        }
+        didSet { editor.value = value[keyPath: keyPath] }
+    }
+
+    public var defaultValue: Value {
+        fatalError("Not supported!")
+    }
+
+    public var shouldResetOnInsertion: Bool {
+        get { return editor.shouldResetOnInsertion }
+        set { editor.shouldResetOnInsertion = newValue }
     }
 
     var textAndInsertionIndex: (text: String, index: String.Index) {
@@ -107,13 +145,22 @@ final class KeyPathTextEditor<Value, Editor: TextEditor>: TextEditor {
 
     func deleteBackward() {
         editor.deleteBackward()
-        let val = editor.value
-        value[keyPath: keyPath] = val
+        value[keyPath: keyPath] = editor.value
+    }
+
+    func reset() {
+        editor.reset()
+        value[keyPath: keyPath] = editor.value
     }
 }
 
 private final class _AnyTextEditor<Editor: TextEditor>: AnyTextEditor<Editor.Value> {
     public typealias Value = Editor.Value
+
+    public override var defaultValue: Value {
+        return editor.defaultValue
+    }
+
     private var editor: Editor
 
     public init(_ editor: Editor) {
@@ -123,6 +170,11 @@ private final class _AnyTextEditor<Editor: TextEditor>: AnyTextEditor<Editor.Val
     public override var value: Value {
         get { return editor.value }
         set { editor.value = newValue }
+    }
+
+    public override var shouldResetOnInsertion: Bool {
+        get { return editor.shouldResetOnInsertion }
+        set { editor.shouldResetOnInsertion = newValue }
     }
 
     public override var textAndInsertionIndex: (text: String, index: String.Index) {
@@ -135,5 +187,9 @@ private final class _AnyTextEditor<Editor: TextEditor>: AnyTextEditor<Editor.Val
 
     public override func deleteBackward() {
         editor.deleteBackward()
+    }
+
+    public override func reset() {
+        editor.reset()
     }
 }
