@@ -76,7 +76,7 @@ class ValueEditorTests: XCTestCase {
         test(editor, "12RRR3", "3", 0)
         test(editor, "12R23R34R45", "45", 0)
         test(editor, "12R<", "1", 0)
-        test(editor, "12R<3", "3", 0)
+        test(editor, "12R<3", "13", 0)
         test(editor, "12RR<3", "13", 0)
         test(editor, "12R34r", "", 0)
     }
