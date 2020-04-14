@@ -94,6 +94,7 @@ extension NumberEditor: TextEditor {
             }
         }
 
+        shouldResetOnInsertion = false
         deleteLast()
     }
 }

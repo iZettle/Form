@@ -62,9 +62,13 @@ public struct ValueEditor<Value>: TextEditor {
     }
 
     mutating public func deleteBackward() {
+        shouldResetOnInsertion = false
+
         var text = valueToText(value)
         guard text.count > minCharacters else { return }
+
         text.remove(at: text.index(before: text.endIndex))
+
         if let value = textToValue(text) {
             self.value = value
         }
