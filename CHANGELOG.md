@@ -1,3 +1,6 @@
+## 3.0.1
+- Change: `ValueField`: clear the `.shouldResetOnInsertion` flag when deleting characters.
+
 ## 3.0.0
 - Added: `.shouldResetOnInsertion` to `ValueField`.
 - Added: `reset()`, `defaultValue`, and `.shouldResetOnInsertion` to the `TextEditor` protocol (breaking change).
