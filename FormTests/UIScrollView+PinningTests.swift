@@ -7,6 +7,12 @@ import Form
 import Flow
 
 class UIScrollViewPinningTests: XCTestCase {
+    let bag = DisposeBag()
+
+    override func tearDown() {
+        bag.dispose()
+    }
+
     func testPinningWithMinHeight_finalViewHeightHigherThanMinHeight() {
         verifyPinningViewToTopAndToBottom(initialViewMinimumHeight: 200,
                                           pinningMinimumHeight: 100,
@@ -31,6 +37,33 @@ class UIScrollViewPinningTests: XCTestCase {
                                           finalViewMinimumHeight: 200,
                                           pinningMinimumHeight: 400,
                                           expectedHeight: 400)
+    }
+
+    func testPinningTopAndBottom_noInfiniteLoop() { // TODO: Messy, clean me up!
+        let scrollViewOffset: CGFloat = 50
+        let (scrollView, container) = makeEmbeddedScrollView(
+            size: CGSize(width: 200 * 2, height: 200 * 2),
+            scrollViewOffset: scrollViewOffset
+        )
+
+        let loopExpectation = expectation(description: "Caught in an infinite loop due to subview updating!")
+        loopExpectation.isInverted = true
+
+        var subviewsCount = 0
+
+        bag += scrollView.subviewsSignal.onValue { _ in
+            subviewsCount += 1
+            if subviewsCount > 4 { loopExpectation.fulfill() }
+        }
+
+        bag += scrollView.pinEmbeddedView(to: .top, height: 20, minHeight: 10)
+        bag += scrollView.pinEmbeddedView(to: .bottom, height: 20, minHeight: 10)
+
+        scrollView.contentOffset = .zero
+        container.setNeedsLayout()
+        container.layoutIfNeeded()
+
+        waitForExpectations(timeout: 5)
     }
 
     // MARK: - Helpers
@@ -94,7 +127,7 @@ class UIScrollViewPinningTests: XCTestCase {
             XCTAssertEqual(viewToEmbed.frame.origin.y, expectedOriginY, assertMessage, file: file, line: line)
         }
 
-        disposable.dispose()
+        bag += disposable
     }
 
     private func makeEmbeddedScrollView(size: CGSize, scrollViewOffset: CGFloat) -> (UIScrollView, UIView) {
@@ -102,5 +135,17 @@ class UIScrollViewPinningTests: XCTestCase {
         let container = UIView(embeddedView: scrollView, edgeInsets: UIEdgeInsets(horizontalInset: 0, verticalInset: scrollViewOffset))
         container.frame = CGRect(origin: .zero, size: size)
         return (scrollView, container)
+    }
+}
+
+private extension UIScrollView {
+    func pinEmbeddedView(to edge: UIScrollView.PinEdge,
+                         height: CGFloat,
+                         minHeight: CGFloat) -> Disposable {
+        let viewToEmbed = UIView()
+        let heightConstraint: NSLayoutConstraint = viewToEmbed.heightAnchor >= height
+        activate(heightConstraint)
+
+        return embedPinned(viewToEmbed, edge: edge, minHeight: minHeight)
     }
 }
