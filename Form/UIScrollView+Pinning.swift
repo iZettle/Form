@@ -121,8 +121,21 @@ public extension UIScrollView {
             }
         }
 
-        bag += subviewsSignal.onValue { _ in
-            self.bringSubviewToFront(view)
+        // Bring view to front whenever subviews are updated,
+        // but make sure we're not causing two pinned views to
+        // infinitely compete for the last index.
+        bag += subviewsSignal.onValue { subviews in
+            guard let index = subviews.firstIndex(of: view) else { return }
+
+            let subsequentSubviews = Array(subviews.dropFirst(Int(index) + 1))
+
+            guard !subsequentSubviews.isEmpty else { return }
+
+            let intersectingSubviews = subsequentSubviews.filter { $0.frame.intersects(view.frame) }
+
+            if !intersectingSubviews.isEmpty {
+                self.bringSubviewToFront(view)
+            }
         }
 
         constraints += [fix, spring].compactMap { $0 }
@@ -245,8 +258,21 @@ private extension UIScrollView {
             }
         }
 
-        bag += subviewsSignal.onValue { _ in
-            self.bringSubviewToFront(view)
+        // Bring view to front whenever subviews are updated,
+        // but make sure we're not causing two pinned views to
+        // infinitely compete for the last index.
+        bag += subviewsSignal.onValue { subviews in
+            guard let index = subviews.firstIndex(of: view) else { return }
+
+            let subsequentSubviews = Array(subviews.dropFirst(Int(index) + 1))
+
+            guard !subsequentSubviews.isEmpty else { return }
+
+            let intersectingSubviews = subsequentSubviews.filter { $0.frame.intersects(view.frame) }
+
+            if !intersectingSubviews.isEmpty {
+                self.bringSubviewToFront(view)
+            }
         }
 
         // The parent moved between views when being presented and dismissed etc.
