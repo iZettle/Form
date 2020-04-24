@@ -40,40 +40,19 @@ class UIScrollViewPinningTests: XCTestCase {
                                           expectedHeight: 400)
     }
 
-    func testPinningTopAndBottom_noInfiniteLoop() { // TODO: Messy, clean me up!
-        let scrollViewOffset: CGFloat = 50
-        let (scrollView, container) = makeEmbeddedScrollView(
-            size: CGSize(width: 400, height: 400),
-            scrollViewOffset: scrollViewOffset
-        )
-
-        let loopExpectation = expectation(description: "Caught in an infinite loop due to subview updating!")
-        loopExpectation.isInverted = true
-
-        var subviewsCount = 0
-
-        bag += scrollView.subviewsSignal.onValue { _ in
-            subviewsCount += 1
-            if subviewsCount > 4 { loopExpectation.fulfill() }
-        }
-
-        bag += scrollView.pinEmbeddedView(to: .top, height: 20, minHeight: 10)
-        bag += scrollView.pinEmbeddedView(to: .bottom, height: 20, minHeight: 10)
-
-        scrollView.contentOffset = .zero
-        container.setNeedsLayout()
-        container.layoutIfNeeded()
-
-        waitForExpectations(timeout: 5)
+    func testPinningTopAndBottom_noInfiniteLoop() {
+        verifyNoLooping(initialViewMinimumHeight: 100,
+                        pinningMinimumHeight: 200,
+                        expectedHeight: 400)
     }
 
     // MARK: - Helpers
-    func verifyPinningViewToTopAndToBottom(initialViewMinimumHeight: CGFloat,
-                                           finalViewMinimumHeight: CGFloat? = nil,
-                                           pinningMinimumHeight: CGFloat,
-                                           expectedHeight: CGFloat,
-                                           file: StaticString = #file,
-                                           line: UInt = #line) {
+    private func verifyPinningViewToTopAndToBottom(initialViewMinimumHeight: CGFloat,
+                                                   finalViewMinimumHeight: CGFloat? = nil,
+                                                   pinningMinimumHeight: CGFloat,
+                                                   expectedHeight: CGFloat,
+                                                   file: StaticString = #file,
+                                                   line: UInt = #line) {
         for edge in UIScrollView.PinEdge.allCases {
             verifyViewPinning(to: edge,
                               initialViewMinimumHeight: initialViewMinimumHeight,
@@ -97,7 +76,7 @@ class UIScrollViewPinningTests: XCTestCase {
         let heightConstraint: NSLayoutConstraint = viewToEmbed.heightAnchor >= initialViewMinimumHeight
         activate(heightConstraint)
 
-        // no matter where the scrollview is positioned the pinning should be relative to its frame so adding some offset to test this assumption
+        // No matter where the scrollview is positioned the pinning should be relative to its frame so adding some offset to test this assumption
         let scrollViewOffset: CGFloat = 50
         let (scrollView, container) = makeEmbeddedScrollView(
             size: CGSize(width: expectedHeight * 2, height: expectedHeight * 2),
@@ -129,6 +108,38 @@ class UIScrollViewPinningTests: XCTestCase {
         }
 
         bag += disposable
+    }
+
+    private func verifyNoLooping(initialViewMinimumHeight: CGFloat,
+                                 pinningMinimumHeight: CGFloat,
+                                 expectedHeight: CGFloat,
+                                 file: StaticString = #file,
+                                 line: UInt = #line) {
+
+        let (scrollView, container) = makeEmbeddedScrollView(
+            size: CGSize(width: expectedHeight, height: expectedHeight),
+            scrollViewOffset: 0
+        )
+
+        // Subviews should be updated exactly 5 times - no more
+        // We can't test this with `expectedFulfillmentCount` because of false positives
+        let loopExpectation = expectation(description: "Caught in an infinite loop due to subview updating!")
+        loopExpectation.isInverted = true
+
+        var loopCounter: Int = 0
+        bag += scrollView.subviewsSignal.onValue { _ in
+            loopCounter += 1
+            if loopCounter > 5 { loopExpectation.fulfill() }
+        }
+
+        bag += scrollView.pinEmbeddedView(to: .top, height: initialViewMinimumHeight, minHeight: pinningMinimumHeight)
+        bag += scrollView.pinEmbeddedView(to: .bottom, height: initialViewMinimumHeight, minHeight: pinningMinimumHeight)
+
+        scrollView.contentOffset = .zero
+        container.setNeedsLayout()
+        container.layoutIfNeeded()
+
+        waitForExpectations(timeout: 3)
     }
 
     private func makeEmbeddedScrollView(size: CGSize, scrollViewOffset: CGFloat) -> (UIScrollView, UIView) {
