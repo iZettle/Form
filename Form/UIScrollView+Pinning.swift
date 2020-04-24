@@ -121,21 +121,11 @@ public extension UIScrollView {
             }
         }
 
-        // Bring view to front whenever subviews are updated,
+        // Bring view to front whenever subviews are added,
         // but make sure we're not causing two pinned views to
         // infinitely compete for the last index.
-        bag += subviewsSignal.onValue { subviews in
-            guard let index = subviews.firstIndex(of: view) else { return }
-
-            let subsequentSubviews = Array(subviews.dropFirst(Int(index) + 1))
-
-            guard !subsequentSubviews.isEmpty else { return }
-
-            let intersectingSubviews = subsequentSubviews.filter { $0.frame.intersects(view.frame) }
-
-            if !intersectingSubviews.isEmpty {
-                self.bringSubviewToFront(view)
-            }
+        bag += subviewsSignal.map { Set($0) }.distinct().onValue { _ in
+            self.bringSubviewToFront(view)
         }
 
         constraints += [fix, spring].compactMap { $0 }
