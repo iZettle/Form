@@ -10,6 +10,7 @@ class UIScrollViewPinningTests: XCTestCase {
     let bag = DisposeBag()
 
     override func tearDown() {
+        super.tearDown()
         bag.dispose()
     }
 
@@ -42,7 +43,7 @@ class UIScrollViewPinningTests: XCTestCase {
     func testPinningTopAndBottom_noInfiniteLoop() { // TODO: Messy, clean me up!
         let scrollViewOffset: CGFloat = 50
         let (scrollView, container) = makeEmbeddedScrollView(
-            size: CGSize(width: 200 * 2, height: 200 * 2),
+            size: CGSize(width: 400, height: 400),
             scrollViewOffset: scrollViewOffset
         )
 
