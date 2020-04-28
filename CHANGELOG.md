@@ -1,3 +1,6 @@
+## 3.0.2
+- Bugfix: Prevent indefinite looping when pinning views to both the top and bottom of a scroll view.
+
 ## 3.0.1
 - Change: `ValueField`: clear the `.shouldResetOnInsertion` flag when deleting characters.
 
