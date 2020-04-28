@@ -98,7 +98,7 @@ public extension UIScrollView {
             }
 
         case .top:
-            precondition(self[insets: insetKey].bottom == 0, "Only one view can be pinned to top")
+            precondition(self[insets: insetKey].top == 0, "Only one view can be pinned to top")
             bag += viewHeight.atOnce().onValue { height in
                 self[insets: insetKey].top = height
             }
@@ -121,7 +121,10 @@ public extension UIScrollView {
             }
         }
 
-        bag += subviewsSignal.onValue { _ in
+        // Bring view to front whenever subviews are added,
+        // but make sure we're not causing two pinned views to
+        // infinitely compete for the last index.
+        bag += subviewsSignal.map { Set($0) }.distinct().onValue { _ in
             self.bringSubviewToFront(view)
         }
 
@@ -245,7 +248,10 @@ private extension UIScrollView {
             }
         }
 
-        bag += subviewsSignal.onValue { _ in
+        // Bring view to front whenever subviews are added,
+        // but make sure we're not causing two pinned views to
+        // infinitely compete for the last index.
+        bag += subviewsSignal.map { Set($0) }.distinct().onValue { _ in
             self.bringSubviewToFront(view)
         }
 
