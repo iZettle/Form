@@ -62,6 +62,28 @@ public struct DefaultStyling: Style {
         self.groupedTableView = groupedTableView
         self.collectionView = collectionView
     }
+    #else
+    public init(text: TextStyle, field: FieldStyle, detailText: TextStyle, titleSubtitle: TitleSubtitleStyle, button: ButtonStyle, barButton: BarButtonStyle, `switch`: SwitchStyle, segmentedControl: SegmentedControlStyle, sectionGrouped: DynamicSectionStyle, sectionPlain: DynamicSectionStyle, formGrouped: DynamicFormStyle, formPlain: DynamicFormStyle, sectionBackground: SectionBackgroundStyle, sectionBackgroundSelected: SectionBackgroundStyle, scrollView: UIScrollView.Type, plainTableView: UITableView.Type, groupedTableView: UITableView.Type, insetGroupedTableView: UITableView.Type, collectionView: UICollectionView.Type) {
+        self.text = text
+        self.field = field
+        self.detailText = detailText
+        self.titleSubtitle = titleSubtitle
+        self.button = button
+        self.barButton = barButton
+        self.`switch` = `switch`
+        self.segmentedControl = segmentedControl
+        self.sectionGrouped = sectionGrouped
+        self.sectionPlain = sectionPlain
+        self.formGrouped = formGrouped
+        self.formPlain = formPlain
+        self.sectionBackground = sectionBackground
+        self.sectionBackgroundSelected = sectionBackgroundSelected
+        self.scrollView = scrollView
+        self.plainTableView = plainTableView
+        self.groupedTableView = groupedTableView
+        self.insetGroupedTableView = insetGroupedTableView
+        self.collectionView = collectionView
+    }
     #endif
 }
 

@@ -41,6 +41,7 @@ extension DefaultStyling {
         scrollView: FormScrollView.self,
         plainTableView: ListTableView.self,
         groupedTableView: FormTableView.self,
+        insetGroupedTableView: FormTableView.self,
         collectionView: UICollectionView.self
     )}
 }
