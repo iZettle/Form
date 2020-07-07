@@ -99,10 +99,20 @@ public extension UITableView {
         return DefaultStyling.current.groupedTableView.init(frame: .zero, style: .grouped)
     }
 
+    @available(iOS 13.0, *)
+    @nonobjc static var insetGrouped: UITableView {
+        return DefaultStyling.current.groupedTableView.init(frame: .zero, style: .insetGrouped)
+    }
+
     static func defaultTable(for style: UITableView.Style) -> UITableView {
         switch style {
         case .plain: return .plain
         case .grouped: return .grouped
+        case .insetGrouped: if #available(iOS 13.0, *) {
+            return .insetGrouped
+        } else {
+            return .grouped
+        }
         @unknown default:
             assertionFailure("Unknown UITableView.Style")
             return .plain
