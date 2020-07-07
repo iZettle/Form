@@ -156,6 +156,5 @@ workflows:
       - test-xcode10-ios12
       - test-xcode11-ios13
       - test-example-messages
-      # has cyclical dpendency
-      #- test-example-demo
+      - test-example-demo
 
