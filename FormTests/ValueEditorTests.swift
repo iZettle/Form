@@ -80,4 +80,11 @@ class ValueEditorTests: XCTestCase {
         test(editor, "12RR<3", "13", 0)
         test(editor, "12R34r", "", 0)
     }
+
+    func testResetOnInsertion_whenValueHasMaximumCharacters_resetsOnInput() {
+        let editor = ValueEditor<String>(maxCharacters: 5)
+
+        test(editor, "1234567890", "12345", 0)
+        test(editor, "123456R3", "3", 0)
+    }
 }
