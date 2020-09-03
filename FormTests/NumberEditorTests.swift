@@ -246,4 +246,14 @@ class DecimalEditorTests: XCTestCase {
         test(editor, "12R34r", "0", 0, 0)
         test(editor, "12R\n", "12", 12, 0)
     }
+
+    func testResetOnInsertion_whenValueHasMaximumCharacters_resetsOnInput() {
+        let formatter = decimalFormatter
+        formatter.maximumIntegerDigits = 5
+        formatter.maximumFractionDigits = 3
+
+        let editor = NumberEditor(formatter: formatter)
+        test(editor, "123456R3", "3", 3, 0)
+        test(editor, "12345.6788R9", "9", 9, 0)
+    }
 }

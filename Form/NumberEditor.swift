@@ -55,7 +55,11 @@ extension NumberEditor: TextEditor {
     mutating public func insertCharacter(_ char: Character) {
         let maxLength = formatter.maximumIntegerDigits + minimumFractionDigits
 
-        guard internalText.count < maxLength || char == decimalCharacter || (alwaysShowsDecimalSeparator && minFractionDigits == 0) else {
+        guard
+            (internalText.count < maxLength || shouldResetOnInsertion) ||
+            char == decimalCharacter ||
+            (alwaysShowsDecimalSeparator && minFractionDigits == 0)
+        else {
             return
         }
 
@@ -64,17 +68,17 @@ extension NumberEditor: TextEditor {
         if formatter.maximumFractionDigits > 0 && char == decimalCharacter {
             alwaysShowsDecimalSeparator = true
         } else if Int(insertStr) != nil {
+            if shouldResetOnInsertion {
+                shouldResetOnInsertion = false
+                reset()
+            }
+
             if minFractionDigits <= 0 && formatter.maximumFractionDigits > 0 { // Rewrite guard
                 guard minimumFractionDigits < formatter.maximumFractionDigits else { return }
 
                 if alwaysShowsDecimalSeparator {
                     minimumFractionDigits += 1
                 }
-            }
-
-            if shouldResetOnInsertion {
-                shouldResetOnInsertion = false
-                reset()
             }
 
             append(char)
