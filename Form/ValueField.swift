@@ -38,7 +38,14 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
 
     public var shouldResetOnInsertion: Bool {
         get { return editor.shouldResetOnInsertion }
-        set { editor.shouldResetOnInsertion = newValue }
+        set {
+            editor.shouldResetOnInsertion = newValue
+            updateTextHighlight()
+        }
+    }
+
+    internal var shouldHighlightText: Bool {
+        return shouldResetOnInsertion && isFirstResponder
     }
 
     public init<Editor: TextEditor>(value: Value, placeholder: DisplayableString = "", editor: Editor, style: FieldStyle = .default) where Editor.Value == Value {
@@ -48,6 +55,7 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
 
         label = UILabel(value: editor.text, style: style.text)
         label.baselineAdjustment = .none
+        label.isOpaque = false
 
         placeholderLabel = UILabel(value: placeholder.displayValue, style: style.placeholder)
         placeholderLabel.isHidden = true
@@ -183,6 +191,8 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
         guard super.becomeFirstResponder() else { return false }
 
         cursor.isHidden = false
+        updateTextHighlight()
+
         installAnimation()
         sendActions(for: .editingDidBegin)
         NotificationCenter.default.post(name: UITextField.textDidBeginEditingNotification, object: self)
@@ -320,9 +330,14 @@ private extension ValueField {
         let trailingRect = trailingText.boundingRect(with: CGSize(width: 0, height: 0), options: [], attributes: style.text.attributes, context: context)
         cursorConstraint.constant = trailingRect.width - 1
         invalidateIntrinsicContentSize()
+        updateTextHighlight()
 
         sendActions(for: .editingChanged)
         NotificationCenter.default.post(name: UITextField.textDidChangeNotification, object: self)
+    }
+
+    func updateTextHighlight() {
+        label.backgroundColor = shouldHighlightText ? style.textHighlightColor : nil
     }
 
     func updateAlignmentConstraints() {
