@@ -14,6 +14,7 @@ public struct FieldStyle: Style {
     public var placeholder: TextStyle
     public var disabled: TextStyle
     public var cursorColor: UIColor
+    public var textHighlightColor: UIColor?
     public var autocorrection: UITextAutocorrectionType = .default
     public var autocapitalization: UITextAutocapitalizationType = .sentences
     public var clearButton: UITextField.ViewMode = .never
@@ -22,11 +23,12 @@ public struct FieldStyle: Style {
 }
 
 public extension FieldStyle {
-    init(text: TextStyle, placeholder: TextStyle, disabled: TextStyle, cursorColor: UIColor) {
+    init(text: TextStyle, placeholder: TextStyle, disabled: TextStyle, cursorColor: UIColor, textHighlightColor: UIColor? = nil) {
         self.text = text
         self.placeholder = placeholder
         self.disabled = disabled
         self.cursorColor = cursorColor
+        self.textHighlightColor = textHighlightColor
     }
 }
 

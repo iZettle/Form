@@ -105,6 +105,7 @@
 		F6DD5CB320A0408000975242 /* ButtonStateStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DD5CB220A0408000975242 /* ButtonStateStyle.swift */; };
 		F6FBC82D20AF197B004BC82A /* SectionBackgroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FBC82C20AF197B004BC82A /* SectionBackgroundStyle.swift */; };
 		F704C9662436411200208560 /* ValueEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F704C9652436411200208560 /* ValueEditorTests.swift */; };
+		F7315ED6250A316400F393F4 /* ValueFieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7315ED5250A316400F393F4 /* ValueFieldTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -229,6 +230,7 @@
 		F6DD5CB220A0408000975242 /* ButtonStateStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ButtonStateStyle.swift; path = Form/ButtonStateStyle.swift; sourceTree = "<group>"; };
 		F6FBC82C20AF197B004BC82A /* SectionBackgroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SectionBackgroundStyle.swift; path = Form/SectionBackgroundStyle.swift; sourceTree = "<group>"; };
 		F704C9652436411200208560 /* ValueEditorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueEditorTests.swift; sourceTree = "<group>"; };
+		F7315ED5250A316400F393F4 /* ValueFieldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueFieldTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +287,7 @@
 				F604260920B6A47E00BC4CAB /* ParentChildRelationalTests.swift */,
 				F6B81B9320CA906000B6AC39 /* NumberEditorTests.swift */,
 				F704C9652436411200208560 /* ValueEditorTests.swift */,
+				F7315ED5250A316400F393F4 /* ValueFieldTests.swift */,
 				724EC30C2241513D001F3E11 /* UILabel+StylingTests.swift */,
 				723C684A23A3CEA1008FD4B6 /* UILabel+ScalingTests.swift */,
 				72C5ED6E226F432600E32125 /* UIScrollView+PinningTests.swift */,
@@ -604,6 +607,7 @@
 				72C5ED6F226F432600E32125 /* UIScrollView+PinningTests.swift in Sources */,
 				21367C6B1DACDF990021C98F /* TableChangeTests.swift in Sources */,
 				1C2881831F20EE2000666A21 /* SelectViewTests.swift in Sources */,
+				F7315ED6250A316400F393F4 /* ValueFieldTests.swift in Sources */,
 				1CDD56AA1D9C10D7004B0CA9 /* TableTests.swift in Sources */,
 				724EC30D2241513D001F3E11 /* UILabel+StylingTests.swift in Sources */,
 			);

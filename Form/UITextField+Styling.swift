@@ -100,6 +100,7 @@ extension FieldStyle {
         placeholder = text.colored(UIColor(white: 0.8, alpha: 1))
         disabled = text.colored(UIColor(white: 0.4, alpha: 1))
         cursorColor = UIColor(red: 0, green: 0.42, blue: 0.9, alpha: 1)
+        textHighlightColor = nil
         autocorrection = textField.autocorrectionType
         autocapitalization = textField.autocapitalizationType
         clearButton = textField.clearButtonMode
