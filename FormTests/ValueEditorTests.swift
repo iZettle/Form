@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 iZettle. All rights reserved.
+//  Copyright © 2020 PayPal Inc. All rights reserved.
 //
 
 import XCTest
