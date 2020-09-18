@@ -3,7 +3,7 @@
 //  Flow
 //
 //  Created by João D. Moreira on 2017-08-15.
-//  Copyright © 2017 iZettle. All rights reserved.
+//  Copyright © 2017 PayPal Inc. All rights reserved.
 //
 
 import XCTest

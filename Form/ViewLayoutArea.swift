@@ -3,7 +3,7 @@
 //  Form
 //
 //  Created by Nataliya Patsovska on 2018-01-29.
-//  Copyright © 2018 iZettle. All rights reserved.
+//  Copyright © 2018 PayPal Inc. All rights reserved.
 //
 
 import UIKit

@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
                    DESC
   s.homepage     = "https://github.com/iZettle/Form"
   s.license      = { :type => "MIT", :file => "LICENSE.md" }
-  s.author       = { 'iZettle AB' => 'hello@izettle.com' }
+  s.author       = { 'PayPal Inc.' => 'hello@izettle.com' }
 
   s.ios.deployment_target = "9.0"
   s.dependency 'FlowFramework', '>= 1.8.4'

@@ -156,7 +156,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1030;
 				LastUpgradeCheck = 0930;
-				ORGANIZATIONNAME = iZettle;
+				ORGANIZATIONNAME = "PayPal Inc.";
 				TargetAttributes = {
 					2A8568DD2344F73200B9D157 = {
 						CreatedOnToolsVersion = 10.3;

@@ -3,7 +3,7 @@
 //  Form
 //
 //  Created by Said Sikira on 8/5/17.
-//  Copyright © 2017 iZettle. All rights reserved.
+//  Copyright © 2017 PayPal Inc. All rights reserved.
 //
 
 /// Defines step in a diffing process

@@ -3,7 +3,7 @@
 //  Form
 //
 //  Created by Emmanuel Garnier on 2016-10-17.
-//  Copyright © 2016 iZettle. All rights reserved.
+//  Copyright © 2016 PayPal Inc. All rights reserved.
 //
 
 import UIKit
