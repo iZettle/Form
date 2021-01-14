@@ -256,4 +256,17 @@ class DecimalEditorTests: XCTestCase {
         test(editor, "123456R3", "3", 3, 0)
         test(editor, "12345.6788R9", "9", 9, 0)
     }
+
+    func testEditing_whenEmptyValuesAreAllowed() {
+        let formatter = decimalFormatter
+        let editor = NumberEditor(formatter: formatter, allowsEmptyValues: true)
+
+        test(editor, "111<<<", "", .notANumber, 0)
+        test(editor, "111<<<<", "", .notANumber, 0)
+        test(editor, "111<<<0022.1", "22.1", 22.1, 0)
+        test(editor, "111<<<-22.1", "-22.1", -22.1, 0)
+        test(editor, "111r", "", .notANumber, 0)
+        test(editor, "-111r", "", .notANumber, 0)
+        test(editor, "111R234", "234", 234, 0)
+    }
 }
