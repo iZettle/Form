@@ -15,31 +15,47 @@ public struct NumberEditor<Value> {
     private var minFractionDigits: Int // If greater than zero, "cash register" will be used
     private var internalText: String // The internal text is just a string of digits [0-9].
     private var isNegative: Bool = false
+    private let allowsEmptyValues: Bool
     private let valueToDecimal: (Value) -> NSDecimalNumber
     private let decimalToValue: (NSDecimalNumber) -> Value
 
     public var shouldResetOnInsertion: Bool = false
+
     public let defaultValue: Value
 
     /// Creates a new instance with using `formatter` settings for editing.
     /// Parameters:
     ///   - valueToDecimal: How to convert a `Value` to a decimal number.
     ///   - decimalToValue: How to convert a decimal number back to a `Value`.
-    public init(formatter: NumberFormatter, valueToDecimal: @escaping (Value) -> NSDecimalNumber, decimalToValue: @escaping (NSDecimalNumber) -> Value) {
+    ///   - allowsEmptyValues: If `true`, text in the editor is allowed to be empty, and the default text is empty.
+    /// Empty text corresponds to `NSDecimalNumber.notANumber`; it is up to the consumer to handle this case
+    /// in `decimalToValue`.
+    public init(
+        formatter: NumberFormatter,
+        valueToDecimal: @escaping (Value) -> NSDecimalNumber,
+        decimalToValue: @escaping (NSDecimalNumber) -> Value,
+        allowsEmptyValues: Bool = false
+    ) {
         let formatter = formatter.copy
         formatter.generatesDecimalNumbers = true
         minFractionDigits = formatter.minimumFractionDigits
         formatterBox = Box(formatter)
 
-        self.defaultValue = decimalToValue(0)
-        self.internalText = "0"
+        if allowsEmptyValues {
+            formatter.notANumberSymbol = ""
+        }
+
+        self.defaultValue = decimalToValue(allowsEmptyValues ? .notANumber : 0)
+        self.internalText = allowsEmptyValues ? "" : "0"
 
         self.valueToDecimal = valueToDecimal
         self.decimalToValue = decimalToValue
+        self.allowsEmptyValues = allowsEmptyValues
     }
 }
 
 extension NumberEditor: TextEditor {
+
     public var value: Value {
         get { return decimalToValue(decimalFromInternalText) }
         set { updateInternalText(from: valueToDecimal(newValue)) }
@@ -104,25 +120,28 @@ extension NumberEditor: TextEditor {
 }
 
 public extension NumberEditor where Value == NSDecimalNumber {
-    init(formatter: NumberFormatter) {
-        self.init(formatter: formatter, valueToDecimal: { $0 }, decimalToValue: { $0 })
+    init(formatter: NumberFormatter, allowsEmptyValues: Bool = false) {
+        self.init(formatter: formatter, valueToDecimal: { $0 }, decimalToValue: { $0 }, allowsEmptyValues: allowsEmptyValues)
     }
 }
 
 public extension NumberEditor where Value: BinaryInteger {
-    init(formatter: NumberFormatter = .defaultInteger) {
+
+    init(formatter: NumberFormatter = .defaultInteger, allowsEmptyValues: Bool = false) {
         precondition(formatter.maximumFractionDigits == 0, "formatter used for integers must have maximumFractionDigits == 0")
         self.init(formatter: formatter,
                   valueToDecimal: { NSDecimalNumber(value: Int64($0)) },
-                  decimalToValue: { Value(truncatingIfNeeded: $0.uint64Value) })
+                  decimalToValue: { Value(truncatingIfNeeded: $0.uint64Value) },
+                  allowsEmptyValues: allowsEmptyValues)
     }
 }
 
 public extension NumberEditor where Value: BinaryFloatingPoint & CustomStringConvertible {
-    init(formatter: NumberFormatter = .defaultDecimal) {
+    init(formatter: NumberFormatter = .defaultDecimal, allowsEmptyValues: Bool = false) {
         self.init(formatter: formatter,
                   valueToDecimal: { NSDecimalNumber(value: Double($0.description) ?? .nan) },
-                  decimalToValue: { Value($0.doubleValue) })
+                  decimalToValue: { Value($0.doubleValue) },
+                  allowsEmptyValues: allowsEmptyValues)
     }
 }
 
@@ -147,6 +166,7 @@ private extension NumberFormatter {
 }
 
 private extension NumberEditor {
+
     var decimalFromInternalText: NSDecimalNumber {
         let decimal = decimalFromInternalText(internalText)
         guard decimal != .negativeZero else { return .zero }
@@ -154,6 +174,10 @@ private extension NumberEditor {
     }
 
     private func decimalFromInternalText(_ internalText: String) -> NSDecimalNumber {
+        if internalText.isEmpty {
+            return .notANumber
+        }
+
         var textWithDecimal = String(Array(repeating: Character("0"), count: 20)) + internalText
         textWithDecimal.insert(".", at: textWithDecimal.index(textWithDecimal.endIndex, offsetBy: -minimumFractionDigits, limitedBy: textWithDecimal.startIndex)!)
         let value = NSDecimalNumber(string: textWithDecimal)
@@ -165,6 +189,15 @@ private extension NumberEditor {
     }
 
     mutating func updateInternalText(from value: NSDecimalNumber) {
+        if value == .notANumber {
+            internalText = ""
+            alwaysShowsDecimalSeparator = false
+            minimumFractionDigits = minFractionDigits
+            isNegative = false
+
+            return
+        }
+
         let value = formatter.formattedValue(for: value)
         var chars = value.stringValue.map { character in character == "." ? decimalCharacter : character }
 
@@ -201,8 +234,10 @@ private extension NumberEditor {
     mutating func deleteLast() {
         let previous = internalText
         internalText = String(internalText.dropLast())
+
         if internalText.isEmpty { // `-3` -> `-0` and `-0` -> `0`
-            internalText = "0"
+            internalText = allowsEmptyValues ? "" : "0"
+
             if previous == "0" {
                 isNegative = false
             }
@@ -211,17 +246,25 @@ private extension NumberEditor {
 
     private func isInternalTextValid(_ internalText: String) -> Bool {
         let value = decimalFromInternalText(internalText)
+
+        if value == .notANumber && allowsEmptyValues {
+            return true
+        }
+
         if let maximum = formatter.maximum, value > NSDecimalNumber(value: maximum.doubleValue) {
             return false
         }
+
         if let minimum = formatter.minimum, value < NSDecimalNumber(value: minimum.doubleValue) {
             return false
         }
+
         return true
     }
 }
 
 private extension NumberEditor {
+
     var alwaysShowsDecimalSeparator: Bool {
         get { return formatter.alwaysShowsDecimalSeparator }
         set { mutatingFormatter.alwaysShowsDecimalSeparator = newValue }
