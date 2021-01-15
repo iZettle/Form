@@ -1,3 +1,6 @@
+## 3.0.5
+- Added: Support for empty values in NumberEditor ([#165](https://github.com/iZettle/Form/issues/165)).
+
 ## 3.0.4
 - Added: Highlight the text in ValueField when shouldResetOnInsertion is enabled ([#160](https://github.com/iZettle/Form/issues/160)).
 - Bugfix: `ValueField.shouldResetOnInsertion` has no effect for max length values ([#158](https://github.com/iZettle/Form/issues/158)).

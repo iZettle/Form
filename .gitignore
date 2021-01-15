@@ -6,6 +6,7 @@ xcuserdata
 *.xccheckout
 .build
 .swiftpm
+default.profraw
 
 # ignore all Carthage output
 Carthage/
