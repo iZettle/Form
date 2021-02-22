@@ -68,6 +68,8 @@ public protocol SectionRowStylable: class {
 public extension SectionView {
     convenience init(rows: [UIView] = [], rowsLayoutArea: ViewLayoutArea = .default, header: DisplayableString? = nil, footer: DisplayableString? = nil, style: DynamicSectionStyle = .default) {
         let headerView: UIView? = header.map { UILabel(value: $0) }
+        headerView?.accessibilityTraits = [.header]
+
         let footerView: UIView? = footer.map { UILabel(value: $0) }
         self.init(rows: rows, rowsLayoutArea: rowsLayoutArea, style: style, headerView: headerView, footerView: footerView)
     }
