@@ -1,3 +1,7 @@
+# 3.1.0
+
+- Xcode 12.4 compatibility
+
 ## 3.0.5
 - Added: Support for empty values in NumberEditor ([#165](https://github.com/iZettle/Form/issues/165)).
 
