@@ -1,1 +1,1 @@
-github "iZettle/Flow" "1.10.0"
+github "iZettle/Flow" "fix-pthread_mutex_t-dangling-pointer"
