@@ -61,7 +61,7 @@ public class SectionView: UIView {
 
 /// Conforming types can have a rowInsets and itemSpacing applied to them.
 /// Used by e.g. `SectionView` to apply its row styling to its rows.
-public protocol SectionRowStylable: class {
+public protocol SectionRowStylable: AnyObject {
     func apply(rowInsets: UIEdgeInsets, itemSpacing: CGFloat)
 }
 

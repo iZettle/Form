@@ -10,7 +10,7 @@ import UIKit
 import Flow
 
 /// Conforming types provides a mutable ordering of views.
-public protocol SubviewOrderable: class {
+public protocol SubviewOrderable: AnyObject {
     var orderedViews: [UIView] { get set }
 }
 

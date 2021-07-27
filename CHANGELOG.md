@@ -1,3 +1,7 @@
+# 3.1.1
+
+- Xcode 12.5 compatibility
+
 # 3.1.0
 
 - Xcode 12.4 compatibility
