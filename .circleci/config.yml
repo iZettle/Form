@@ -37,7 +37,7 @@ commands:
 
   carthage-update:
     steps:
-      - run: sh carthage.sh update Flow --cache-builds
+      - run: carthage update Flow --cache-builds --use-xcframeworks
 
   test_main_project:
     steps:
