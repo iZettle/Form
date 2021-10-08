@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -26,7 +26,6 @@
 		21A79B701DBF5DE9000D1231 /* TableViewFormStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A79B6F1DBF5DE9000D1231 /* TableViewFormStyle.swift */; };
 		21D7D99F1E1CE95200CB0FE9 /* ValueLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D7D99E1E1CE95200CB0FE9 /* ValueLabel.swift */; };
 		3156BAED2139366B00ECC2EC /* MixedReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3156BAEC2139366B00ECC2EC /* MixedReusable.swift */; };
-		5B08548126CBBACB0079B44B /* Flow.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B08547D26CBBAA60079B44B /* Flow.xcframework */; };
 		5B4ABD3A2257365C0073FACE /* TableKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4ABD392257365C0073FACE /* TableKitTests.swift */; };
 		721954D821A44E450090F9E3 /* MinimumSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721954D721A44E450090F9E3 /* MinimumSize.swift */; };
 		7222DD03235A34310036619F /* TableKit+MasterSelectionBindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7222DD02235A34310036619F /* TableKit+MasterSelectionBindingTests.swift */; };
@@ -139,7 +138,6 @@
 		21A79B6F1DBF5DE9000D1231 /* TableViewFormStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewFormStyle.swift; path = Form/TableViewFormStyle.swift; sourceTree = "<group>"; };
 		21D7D99E1E1CE95200CB0FE9 /* ValueLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ValueLabel.swift; path = Form/ValueLabel.swift; sourceTree = "<group>"; };
 		3156BAEC2139366B00ECC2EC /* MixedReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MixedReusable.swift; path = Form/MixedReusable.swift; sourceTree = "<group>"; };
-		5B08547D26CBBAA60079B44B /* Flow.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Flow.xcframework; path = Carthage/Build/Flow.xcframework; sourceTree = "<group>"; };
 		5B4ABD392257365C0073FACE /* TableKitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableKitTests.swift; sourceTree = "<group>"; };
 		721954D721A44E450090F9E3 /* MinimumSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MinimumSize.swift; path = Form/MinimumSize.swift; sourceTree = "<group>"; };
 		7222DD02235A34310036619F /* TableKit+MasterSelectionBindingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableKit+MasterSelectionBindingTests.swift"; sourceTree = "<group>"; };
@@ -236,14 +234,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5B08547F26CBBAC00079B44B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5B08548126CBBACB0079B44B /* Flow.xcframework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F62E45B11CABFB5300C6867E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -255,13 +245,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5B08548026CBBACB0079B44B /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		F60EAE7320C5350200F987E3 /* Support */ = {
 			isa = PBXGroup;
 			children = (
@@ -394,7 +377,6 @@
 		F6A9D5D41C1728BA009A0EEB = {
 			isa = PBXGroup;
 			children = (
-				5B08547D26CBBAA60079B44B /* Flow.xcframework */,
 				F666BBD920BEDC32006D2507 /* Cartfile */,
 				F666BBDA20BEDC32006D2507 /* CHANGELOG.md */,
 				F666BBD720BEDC31006D2507 /* FormFramework.podspec */,
@@ -410,7 +392,6 @@
 				F60EAE7320C5350200F987E3 /* Support */,
 				F62E45B51CABFB5300C6867E /* FormTests */,
 				F6A9D5DF1C1728BA009A0EEB /* Products */,
-				5B08548026CBBACB0079B44B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -483,6 +464,7 @@
 				F62E45B01CABFB5300C6867E /* Sources */,
 				F62E45B11CABFB5300C6867E /* Frameworks */,
 				F62E45B21CABFB5300C6867E /* Resources */,
+				720D32F820E6A3570013FC29 /* Copy Flow */,
 			);
 			buildRules = (
 			);
@@ -500,7 +482,6 @@
 			buildPhases = (
 				F6A9D5D91C1728BA009A0EEB /* Sources */,
 				F6A9D5DB1C1728BA009A0EEB /* Headers */,
-				5B08547F26CBBAC00079B44B /* Frameworks */,
 				F6A9D5DC1C1728BA009A0EEB /* Resources */,
 				ED7163CF2189C1A0008AD729 /* ShellScript */,
 			);
@@ -572,6 +553,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		720D32F820E6A3570013FC29 /* Copy Flow */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Flow.framework",
+			);
+			name = "Copy Flow";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
 		ED7163CF2189C1A0008AD729 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -720,11 +717,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = FormTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iZettle.FormTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -737,11 +730,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = FormTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iZettle.FormTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -790,7 +779,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -843,11 +832,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -861,7 +849,6 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_ASSET_PATHS = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -869,11 +856,7 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
 				INFOPLIST_FILE = Form/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iZettle.Form;
 				PRODUCT_NAME = Form;
@@ -887,7 +870,6 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_ASSET_PATHS = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -895,11 +877,7 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
 				INFOPLIST_FILE = Form/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iZettle.Form;
 				PRODUCT_NAME = Form;
