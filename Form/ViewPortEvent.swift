@@ -48,7 +48,7 @@ public extension UIView {
 private class ViewPortState {
     weak var window: UIWindow? // Not keeping strong reference to the window to avoid UIWindow leaks
     let bag = DisposeBag()
-    init(window: UIWindow) {
+    init(window: UIWindow?) {
         self.window = window
         bag += Form.keyboardSignal().onValue { _ in } // Make sure to setup listener so keyboardFrame will be updated
     }
@@ -73,7 +73,7 @@ private extension UIView {
         }
 
         let app = UIApplication.shared
-        let window = self.window ?? (self as? UIWindow) ?? app.keyWindow ?? app.windows.first!
+        let window = self.window ?? (self as? UIWindow) ?? app.keyWindow ?? app.windows.first
         return associatedValue(forKey: &viewPortKey, initial: ViewPortState(window: window))
     }
 }
