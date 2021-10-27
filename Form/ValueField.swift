@@ -48,7 +48,19 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
         return shouldResetOnInsertion && isFirstResponder
     }
 
-    public init<Editor: TextEditor>(value: Value, placeholder: DisplayableString = "", editor: Editor, style: FieldStyle = .default) where Editor.Value == Value {
+    /// - Parameters:
+    ///   - value: The value to be edited.
+    ///   - placeholder: Placeholder to display while empty. Defaults to `""`.
+    ///   - editor: Editor that perform the editing of the field.
+    ///   - style: Style for the field. Defaults to `.default`.
+    ///   - adjustsHeightToFontScaling: If set to true, will update the frame to match font scaling. Defaults to `false`.
+    public init<Editor: TextEditor>(
+        value: Value,
+        placeholder: DisplayableString = "",
+        editor: Editor,
+        style: FieldStyle = .default,
+        adjustsHeightToFontScaling: Bool = false
+    ) where Editor.Value == Value {
         self.editor = editor.anyEditor
         self.editor.value = value
         self.style = style
@@ -124,6 +136,16 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
 
         applyStyle()
         updateText()
+
+        if adjustsHeightToFontScaling {
+            var heightConstraint: NSLayoutConstraint?
+            bag += combineLatest(providedSignal, hasWindowSignal, signal(for: \.frame).distinct()).toVoid().with(weak: self).onValue { this in
+                heightConstraint?.isActive = false
+                if let suggestedSize = this.suggestedAdjustedHeight(with: this.label) {
+                    heightConstraint = activate(this.heightAnchor == suggestedSize)
+                }
+            }
+        }
 
         bag += NotificationCenter.default.signal(forName: UIApplication.didBecomeActiveNotification).with(weak: self).onValue { _, `self` in
             self.installAnimation() // When app is deactivated, running animations are removed. Let's re-install it.
@@ -364,4 +386,34 @@ private extension TextStyle {
         guard alignment == .natural else { return alignment }
         return UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .right : .left
     }
+}
+
+// MARK: - Auto sizing to match text scaling -
+
+private extension ValueField {
+
+    func suggestedAdjustedHeight(with label: UILabel) -> CGFloat? {
+        layoutIfNeeded()
+        return label.scalingAdjustedFontSize()?.lineHeight
+    }
+
+}
+
+extension UILabel {
+
+    func scalingAdjustedFontSize() -> UIFont? {
+        guard let text = text, let font = font, bounds.size.width > 0 else { return font }
+
+        let drawingContext = NSStringDrawingContext()
+        drawingContext.minimumScaleFactor = minimumScaleFactor
+
+        NSAttributedString(string: text, attributes: [.font: font]).boundingRect(
+            with: CGSize(width: bounds.size.width, height: font.lineHeight),
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            context: drawingContext
+        )
+
+        return font.withSize(font.pointSize * drawingContext.actualScaleFactor)
+    }
+
 }
