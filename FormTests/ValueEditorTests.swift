@@ -87,4 +87,22 @@ class ValueEditorTests: XCTestCase {
         test(editor, "1234567890", "12345", 0)
         test(editor, "123456R3", "3", 0)
     }
+
+    func testComputesCorrectAccessibilityValue() {
+        let defaultEditor = ValueEditor<String>(value: "test")
+        let customEditor = ValueEditor(
+            value: "test",
+            defaultValue: "",
+            valueToText: { $0 },
+            valueToAccessibilityValue: { $0 + " modified" },
+            textToValue: { $0 },
+            isValidCharacter: { _ in true },
+            minCharacters: 0,
+            maxCharacters: .max,
+            textAndInsertionIndex: { ($0, $0.endIndex) }
+        )
+
+        XCTAssertEqual(defaultEditor.accessibilityValue, defaultEditor.text)
+        XCTAssertEqual(customEditor.accessibilityValue, "test modified")
+    }
 }

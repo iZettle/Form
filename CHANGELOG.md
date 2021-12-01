@@ -1,3 +1,7 @@
+# 3.3.0
+
+- Added (backwards compatible) support for supplying an `accessibilityValue` to `ValueField` through `TextEditor`.
+
 # 3.2.0
 
 - Xcode 13.0 compatibility

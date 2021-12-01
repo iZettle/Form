@@ -26,6 +26,13 @@ public protocol TextEditor {
     /// The current formatted text of value and the index into text where insertions happen, useful for placing cursors etc.
     var textAndInsertionIndex: (text: String, index: String.Index) { get }
 
+    /// The current accessibility value of the edited text.
+    ///
+    /// Depending on the kind of value being edited, and the UI surrounding it,
+    /// it might be desirable to have a slightly different string representation
+    /// exposed to an assistive technology. Defaults to the value of `text`.
+    var accessibilityValue: String { get }
+
     mutating func insertCharacter(_ char: Character)
 
     mutating func deleteBackward()
@@ -37,6 +44,10 @@ public protocol TextEditor {
 public extension TextEditor {
     var text: String {
         return textAndInsertionIndex.text
+    }
+
+    var accessibilityValue: String {
+        return text
     }
 
     var insertionIndex: String.Index {
@@ -82,6 +93,10 @@ public class AnyTextEditor<Value>: TextEditor {
         get { fatalError() }
         // swiftlint:disable:next unused_setter_value
         set { fatalError() }
+    }
+
+    public var accessibilityValue: String {
+        fatalError()
     }
 
     public var defaultValue: Value {
@@ -170,6 +185,10 @@ private final class _AnyTextEditor<Editor: TextEditor>: AnyTextEditor<Editor.Val
     public override var value: Value {
         get { return editor.value }
         set { editor.value = newValue }
+    }
+
+    public override var accessibilityValue: String {
+        editor.accessibilityValue
     }
 
     public override var shouldResetOnInsertion: Bool {
