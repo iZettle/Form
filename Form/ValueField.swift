@@ -169,11 +169,11 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
     }
 
     public override var accessibilityValue: String? {
-        get { return label.text }
-        set {
-            guard let text = newValue else { return }
-            label.value = text
+        get {
+            editor.accessibilityValue
         }
+        //swiftlint:disable:next unused_setter_value
+        set { /* accessibilityValue is always read from the editor. */ }
     }
 
     public override var inputView: UIView? {

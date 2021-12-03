@@ -12,6 +12,7 @@ import UIKit
 public struct ValueEditor<Value>: TextEditor {
     private let isValidCharacter: ((Character) -> Bool)
     private let valueToText: (Value) -> String
+    private let valueToAccessibilityValue: (Value) -> String
     private let _textAndInsertionIndex: (Value) -> (String, String.Index)
     private let textToValue: (String) -> Value?
     private let minCharacters: Int
@@ -25,21 +26,37 @@ public struct ValueEditor<Value>: TextEditor {
     /// Parameters:
     ///   - defaultValue: The value to use when resetting the editor.
     ///   - valueToText: How to convert a `Value` to the editable text representation part of the value.
+    ///   - valueToAccessibilityValue: How to convert a `Value` into a string representation for the editor's
+    ///     `accessibilityValue`. Defaults to the text returned by `textAndInsertionIndex`.
     ///   - textToValue: How to convert the editable text representation part of value back to a `Value`.
     ///   - isValidCharacter: Whether a character is a valid input to build a value.
     ///   - minCharacters: Min characters of the editable text representation of value, defaults to zero
     ///   - maxCharacters: Max characters of the editable text representation of value, defaults to `.max`
     ///   - textAndInsertionIndex: Format a value for display (adding potential prefix, postfix or other formatting)
     ///       and the index for insertions, useful for placing cursors etc.
-    public init(value: Value, defaultValue: Value, valueToText: @escaping (Value) -> String, textToValue: @escaping (String) -> Value?, isValidCharacter: @escaping ((Character) -> Bool), minCharacters: Int = 0, maxCharacters: Int = .max, textAndInsertionIndex: @escaping (Value) -> (String, String.Index)) {
+    public init(
+        value: Value,
+        defaultValue: Value,
+        valueToText: @escaping (Value) -> String,
+        valueToAccessibilityValue: ((Value) -> String)? = nil,
+        textToValue: @escaping (String) -> Value?,
+        isValidCharacter: @escaping ((Character) -> Bool),
+        minCharacters: Int = 0, maxCharacters: Int = .max,
+        textAndInsertionIndex: @escaping (Value) -> (String, String.Index)
+    ) {
         self.value = value
         self.defaultValue = defaultValue
         self.valueToText = valueToText
+        self.valueToAccessibilityValue = valueToAccessibilityValue ?? { textAndInsertionIndex($0).0 }
         self.textToValue = textToValue
         _textAndInsertionIndex = textAndInsertionIndex
         self.isValidCharacter = isValidCharacter
         self.minCharacters = minCharacters
         self.maxCharacters = maxCharacters
+    }
+
+    public var accessibilityValue: String {
+        valueToAccessibilityValue(value)
     }
 
     public var textAndInsertionIndex: (text: String, index: String.Index) {

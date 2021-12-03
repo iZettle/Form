@@ -153,4 +153,23 @@ class ValueFieldTests: XCTestCase {
 
         wait(for: [fieldBecameFirstResponder], timeout: 1)
     }
+
+    func testUsesEditorAccessibilityValue() {
+        let expectedAccessibilityValue = "accessibility value"
+        let editor = ValueEditor<String>(
+            value: "",
+            defaultValue: "",
+            valueToText: { $0 },
+            valueToAccessibilityValue: { _ in expectedAccessibilityValue },
+            textToValue: { $0 },
+            isValidCharacter: { _ in true },
+            minCharacters: 0,
+            maxCharacters: .max,
+            textAndInsertionIndex: { ($0, $0.endIndex) }
+        )
+
+        let field = ValueField(value: "", editor: editor)
+
+        XCTAssertEqual(field.accessibilityValue, expectedAccessibilityValue)
+    }
 }
