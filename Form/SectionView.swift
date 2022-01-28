@@ -86,6 +86,29 @@ extension SectionView: SubviewOrderable {
 }
 
 public extension SectionView {
+
+    override var accessibilityElements: [Any]? {
+        get {
+            var elements: [Any] = []
+
+            if let header = headerView {
+                elements.append(header)
+            }
+
+            let visibleRows = orderedViews.filter { !$0.isHidden }
+            elements.append(contentsOf: visibleRows)
+
+            if let footer = footerView {
+                elements.append(footer)
+            }
+
+            return elements
+        }
+
+        //swiftlint:disable:next unused_setter_value
+        set { /* Always computed */ }
+    }
+
     var headerView: UIView? {
         return header.view
     }
