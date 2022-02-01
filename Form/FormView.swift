@@ -39,6 +39,23 @@ public class FormView: UIStackView, DynamicStylable {
 }
 
 public extension FormView {
+
+    override var accessibilityElements: [Any]? {
+        get {
+            let visibleSections = sections.filter { !$0.isHidden }
+
+            var elements: [Any] = []
+            for section in visibleSections {
+                elements.append(contentsOf: section.accessibilityElements ?? [])
+            }
+
+            return elements
+        }
+
+        //swiftlint:disable:next unused_setter_value
+        set { /* Always computed */ }
+    }
+
     var sections: [SectionView] {
         return orderedViews.compactMap { $0 as? SectionView }
     }

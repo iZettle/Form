@@ -1,3 +1,7 @@
+# 3.3.1
+
+- Improved the accessibility of `FormView` by making it an accessibility container comprising the visible rows from each of its visible sections.
+
 # 3.3.0
 
 - Added (backwards compatible) support for supplying an `accessibilityValue` to `ValueField` through `TextEditor`.
