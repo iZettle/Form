@@ -13,7 +13,7 @@ let package = Package(
             targets: ["Form"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/izettle/Flow.git", .upToNextMajor(from: "1.8.0"))
+        .package(url: "https://github.com/izettle/Flow.git", .upToNextMajor(from: "1.10.0"))
     ],
     targets: [
         .target(
