@@ -1,3 +1,7 @@
+# 3.3.2
+
+- Include all views, not just sections, in the accessibility elements of a FormView.
+
 # 3.3.1
 
 - Improved the accessibility of `FormView` by making it an accessibility container comprising the visible rows from each of its visible sections.
