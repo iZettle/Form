@@ -42,14 +42,9 @@ public extension FormView {
 
     override var accessibilityElements: [Any]? {
         get {
-            let visibleSections = sections.filter { !$0.isHidden }
+            let visibleViews = orderedViews.filter { !$0.isHidden }
 
-            var elements: [Any] = []
-            for section in visibleSections {
-                elements.append(contentsOf: section.accessibilityElements ?? [])
-            }
-
-            return elements
+            return visibleViews
         }
 
         //swiftlint:disable:next unused_setter_value
