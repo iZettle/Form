@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/iZettle/Form.svg?branch=master)](https://travis-ci.org/iZettle/Form)
 [![Platforms](https://img.shields.io/badge/platform-%20iOS-gray.svg)](https://img.shields.io/badge/platform-%20iOS-gray.svg)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+![Xcode version](https://img.shields.io/badge/Xcode-13.2.0-green)
 
 Form is an iOS Swift library for building and styling UIs. A toolbox of highly composable utilities for solving common UI related problems, such as:
 
