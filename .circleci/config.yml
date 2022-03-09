@@ -9,7 +9,7 @@ anchors:
   - &test_output_folder test_output
   - &default_executor
     macos:
-      xcode: "13.0.0"
+      xcode: "13.2.1"
 
 env:
   global:
@@ -17,19 +17,11 @@ env:
     - LANG=en_US.UTF-8
 
 commands:
-  fetch-pod-specs:
-    steps:
-      - run:
-          name: Fetch CocoaPods Specs
-          command: |
-            curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
-
   pod-install:
     parameters:
       path:
         type: string
     steps:
-      - fetch-pod-specs # Fetch the podspec repo changes first to be sure to always get the latest pods
       - run:
           command: |
             cd <<parameters.path>>

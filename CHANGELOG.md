@@ -1,3 +1,8 @@
+# 3.2.1
+
+# 3.3.3
+- Xcode 13.2 compatibility
+
 # 3.3.2
 
 - Include all views, not just sections, in the accessibility elements of a FormView.
