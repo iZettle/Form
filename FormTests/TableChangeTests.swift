@@ -157,10 +157,10 @@ class TableChangeTests: XCTestCase {
 
         let tableKit = TableKit<(), ReconfigureItem>()
         UIWindow().addSubview(tableKit.view)
+        tableKit.view.frame.origin = CGPoint(x: 100, y: 100)
         tableKit.view.frame.size = CGSize(width: 1000, height: 1000)
 
-        func applyRowsToKitWithAnimation(_ rows: [ReconfigureItem]) {
-            let animation = type(of: tableKit).defaultAnimation
+        func applyRowsToKit(_ rows: [ReconfigureItem], withAnimation animation: TableKit<(), ReconfigureItem>.Animation = TableKit<(), ReconfigureItem>.defaultAnimation) {
             tableKit.set(
                 Table(rows: rows),
                 animation: animation,
@@ -170,22 +170,40 @@ class TableChangeTests: XCTestCase {
             waitForAnimations()
         }
 
-        applyRowsToKitWithAnimation([row1, row2])
+        applyRowsToKit([row1, row2])
         let expectedInitiaLoadPrevs: [Int?] = [nil, nil, nil, nil] // initial load of two cells, then the animation refreshes them
         XCTAssertEqual(prevs, expectedInitiaLoadPrevs)
 
         var row1Updated = row1
         row1Updated.value = 55
-        applyRowsToKitWithAnimation([row1Updated, row2]) // update one row
+        applyRowsToKit([row1Updated, row2]) // update one row
         XCTAssertEqual(prevs, expectedInitiaLoadPrevs + [4])
 
-        applyRowsToKitWithAnimation([row1Updated, row2]) // no updates
+        applyRowsToKit([row1Updated, row2]) // no updates
         XCTAssertEqual(prevs, expectedInitiaLoadPrevs + [4])
 
         var row2Updated = row2
         row2Updated.value = 77
-        applyRowsToKitWithAnimation([row1Updated, row3, row2Updated]) // update and insert at the same time
+        applyRowsToKit([row1Updated, row3, row2Updated]) // update (5 -> 77) and insert (nil -> 6) at the same time
         XCTAssertEqual(prevs, expectedInitiaLoadPrevs + [4, nil, 5])
+
+        applyRowsToKit([row1Updated, row2Updated]) // delete
+        XCTAssertEqual(prevs, expectedInitiaLoadPrevs + [4, nil, 5])
+
+        tableKit.view.configureSizeForVisibleRows(2)
+        row2Updated.value = 99
+        applyRowsToKit([row1Updated, row3, row2Updated]) // update (pushed out of visible paths) and insert (nil -> 6) at the same time
+        XCTAssertEqual(prevs, expectedInitiaLoadPrevs + [4, nil, 5, nil])
+
+        applyRowsToKit([row1Updated, row2Updated]) // delete; last row is visible, update (77 -> 99) should be applied
+        XCTAssertEqual(prevs, expectedInitiaLoadPrevs + [4, nil, 5, nil, 77])
+
+        row2Updated.value = 111
+        applyRowsToKit(
+            [row1Updated, row3, row2Updated],
+            withAnimation: .init(sectionInsert: .fade, sectionDelete: .top, rowInsert: .top, rowDelete: .bottom)
+        ) // update (99 -> 111) and insert at the same time, updated row becomes visible after animation
+        XCTAssertEqual(prevs, expectedInitiaLoadPrevs + [4, nil, 5, nil, 77, nil, 99])
     }
 
     private func waitForAnimations(timeout: TimeInterval = 0.01) {
@@ -195,6 +213,13 @@ class TableChangeTests: XCTestCase {
             XCTFail("Delay interrupted")
             return
         }
+    }
+}
+
+extension UITableView {
+    func configureSizeForVisibleRows(_ visibleRows: Int) {
+        self.frame.size = self.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
+        self.frame.size.height = (self.visibleCells.first?.frame.size.height ?? 0) * CGFloat(visibleRows)
     }
 }
 
