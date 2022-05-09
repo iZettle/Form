@@ -159,30 +159,42 @@ class TableChangeTests: XCTestCase {
         UIWindow().addSubview(tableKit.view)
         tableKit.view.frame.size = CGSize(width: 1000, height: 1000)
 
-        func applyRowsToKit(_ rows: [ReconfigureItem]) {
+        func applyRowsToKitWithAnimation(_ rows: [ReconfigureItem]) {
+            let animation = type(of: tableKit).defaultAnimation
             tableKit.set(
                 Table(rows: rows),
+                animation: animation,
                 rowIdentifier: { $0.id },
                 rowNeedsUpdate: { $0.value != $1.value }
             )
+            waitForAnimations()
         }
 
-        applyRowsToKit([row1, row2])
-        let expectedInitiaLoadPrevs: [Int?] = [nil, nil] // initial load
+        applyRowsToKitWithAnimation([row1, row2])
+        let expectedInitiaLoadPrevs: [Int?] = [nil, nil, nil, nil] // initial load of two cells, then the animation refreshes them
         XCTAssertEqual(prevs, expectedInitiaLoadPrevs)
 
         var row1Updated = row1
         row1Updated.value = 55
-        applyRowsToKit([row1Updated, row2]) // update one row
+        applyRowsToKitWithAnimation([row1Updated, row2]) // update one row
         XCTAssertEqual(prevs, expectedInitiaLoadPrevs + [4])
 
-        applyRowsToKit([row1Updated, row2]) // no updates
+        applyRowsToKitWithAnimation([row1Updated, row2]) // no updates
         XCTAssertEqual(prevs, expectedInitiaLoadPrevs + [4])
 
         var row2Updated = row2
         row2Updated.value = 77
-        applyRowsToKit([row1Updated, row3, row2Updated]) // update and insert at the same time
+        applyRowsToKitWithAnimation([row1Updated, row3, row2Updated]) // update and insert at the same time
         XCTAssertEqual(prevs, expectedInitiaLoadPrevs + [4, nil, 5])
+    }
+
+    private func waitForAnimations(timeout: TimeInterval = 0.01) {
+        let exp = expectation(description: "Test after \(timeout) seconds")
+        let result = XCTWaiter.wait(for: [exp], timeout: timeout)
+        guard result == XCTWaiter.Result.timedOut else {
+            XCTFail("Delay interrupted")
+            return
+        }
     }
 }
 
