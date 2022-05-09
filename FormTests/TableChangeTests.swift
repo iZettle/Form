@@ -148,29 +148,41 @@ class TableChangeTests: XCTestCase {
 
     func testReconfigure() {
         let bag = DisposeBag()
-        var rows = [(1, 4), (2, 5)].map(ReconfigureItem.init)
-        let signal = merge(rows.map { Signal(callbacker: $0.callbacker) })
+        let row1 = ReconfigureItem(id: 1, value: 4)
+        let row2 = ReconfigureItem(id: 2, value: 5)
+        let row3 = ReconfigureItem(id: 3, value: 6)
 
         var prevs = [Int?]()
-        bag += signal.onValue { prevs.append($0) }
+        bag += merge([row1, row2, row3].map { Signal(callbacker: $0.callbacker) }).onValue { prevs.append($0) }
 
         let tableKit = TableKit<(), ReconfigureItem>()
         UIWindow().addSubview(tableKit.view)
         tableKit.view.frame.size = CGSize(width: 1000, height: 1000)
 
-        tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
-        XCTAssertEqual(prevs, [nil, nil]) // loading first two rows
+        func applyRowsToKit(_ rows: [ReconfigureItem]) {
+            tableKit.set(
+                Table(rows: rows),
+                rowIdentifier: { $0.id },
+                rowNeedsUpdate: { $0.value != $1.value }
+            )
+        }
 
-        rows[0].value = 55
-        tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
-        XCTAssertEqual(prevs, [nil, nil, 4])
+        applyRowsToKit([row1, row2])
+        let expectedInitiaLoadPrevs: [Int?] = [nil, nil] // initial load
+        XCTAssertEqual(prevs, expectedInitiaLoadPrevs)
 
-        tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
-        XCTAssertEqual(prevs, [nil, nil, 4])
+        var row1Updated = row1
+        row1Updated.value = 55
+        applyRowsToKit([row1Updated, row2]) // update one row
+        XCTAssertEqual(prevs, expectedInitiaLoadPrevs + [4])
 
-        rows[1].value = 77
-        tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
-        XCTAssertEqual(prevs, [nil, nil, 4, 5])
+        applyRowsToKit([row1Updated, row2]) // no updates
+        XCTAssertEqual(prevs, expectedInitiaLoadPrevs + [4])
+
+        var row2Updated = row2
+        row2Updated.value = 77
+        applyRowsToKit([row1Updated, row3, row2Updated]) // update and insert at the same time
+        XCTAssertEqual(prevs, expectedInitiaLoadPrevs + [4, nil, 5])
     }
 }
 
