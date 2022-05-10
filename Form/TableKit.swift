@@ -369,7 +369,7 @@ extension TableKit: TableAnimatable {
         view.animate(changes: changes, animation: animation)
 
         if reconfigureVisibleRowsIfNeeded() {
-            // To to refresh cells where the cell height has changed.
+            // To refresh cells where the cell height has changed.
             view.beginUpdates()
             view.endUpdates()
         }
@@ -382,14 +382,18 @@ extension TableKit: TableAnimatable {
             var handledUpdates: [TableIndex] = []
             for indexPath in view.indexPathsForVisibleRows ?? [] {
                 for change in changes {
-                    if case let .row(.update(new, index)) = change,
-                       indexPath == IndexPath(row: index.row, section: index.section),
-                       let cell = view.cellForRow(at: indexPath) {
-                        let old = from[indexPath]
-                        cell.reconfigure(old: old, new: new)
-                        handledUpdates.append(index)
-                        break
-                    }
+                    guard case let .row(.update(new, index)) = change,
+                          indexPath == IndexPath(row: index.row, section: index.section),
+                          let cell = view.cellForRow(at: indexPath) else {
+                              continue
+                          }
+
+                    cell.updateBackground(forStyle: style, tableView: view, at: indexPath)
+
+                    let old = from[indexPath]
+                    cell.reconfigure(old: old, new: new)
+                    handledUpdates.append(index)
+                    break
                 }
             }
             return handledUpdates
