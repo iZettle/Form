@@ -69,7 +69,7 @@ public extension UIButton {
 
 extension ButtonStateStyle {
     init(button: UIButton, state: UIControl.State) {
-        backgroundImage = button.backgroundImage(for: state)
+        backgroundImageStatic = button.backgroundImage(for: state)
         let attributes = button.attributedTitle(for: state)?.attributes(at: 0, effectiveRange: nil) ?? [:]
         text = TextStyle(font: attributes[.font] as? UIFont ?? button.titleLabel?.font ?? .systemFont(ofSize: 16), color: button.titleColor(for: state) ?? .black)
     }

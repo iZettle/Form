@@ -9,18 +9,37 @@
 import UIKit
 
 public struct ButtonStateStyle: Style {
-    public var backgroundImage: UIImage?
+
+    /// Generator closure for the background image.
+    public var backgroundImageGenerator: (() -> UIImage?)?
+
+    /// Static background image, used as a fallback for the background image generator.
+    public var backgroundImageStatic: UIImage?
+
+    /// Text style for the button state style.
     public var text: TextStyle
 
-    public init(backgroundImage: UIImage? = nil, text: TextStyle) {
-        self.backgroundImage = backgroundImage
+    /// Return the current background image for the state style.
+    /// First it will check if there's a generator and use that, otherwise fall back on any set static background image.
+    public var backgroundImage: UIImage? {
+        return backgroundImageGenerator?() ?? backgroundImageStatic
+    }
+
+    /// - Parameters:
+    ///   - backgroundImageGenerator: Background image generation closure. Will be called when the style is applied. Defaults to `nil`.
+    ///   - backgroundImage: Static background image, used as a fallback for the background image generator. Defaults to `nil`.
+    ///   - text: Text style for the button state style.
+    public init(backgroundImageGenerator: (() -> UIImage?)? = nil, backgroundImage: UIImage? = nil, text: TextStyle) {
+        self.backgroundImageStatic = backgroundImage
+        self.backgroundImageGenerator = backgroundImageGenerator
         self.text = text
     }
+
 }
 
 public extension ButtonStateStyle {
     init(background: BackgroundStyle, text: TextStyle) {
-        self.init(backgroundImage: SegmentBackgroundStyle(style: background)?.image(), text: text)
+        self.init(backgroundImageGenerator: { SegmentBackgroundStyle(style: background)?.image() }, text: text)
     }
 
     init(color: UIColor, border: BorderStyle, text: TextStyle) {
