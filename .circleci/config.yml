@@ -27,14 +27,9 @@ commands:
             cd <<parameters.path>>
             pod install --verbose
 
-  carthage-update:
-    steps:
-      - run: sh carthage.sh update Flow --cache-builds
-
   test_main_project:
     steps:
       - checkout
-      - carthage-update
       - test_project_and_store_results:
           project: "Form.xcodeproj"
           scheme: "Form"
