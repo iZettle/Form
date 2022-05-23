@@ -172,6 +172,42 @@ class TableChangeTests: XCTestCase {
         tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
         XCTAssertEqual(prevs, [nil, nil, 4, 5])
     }
+
+    func testReconfigure_isCalled_whenUpdatedRowIsPushedOutOfTheVisiblePaths() {
+        let bag = DisposeBag()
+        let row1 = ReconfigureItem(id: 1, value: 4)
+        let row2 = ReconfigureItem(id: 2, value: 5)
+        let row3 = ReconfigureItem(id: 3, value: 6)
+
+        var previousValues = [Int?]()
+        bag += merge([row1, row2, row3].map { Signal(callbacker: $0.callbacker) }).onValue { previousValues.append($0) }
+
+        let tableKit = TableKit<(), ReconfigureItem>()
+        UIWindow().addSubview(tableKit.view)
+        tableKit.view.frame.origin = CGPoint(x: 100, y: 100)
+        tableKit.view.frame.size = CGSize(width: 1000, height: 1000)
+
+        func applyRowsToKit(_ rows: [ReconfigureItem]) {
+            tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
+        }
+
+        applyRowsToKit([row1, row2])
+        let initiaLoadPreviousValues = previousValues
+
+        tableKit.view.configureSizeForVisibleRows(2)
+
+        var row2Updated = row2
+        row2Updated.value = 55
+        applyRowsToKit([row1, row3, row2Updated]) // update (5 -> 55) and insert (nil -> 6) at the same time
+        XCTAssertEqual(previousValues, initiaLoadPreviousValues + [5, nil])
+    }
+}
+
+extension UITableView {
+    func configureSizeForVisibleRows(_ visibleRows: Int) {
+        self.frame.size = self.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
+        self.frame.size.height = (self.visibleCells.first?.frame.size.height ?? 0) * CGFloat(visibleRows)
+    }
 }
 
 private struct ReconfigureItem: Reusable {

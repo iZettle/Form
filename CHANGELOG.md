@@ -1,4 +1,5 @@
-# 3.2.1
+# 3.3.4
+- Bug fix for a TableKit update issue [#182](https://github.com/iZettle/Form/issues/182)
 
 # 3.3.3
 - Xcode 13.2 compatibility
