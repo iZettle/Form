@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		2A8568E12344F73200B9D157 /* ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8568E02344F73200B9D157 /* ExampleTests.swift */; };
+		75593950283BA41200EA10E9 /* Presentation in Frameworks */ = {isa = PBXBuildFile; productRef = 7559394F283BA41200EA10E9 /* Presentation */; };
 		F61928ED2088DE200008F713 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61928EC2088DE200008F713 /* Messages.swift */; };
 		F61928EF2088DE7E0008F713 /* ComposeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61928EE2088DE7E0008F713 /* ComposeMessage.swift */; };
 		F61928F12088DEBD0008F713 /* MessageDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61928F02088DEBD0008F713 /* MessageDetails.swift */; };
@@ -63,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75593950283BA41200EA10E9 /* Presentation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +146,9 @@
 			dependencies = (
 			);
 			name = Example;
+			packageProductDependencies = (
+				7559394F283BA41200EA10E9 /* Presentation */,
+			);
 			productName = Messages;
 			productReference = F6B3E0552086210E00F55C53 /* Example.app */;
 			productType = "com.apple.product-type.application";
@@ -176,6 +181,9 @@
 				Base,
 			);
 			mainGroup = F6B3E04C2086210E00F55C53;
+			packageReferences = (
+				7559394E283BA41200EA10E9 /* XCRemoteSwiftPackageReference "Presentation" */,
+			);
 			productRefGroup = F6B3E0562086210E00F55C53 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -468,6 +476,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7559394E283BA41200EA10E9 /* XCRemoteSwiftPackageReference "Presentation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iZettle/Presentation.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.15.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7559394F283BA41200EA10E9 /* Presentation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7559394E283BA41200EA10E9 /* XCRemoteSwiftPackageReference "Presentation" */;
+			productName = Presentation;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F6B3E04D2086210E00F55C53 /* Project object */;
 }

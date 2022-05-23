@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Flow",
+        "repositoryURL": "https://github.com/izettle/Flow.git",
+        "state": {
+          "branch": null,
+          "revision": "ad38c734f16a404de8895236424bc4acc5355a3d",
+          "version": "1.10.1"
+        }
+      },
+      {
+        "package": "Presentation",
+        "repositoryURL": "https://github.com/iZettle/Presentation.git",
+        "state": {
+          "branch": null,
+          "revision": "491735c045a0e61e4e2536a2da41b347c533d7e6",
+          "version": "1.15.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
