@@ -490,17 +490,6 @@ public extension IndexPath {
     }
 }
 
-#if canImport(Presentation)
-import Presentation
-
-public extension MasterDetailSelection where Elements.Index == TableIndex {
-    func bindTo<Row, Section>(_ tableKit: TableKit<Row, Section>) -> Disposable {
-        return self.map { $0?.index }.bindTo(tableKit, select: self.select)
-    }
-}
-
-#endif
-
 public extension SignalProvider where Kind.DropWrite == Read, Value == TableIndex? {
     func bindTo<Row, Section>(
         _ tableKit: TableKit<Row, Section>,

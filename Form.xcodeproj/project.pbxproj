@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -35,6 +35,7 @@
 		724EC30D2241513D001F3E11 /* UILabel+StylingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724EC30C2241513D001F3E11 /* UILabel+StylingTests.swift */; };
 		7270AFB0201FAB7C004DAAA3 /* ViewLayoutArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7270AFAF201FAB7C004DAAA3 /* ViewLayoutArea.swift */; };
 		72C5ED6F226F432600E32125 /* UIScrollView+PinningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5ED6E226F432600E32125 /* UIScrollView+PinningTests.swift */; };
+		7592CA3E282BF9DC00920278 /* Flow in Frameworks */ = {isa = PBXBuildFile; productRef = 7592CA3D282BF9DC00920278 /* Flow */; };
 		B35F8AEE1F36676D00904E37 /* Collection+Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F8AED1F36676D00904E37 /* Collection+Changes.swift */; };
 		B35F8B4C1F3783E400904E37 /* CollectionDiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F8B4B1F3783E400904E37 /* CollectionDiffTests.swift */; };
 		CA6755EA1D4B6F1C000662FF /* SegmentedControlStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6755E91D4B6F1C000662FF /* SegmentedControlStyle.swift */; };
@@ -48,7 +49,6 @@
 		F624C3CE1F7CFC9F00E1F5C1 /* UIViewController+Install.swift in Sources */ = {isa = PBXBuildFile; fileRef = F624C3CD1F7CFC9F00E1F5C1 /* UIViewController+Install.swift */; };
 		F62E45B91CABFB5300C6867E /* Form.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6A9D5DE1C1728BA009A0EEB /* Form.framework */; };
 		F63863122090B73F00A43824 /* RowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63863112090B73F00A43824 /* RowView.swift */; };
-		F647306C20BFDFB1002BC8E3 /* RowsSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647306A20BFDFB1002BC8E3 /* RowsSelection.swift */; };
 		F64C27F01C7B2C5B003CC378 /* TextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64C27EA1C7B2C5B003CC378 /* TextStyle.swift */; };
 		F64C27F11C7B2C5B003CC378 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64C27EB1C7B2C5B003CC378 /* ButtonStyle.swift */; };
 		F65A9F811C7B1E8F007007B4 /* Form.h in Headers */ = {isa = PBXBuildFile; fileRef = F65A9F7F1C7B1E8F007007B4 /* Form.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -160,7 +160,6 @@
 		F62E45B41CABFB5300C6867E /* FormTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FormTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F62E45B81CABFB5300C6867E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F63863112090B73F00A43824 /* RowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RowView.swift; path = Form/RowView.swift; sourceTree = "<group>"; };
-		F647306A20BFDFB1002BC8E3 /* RowsSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RowsSelection.swift; path = Form/RowsSelection.swift; sourceTree = "<group>"; };
 		F64C27EA1C7B2C5B003CC378 /* TextStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextStyle.swift; path = Form/TextStyle.swift; sourceTree = "<group>"; };
 		F64C27EB1C7B2C5B003CC378 /* ButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonStyle.swift; path = Form/ButtonStyle.swift; sourceTree = "<group>"; };
 		F65A9F7F1C7B1E8F007007B4 /* Form.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Form.h; path = Form/Form.h; sourceTree = SOURCE_ROOT; };
@@ -179,7 +178,6 @@
 		F666BB8E20BE9741006D2507 /* NumberEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumberEditor.swift; path = Form/NumberEditor.swift; sourceTree = "<group>"; };
 		F666BBD720BEDC31006D2507 /* FormFramework.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = FormFramework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F666BBD820BEDC32006D2507 /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
-		F666BBD920BEDC32006D2507 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		F666BBDA20BEDC32006D2507 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		F66835CA2091B6DF002D2676 /* UIView+Embedding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIView+Embedding.swift"; path = "Form/UIView+Embedding.swift"; sourceTree = "<group>"; };
 		F66835D52091CC32002D2676 /* UIResponders+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIResponders+Utilities.swift"; path = "Form/UIResponders+Utilities.swift"; sourceTree = "<group>"; };
@@ -234,6 +232,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7592CA3B282BF9AB00920278 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7592CA3E282BF9DC00920278 /* Flow in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F62E45B11CABFB5300C6867E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -377,7 +383,6 @@
 		F6A9D5D41C1728BA009A0EEB = {
 			isa = PBXGroup;
 			children = (
-				F666BBD920BEDC32006D2507 /* Cartfile */,
 				F666BBDA20BEDC32006D2507 /* CHANGELOG.md */,
 				F666BBD720BEDC31006D2507 /* FormFramework.podspec */,
 				F666BBD820BEDC32006D2507 /* LICENSE.md */,
@@ -438,7 +443,6 @@
 				1CEED6CF21341FF300893573 /* ScrollViewDelegate.swift */,
 				1C0656C11F82625E00E60465 /* UICollectionViewCell+Utilities.swift */,
 				1CDA23EB1F8E3A3300CCC541 /* TableAnimatable.swift */,
-				F647306A20BFDFB1002BC8E3 /* RowsSelection.swift */,
 			);
 			name = Tables;
 			sourceTree = "<group>";
@@ -464,7 +468,6 @@
 				F62E45B01CABFB5300C6867E /* Sources */,
 				F62E45B11CABFB5300C6867E /* Frameworks */,
 				F62E45B21CABFB5300C6867E /* Resources */,
-				720D32F820E6A3570013FC29 /* Copy Flow */,
 			);
 			buildRules = (
 			);
@@ -481,6 +484,7 @@
 			buildConfigurationList = F6A9D5F21C1728BA009A0EEB /* Build configuration list for PBXNativeTarget "Form" */;
 			buildPhases = (
 				F6A9D5D91C1728BA009A0EEB /* Sources */,
+				7592CA3B282BF9AB00920278 /* Frameworks */,
 				F6A9D5DB1C1728BA009A0EEB /* Headers */,
 				F6A9D5DC1C1728BA009A0EEB /* Resources */,
 				ED7163CF2189C1A0008AD729 /* ShellScript */,
@@ -490,6 +494,9 @@
 			dependencies = (
 			);
 			name = Form;
+			packageProductDependencies = (
+				7592CA3D282BF9DC00920278 /* Flow */,
+			);
 			productName = Layout;
 			productReference = F6A9D5DE1C1728BA009A0EEB /* Form.framework */;
 			productType = "com.apple.product-type.framework";
@@ -525,6 +532,9 @@
 				Base,
 			);
 			mainGroup = F6A9D5D41C1728BA009A0EEB;
+			packageReferences = (
+				7592CA3C282BF9DB00920278 /* XCRemoteSwiftPackageReference "Flow" */,
+			);
 			productRefGroup = F6A9D5DF1C1728BA009A0EEB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -553,22 +563,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		720D32F820E6A3570013FC29 /* Copy Flow */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Flow.framework",
-			);
-			name = "Copy Flow";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
 		ED7163CF2189C1A0008AD729 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -672,7 +666,6 @@
 				F6C34D3A1C7F37DC00168CD9 /* DefaultStyling.swift in Sources */,
 				F6A326EA1F94935200C3A692 /* UILabel+Styling.swift in Sources */,
 				F6BFAFAD2090746C00CBA6B1 /* BarButtonStyle.swift in Sources */,
-				F647306C20BFDFB1002BC8E3 /* RowsSelection.swift in Sources */,
 				F6C2E5EA1C69FA0300453548 /* Table.swift in Sources */,
 				F65A9F9C1C7B1EC6007007B4 /* SeparatorStyle.swift in Sources */,
 				F67D37921C7B2EDD00A35BD4 /* TextEditor.swift in Sources */,
@@ -717,7 +710,11 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = FormTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.iZettle.FormTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -730,7 +727,11 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = FormTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.iZettle.FormTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -835,7 +836,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -856,8 +858,12 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
 				INFOPLIST_FILE = Form/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 3.3.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iZettle.Form;
 				PRODUCT_NAME = Form;
 				SKIP_INSTALL = YES;
@@ -877,8 +883,12 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
 				INFOPLIST_FILE = Form/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 3.3.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iZettle.Form;
 				PRODUCT_NAME = Form;
 				SKIP_INSTALL = YES;
@@ -917,6 +927,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7592CA3C282BF9DB00920278 /* XCRemoteSwiftPackageReference "Flow" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iZettle/Flow.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.10.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7592CA3D282BF9DC00920278 /* Flow */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7592CA3C282BF9DB00920278 /* XCRemoteSwiftPackageReference "Flow" */;
+			productName = Flow;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F6A9D5D51C1728BA009A0EEB /* Project object */;
 }

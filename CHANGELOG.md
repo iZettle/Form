@@ -1,3 +1,8 @@
+# 4.0.0
+- Replaced `Carthage` with `SPM`
+- Removed `Presentation` dependency references from project
+- Removed conditionally compiled code wrapped in `#if canImport(Presentation)`. The removed code can be added by integrators directly if needed using this [diff](https://github.com/iZettle/Form/pull/184/commits/71eca247c8fcc988928466afa65dea2ac8989517)
+
 # 3.3.4
 - Bug fix for a TableKit update issue [#182](https://github.com/iZettle/Form/issues/182)
 

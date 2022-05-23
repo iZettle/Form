@@ -79,3 +79,9 @@ struct Empty: Presentable {
         return (UIViewController(), NilDisposer())
     }
 }
+
+public extension MasterDetailSelection where Elements.Index == TableIndex {
+    func bindTo<Row, Section>(_ tableKit: TableKit<Row, Section>) -> Disposable {
+        return self.map { $0?.index }.bindTo(tableKit, select: self.select)
+    }
+}

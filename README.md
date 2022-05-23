@@ -134,7 +134,7 @@ Both forms and tables are using the same styling allowing you to seamlessly inte
 #### [Carthage](https://github.com/Carthage/Carthage)
 
 ```shell
-github "iZettle/Form" >= 3.0
+github "iZettle/Form" >= 4.0
 ```
 
 #### [Cocoa Pods](https://github.com/CocoaPods/CocoaPods)
@@ -144,7 +144,7 @@ platform :ios, '9.0'
 use_frameworks!
 
 target 'Your App Target' do
-  pod 'FormFramework', '~> 3.0'
+  pod 'FormFramework', '~> 4.0'
 end
 ```
 
