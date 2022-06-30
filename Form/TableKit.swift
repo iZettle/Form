@@ -363,64 +363,10 @@ extension TableKit: TableAnimatable {
                                    rowIdentifier: rowIdentifier,
                                    rowNeedsUpdate: rowNeedsUpdate ?? { _, _ in true })
 
-        // Apply the updates to the currently visible rows before animating other changes (see issue #182)
-        let handledUpdates = reconfigureVisibleRowsWithChanges()
-
         view.animate(changes: changes, animation: animation)
-
-        if reconfigureVisibleRowsIfNeeded() {
-            // To refresh cells where the cell height has changed.
-            view.beginUpdates()
-            view.endUpdates()
-        }
 
         changesCallbacker.callAll(with: changes)
         callbacker.callAll(with: table)
-
-        // Returns the table indexes for which the cells were reconfigured
-        func reconfigureVisibleRowsWithChanges() -> [TableIndex] {
-            var handledUpdates: [TableIndex] = []
-            for indexPath in view.indexPathsForVisibleRows ?? [] {
-                for change in changes {
-                    guard case let .row(.update(new, index)) = change,
-                          indexPath == IndexPath(row: index.row, section: index.section),
-                          let cell = view.cellForRow(at: indexPath) else {
-                              continue
-                          }
-
-                    cell.updateBackground(forStyle: style, tableView: view, at: indexPath)
-
-                    let old = from[indexPath]
-                    cell.reconfigure(old: old, new: new)
-                    handledUpdates.append(index)
-                    break
-                }
-            }
-            return handledUpdates
-        }
-
-        func reconfigureVisibleRowsIfNeeded() -> Bool {
-            var hasReconfiguredCells = false
-            for indexPath in view.indexPathsForVisibleRows ?? [] {
-                guard let tableIndex = TableIndex(indexPath, in: self.table) else { continue }
-                guard !handledUpdates.contains(tableIndex) else { continue }
-                let row = table[tableIndex]
-                guard let index = from.firstIndex(where: { rowIdentifier(row) == rowIdentifier($0) }) else { continue }
-
-                if let cell = view.cellForRow(at: indexPath) {
-                    cell.updateBackground(forStyle: style, tableView: view, at: indexPath)
-
-                    let old = from[index]
-                    guard rowNeedsUpdate?(old, row) != false else {
-                        continue
-                    }
-
-                    cell.reconfigure(old: old, new: row)
-                    hasReconfiguredCells = true
-                }
-            }
-            return hasReconfiguredCells
-        }
     }
 
     /// Applies given changes to the Table and animates the changes using the provided parameters.

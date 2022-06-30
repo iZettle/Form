@@ -71,8 +71,8 @@ public extension UITableView {
                 deleteRows(at: [indexPath(index)], with: animation.rowDelete)
             case let .row(.move(_, fromIndex, toIndex)):
                 moveRow(at: indexPath(fromIndex), to: indexPath(toIndex))
-            case .row(.update):
-                break
+            case let .row(.update(_, index)):
+                reloadRows(at: [indexPath(index)], with: .none)
             }
         }
 
