@@ -66,38 +66,25 @@ public extension UITableView {
     ///     The configure closure passes the item to be used to configure the cell.
     ///     The disposable returned from the configure closure will be disposed before reusage.
     func dequeueCell<Item, Cell: UITableViewCell>(forItem item: Item, reuseIdentifier: String = String(describing: Item.self), cellAndConfigure: (String) -> (Cell, (Item) -> Disposable)) -> Cell {
-        return dequeueCell(forItem: item, reuseIdentifier: reuseIdentifier, cellAndReconfigure: { reuseIdentifier in
-            let (cell, configure) = cellAndConfigure(reuseIdentifier)
-            return (cell, { _, item in configure(item) })
-        })
-    }
-
-    /// Dequeues (reuse) or creates a new cell from `item` and by using the `cellAndReconfigure` closure to create and reconfigure  the cell.
-    /// - Parameter item: The item used to configure the cell.
-    /// - Parameter reuseIdentifier: The reuse identifier for the cell, defaults to name of `Item`'s type.
-    /// - Parameter cellAndReconfigure: Closure when given a reuse identifier returns a tuple of a `Row` and a reconfigure closure. `
-    ///     The configure closure passes the passes preceding (if any) and current item to be used to configure the cell.
-    ///     The disposable returned from the reconfigure closure will be disposed before reusage.
-    func dequeueCell<Item, Cell: UITableViewCell>(forItem item: Item, reuseIdentifier: String = String(describing: Item.self), cellAndReconfigure: (String) -> (Cell, (Item?, Item) -> Disposable), _ noTrailingClosure: Void = ()) -> Cell {
         if let cell = dequeueReusableCell(withIdentifier: reuseIdentifier) as? Cell {
-            let (reconfigure, bag) = cell.reconfigureAndBag(Item.self)!
+            let (configure, bag) = cell.configureAndBag(Item.self)!
             bag.dispose() // Reuse
-            bag += reconfigure(nil, item)
+            bag += configure(item)
             return cell
         } else {
-            let (cell, reconfigure) = cellAndReconfigure(reuseIdentifier)
+            let (cell, configure) = cellAndConfigure(reuseIdentifier)
             let bag = DisposeBag()
-            cell.setReconfigureAndBag((reconfigure, bag))
-            bag += reconfigure(nil, item)
+            cell.setConfigureAndBag((configure, bag))
+            bag += configure(item)
             return cell
         }
     }
 
     /// Dequeues (reuses) or creates a new styled cell and using the `item`'s conformance to `Reusable` to create and configure the view to embed in the returned cell.
     func dequeueCell<Item: Reusable>(forItem item: Item, style: DynamicTableViewFormStyle = .default) -> UITableViewCell where Item.ReuseType: ViewRepresentable {
-        return dequeueCell(forItem: item, reuseIdentifier: item.reuseIdentifier, cellAndReconfigure: { reuseIdentifier in
-            let (viewRepresentable, reconfigure) = Item.makeAndReconfigure()
-            return (UITableViewCell(view: viewRepresentable.viewRepresentation, reuseIdentifier: reuseIdentifier, style: style), reconfigure)
+        return dequeueCell(forItem: item, reuseIdentifier: item.reuseIdentifier, cellAndConfigure: { reuseIdentifier in
+            let (viewRepresentable, configure) = Item.makeAndConfigure()
+            return (UITableViewCell(view: viewRepresentable.viewRepresentation, reuseIdentifier: reuseIdentifier, style: style), configure)
         })
     }
 }
@@ -168,14 +155,14 @@ extension UITableViewCell {
 }
 
 extension UITableViewCell {
-    func reconfigure<Item>(old: Item?, new: Item) {
-        guard let (reconfigure, bag) = reconfigureAndBag(Item.self) else { return }
+    func configure<Item>(_ item: Item) {
+        guard let (configure, bag) = configureAndBag(Item.self) else { return }
         bag.dispose()
-        bag += reconfigure(old, new)
+        bag += configure(item)
     }
 
     func releaseBag<Item>(forType: Item.Type) {
-        guard let (_, bag) = reconfigureAndBag(Item.self) else { return }
+        guard let (_, bag) = configureAndBag(Item.self) else { return }
         bag.dispose()
     }
 
@@ -196,11 +183,11 @@ extension UITableViewCell {
 }
 
 private extension UITableViewCell {
-    func reconfigureAndBag<Item>(_ type: Item.Type) -> ((Item?, Item) -> Disposable, DisposeBag)? {
+    func configureAndBag<Item>(_ type: Item.Type) -> ((Item) -> Disposable, DisposeBag)? {
         return associatedValue(forKey: &configureKey)
     }
 
-    func setReconfigureAndBag<Item>(_ configureAndBag: ((Item?, Item) -> Disposable, DisposeBag)) {
+    func setConfigureAndBag<Item>(_ configureAndBag: ((Item) -> Disposable, DisposeBag)) {
         setAssociatedValue(configureAndBag, forKey: &configureKey)
     }
 }

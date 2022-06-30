@@ -145,85 +145,11 @@ class TableChangeTests: XCTestCase {
         testApplyChanges(from: [("A", [1, 2]), ("B", [3, 4])], to: [("A", [1]), ("B", [2, 3, 4])], identifier: { $0 })
         testApplyChanges(from: [("A", [1]), ("B", [3, 4])], to: [("B", [3])], identifier: { $0 })
     }
-
-    func testReconfigure() {
-        let bag = DisposeBag()
-        var rows = [(1, 4), (2, 5)].map(ReconfigureItem.init)
-        let signal = merge(rows.map { Signal(callbacker: $0.callbacker) })
-
-        var prevs = [Int?]()
-        bag += signal.onValue { prevs.append($0) }
-
-        let tableKit = TableKit<(), ReconfigureItem>()
-        UIWindow().addSubview(tableKit.view)
-        tableKit.view.frame.size = CGSize(width: 1000, height: 1000)
-
-        tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
-        XCTAssertEqual(prevs, [nil, nil]) // loading first two rows
-
-        rows[0].value = 55
-        tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
-        XCTAssertEqual(prevs, [nil, nil, 4])
-
-        tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
-        XCTAssertEqual(prevs, [nil, nil, 4])
-
-        rows[1].value = 77
-        tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
-        XCTAssertEqual(prevs, [nil, nil, 4, 5])
-    }
-
-    func testReconfigure_isCalled_whenUpdatedRowIsPushedOutOfTheVisiblePaths() {
-        let bag = DisposeBag()
-        let row1 = ReconfigureItem(id: 1, value: 4)
-        let row2 = ReconfigureItem(id: 2, value: 5)
-        let row3 = ReconfigureItem(id: 3, value: 6)
-
-        var previousValues = [Int?]()
-        bag += merge([row1, row2, row3].map { Signal(callbacker: $0.callbacker) }).onValue { previousValues.append($0) }
-
-        let tableKit = TableKit<(), ReconfigureItem>()
-        UIWindow().addSubview(tableKit.view)
-        tableKit.view.frame.origin = CGPoint(x: 100, y: 100)
-        tableKit.view.frame.size = CGSize(width: 1000, height: 1000)
-
-        func applyRowsToKit(_ rows: [ReconfigureItem]) {
-            tableKit.set(Table(rows: rows), rowIdentifier: { $0.id }, rowNeedsUpdate: { $0.value != $1.value })
-        }
-
-        applyRowsToKit([row1, row2])
-        let initiaLoadPreviousValues = previousValues
-
-        tableKit.view.configureSizeForVisibleRows(2)
-
-        var row2Updated = row2
-        row2Updated.value = 55
-        applyRowsToKit([row1, row3, row2Updated]) // update (5 -> 55) and insert (nil -> 6) at the same time
-        XCTAssertEqual(previousValues, initiaLoadPreviousValues + [5, nil])
-    }
 }
 
 extension UITableView {
     func configureSizeForVisibleRows(_ visibleRows: Int) {
         self.frame.size = self.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
         self.frame.size.height = (self.visibleCells.first?.frame.size.height ?? 0) * CGFloat(visibleRows)
-    }
-}
-
-private struct ReconfigureItem: Reusable {
-    let id: Int
-    var value: Int
-    var callbacker = Callbacker<Int?>()
-
-    init(id: Int, value: Int) {
-        self.id = id
-        self.value = value
-    }
-
-    static func makeAndReconfigure() -> (make: UIView, reconfigure: (ReconfigureItem?, ReconfigureItem) -> Disposable) {
-        return (UIView(), { prev, item in
-            item.callbacker.callAll(with: prev?.value)
-            return NilDisposer()
-        })
     }
 }

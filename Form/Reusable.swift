@@ -32,27 +32,7 @@ public protocol Reusable {
     ///       }
     ///     }
     ///
-    /// - Note: Only one of `makeAndConfigure()` or `makeAndReconfigure()` should be implemented.
     static func makeAndConfigure() -> (make: ReuseType, configure: (Self) -> Disposable)
-
-    /// Called to produce a type and a closure used to configure it from an preceding and current instance of `self`.
-    /// The closure returns a `Disposable` for keeping activities alive while being presented.
-    ///
-    ///     struct Model {
-    ///       let name: String
-    ///     }
-    ///
-    ///     extension Model: Reusable {
-    ///       static func makeAndReconfigure() -> (make: RowView, configure: (Model?, Model) -> Disposable) {
-    ///         let label = UILabel()
-    ///         return (RowView(label), { preceding, current in
-    ///           label.value = model.name
-    ///           return preceding != current ? label.animateRefresh() : NilDisposer()
-    ///         })
-    ///       }
-    ///     }
-    /// - Note: Only one of `makeAndConfigure()` or `makeAndReconfigure()` should be implemented.
-    static func makeAndReconfigure() -> (make: ReuseType, reconfigure: (_ preceding: Self?, _ current: Self) -> Disposable)
 
     /// The reuseIdentifer to be used when `Self` is used with e.g. `UITableView`'s or `UICollectionView`'s
     /// Has a default implementation to return the name of `Self`'s type that should be suitable for most conforming types.
@@ -60,21 +40,6 @@ public protocol Reusable {
 }
 
 public extension Reusable {
-    static func makeAndConfigure() -> (make: ReuseType, configure: (Self) -> Disposable) {
-        let (resuseType, reconfigure) = makeAndReconfigure()
-        var prevValue: Self?
-        return (resuseType, {
-            let bag = reconfigure(prevValue, $0)
-            prevValue = $0
-            return bag
-        })
-    }
-
-    static func makeAndReconfigure() -> (make: ReuseType, reconfigure: (Self?, Self) -> Disposable) {
-        let (resuseType, configure): (make: ReuseType, configure: (Self) -> Disposable) = makeAndConfigure()
-        return (resuseType, { configure($1) })
-    }
-
     func reuseTypeAndDisposable() -> (make: ReuseType, disposable: Disposable) {
         let (reuseType, configure) = Self.makeAndConfigure()
         return (reuseType, configure(self))
@@ -106,36 +71,29 @@ public extension Reusable {
 /// - See also: MixedReusable
 extension Either: Reusable where Left: Reusable, Right: Reusable, Left.ReuseType: ViewRepresentable, Right.ReuseType: ViewRepresentable {
     public typealias ReuseType = UIView
-    private typealias ViewAndReconfigure<T: Reusable> = (make: T.ReuseType, reconfigure: (T?, T) -> Disposable)
+    private typealias ViewAndConfigure<T: Reusable> = (make: T.ReuseType, configure: (T) -> Disposable)
 
-    public static func makeAndReconfigure() -> (make: UIView, reconfigure: (Either?, Either) -> Disposable) {
+    public static func makeAndConfigure() -> (make: UIView, configure: (Either) -> Disposable) {
         let row = UIStackView()
-        var left: ViewAndReconfigure<Left>!
-        var right: ViewAndReconfigure<Right>!
+        var left: ViewAndConfigure<Left>!
+        var right: ViewAndConfigure<Right>!
 
-        return (row, { prev, item in
+        return (row, { item in
             if left == nil && right == nil {
                 switch item {
                 case .left:
-                    left = Left.makeAndReconfigure()
+                    left = Left.makeAndConfigure()
                     row.orderedViews = [left.make.viewRepresentation]
                 case .right:
-                    right = Right.makeAndReconfigure()
+                    right = Right.makeAndConfigure()
                     row.orderedViews = [right.make.viewRepresentation]
                 }
             }
-            switch (prev, item) {
-            case (nil, .left(let item)):
-                return left.reconfigure(nil, item)
-            case (.left(let prev)?, .left(let item)):
-                return left.reconfigure(prev, item)
-            case (nil, .right(let item)):
-                return right.reconfigure(nil, item)
-            case (.right(let prev)?, .right(let item)):
-                return right.reconfigure(prev, item)
-            default:
-                assertionFailure("We should never get a mix of left and right for prev and item")
-                return NilDisposer()
+            switch item {
+            case .left(let item):
+                return left.configure(item)
+            case .right(let item):
+                return right.configure(item)
             }
         })
     }

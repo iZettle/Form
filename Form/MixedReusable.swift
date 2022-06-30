@@ -17,8 +17,8 @@ import Flow
 ///
 /// - Note: It is often preferable to use e.g. `Either` to not loose types.
 public struct MixedReusable {
-    private typealias ViewAndReconfigure = (view: UIView, reconfigure: (Any?, Any) -> Disposable)
-    private let viewAndReconfigure: () -> ViewAndReconfigure
+    private typealias ViewAndConfigure = (view: UIView, configure: (Any) -> Disposable)
+    private let viewAndConfigure: () -> ViewAndConfigure
     let identifier: (Any) -> AnyHashable
     let needsUpdate: (Any) -> Bool
 
@@ -36,23 +36,23 @@ public struct MixedReusable {
         self.identifier = { identifier($0 as! Value) }
         self.needsUpdate = { needsUpdate(value, $0 as! Value) }
         self.reuseIdentifier = String(describing: type(of: Value.self))
-        self.viewAndReconfigure = {
-            let (reuseType, reconfigure) = Value.makeAndReconfigure()
-            return (reuseType.viewRepresentation, { reconfigure($0 as! Value?, $1 as! Value) })
+        self.viewAndConfigure = {
+            let (reuseType, configure) = Value.makeAndConfigure()
+            return (reuseType.viewRepresentation, { configure($0 as! Value) })
         }
     }
 }
 
 extension MixedReusable: Reusable {
-    public static func makeAndReconfigure() -> (make: UIView, reconfigure: (MixedReusable?, MixedReusable) -> Disposable) {
+    public static func makeAndConfigure() -> (make: UIView, configure: (MixedReusable) -> Disposable) {
         let row = UIStackView()
-        var viewAndReconfigure: ViewAndReconfigure?
-        return (row, { prev, mixed in
-            if viewAndReconfigure == nil {
-                viewAndReconfigure = mixed.viewAndReconfigure()
-                row.orderedViews = [viewAndReconfigure!.view]
+        var viewAndConfigure: ViewAndConfigure?
+        return (row, { mixed in
+            if viewAndConfigure == nil {
+                viewAndConfigure = mixed.viewAndConfigure()
+                row.orderedViews = [viewAndConfigure!.view]
             }
-            return viewAndReconfigure!.reconfigure(prev?.value, mixed.value)
+            return viewAndConfigure!.configure(mixed.value)
         })
     }
 }
