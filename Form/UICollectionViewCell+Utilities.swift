@@ -25,25 +25,10 @@ public extension UICollectionView {
     /// - Returns: A cell with the view embedded in.
     /// - Note: See `Reusable` for more info about reconfigure.
     func dequeueCell<Item>(forItem item: Item, at indexPath: IndexPath, reuseIdentifier: String = String(describing: Item.self), contentViewAndConfigure: () -> (UIView, (Item) -> Disposable)) -> UICollectionViewCell {
-        return dequeueCell(forItem: item, at: indexPath, reuseIdentifier: reuseIdentifier, contentViewAndReconfigure: {
-            let (view, configure) = contentViewAndConfigure()
-            return (view, { _, item in configure(item) })
-        })
-    }
-
-    /// Dequeues (reuses) or creates a new cell for `indexPath`.
-    /// - Parameter item: The item used to configure the cell.
-    /// - Parameter reuseIdentifier: The reuse identifier for the cell, defaults to name of `Item`'s type.
-    /// - Parameter contentViewAndReconfigure: A closure when given a reuse identifier returns a tuple of a view and a reconfigure closure.
-    ///     The reconfigure closure passes preceding (if any) and current item to be used to configure the cell.
-    ///     The disposable returned from the configure closure will be disposed before reusage.
-    /// - Returns: A cell with the view embedded in.
-    /// - Note: See `Reusable` for more info about reconfigure.
-    func dequeueCell<Item>(forItem item: Item, at indexPath: IndexPath, reuseIdentifier: String = String(describing: Item.self), contentViewAndReconfigure: () -> (UIView, (Item?, Item) -> Disposable), _ noTrailingClosure: Void = ()) -> UICollectionViewCell {
         register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         let cell = dequeueCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-        cell.setItem(item, contentViewAndReconfigure: contentViewAndReconfigure)
+        cell.setItem(item, contentViewAndConfigure: contentViewAndConfigure)
         return cell
     }
 
@@ -74,26 +59,10 @@ public extension UICollectionView {
     /// - Returns: A supplementary view with the view embedded in.
     /// - Note: See `Reusable` for more info about reconfigure.
     func dequeueSupplementaryView<Item>(forItem item: Item, at indexPath: IndexPath, kind: String, reuseIdentifier: String = String(describing: Item.self), contentViewAndConfigure: () -> (UIView, (Item) -> Disposable)) -> UICollectionReusableView {
-        return dequeueSupplementaryView(forItem: item, at: indexPath, kind: kind, reuseIdentifier: reuseIdentifier, contentViewAndReconfigure: {
-            let (view, configure) = contentViewAndConfigure()
-            return (view, { _, item in configure(item) })
-        })
-    }
-
-    /// Dequeues (reuses) or creates a new supplementary view for `indexPath`.
-    /// - Parameter item: The item used to configure the supplementary view.
-    /// - Parameter reuseIdentifier: The reuse identifier for the supplementary view, defaults to name of `Item`'s type.
-    /// - Parameter kind: The kind for the supplementary view, defaults to name of `Item`'s type.
-    /// - Parameter contentViewAndReconfigure: A closure when given a reuse identifier returns a tuple of a view and a reconfigure closure.
-    ///     The reconfigure closure passes preceding (if any) and current item to be used to configure the supplementary view.
-    ///     The disposable returned from the configure closure will be disposed before reusage.
-    /// - Returns: A supplementary view with the view embedded in.
-    /// - Note: See `Reusable` for more info about reconfigure.
-    func dequeueSupplementaryView<Item>(forItem item: Item, at indexPath: IndexPath, kind: String = String(describing: Item.self), reuseIdentifier: String = String(describing: Item.self), contentViewAndReconfigure: () -> (UIView, (Item?, Item) -> Disposable), _ noTrailingClosure: Void = ()) -> UICollectionReusableView {
         register(UICollectionReusableView.self, forSupplementaryViewOfKind: kind, withReuseIdentifier: reuseIdentifier)
 
         let supplementaryView = dequeueSupplementaryView(withKind: kind, reuseIdentifier: reuseIdentifier, for: indexPath)
-        supplementaryView.setItem(item, contentViewAndReconfigure: contentViewAndReconfigure)
+        supplementaryView.setItem(item, contentViewAndConfigure: contentViewAndConfigure)
         return supplementaryView
     }
 
@@ -107,40 +76,40 @@ public extension UICollectionView {
 }
 
 extension UICollectionReusableView {
-    func reconfigure<Item>(old: Item?, new: Item) {
-        guard let (reconfigure, bag) = reconfigureAndBag(Item.self) else { return }
+    func configure<Item>(_ item: Item) {
+        guard let (configure, bag) = configureAndBag(Item.self) else { return }
         bag.dispose()
-        bag += reconfigure(old, new)
+        bag += configure(item)
     }
 
     func releaseBag<Item>(forType: Item.Type) {
-        guard let (_, bag) = reconfigureAndBag(Item.self) else { return }
+        guard let (_, bag) = configureAndBag(Item.self) else { return }
         bag.dispose()
     }
 }
 
 private extension UICollectionReusableView {
-    func reconfigureAndBag<Item>(_ type: Item.Type) -> ((Item?, Item) -> Disposable, DisposeBag)? {
+    func configureAndBag<Item>(_ type: Item.Type) -> ((Item) -> Disposable, DisposeBag)? {
         return associatedValue(forKey: &collectionConfigureKey)
     }
 
-    func setReconfigureAndBag<Item>(_ configureAndBag: ((Item?, Item) -> Disposable, DisposeBag)) {
+    func setConfigureAndBag<Item>(_ configureAndBag: ((Item) -> Disposable, DisposeBag)) {
         setAssociatedValue(configureAndBag, forKey: &collectionConfigureKey)
     }
 }
 private var collectionConfigureKey = false
 
 private extension UICollectionReusableView {
-    func setItem<Item>(_ item: Item, contentViewAndReconfigure: () -> (UIView, (Item?, Item) -> Disposable)) {
-        if let (reconfigure, bag) = reconfigureAndBag(Item.self) {
+    func setItem<Item>(_ item: Item, contentViewAndConfigure: () -> (UIView, (Item) -> Disposable)) {
+        if let (configure, bag) = configureAndBag(Item.self) {
             bag.dispose() // Reuse
-            bag += reconfigure(nil, item)
+            bag += configure(item)
         } else {
-            let (contentView, reconfigure) = contentViewAndReconfigure()
+            let (contentView, configure) = contentViewAndConfigure()
             embedView(contentView)
             let bag = DisposeBag()
-            setReconfigureAndBag((reconfigure, bag))
-            bag += reconfigure(nil, item)
+            setConfigureAndBag((configure, bag))
+            bag += configure(item)
         }
     }
 }
