@@ -1,3 +1,8 @@
+# 5.0.0
+- Remove `TableKit` API which provided the previous item used to configure a cell instead of only the new one
+- Change the way updates of `TableKit` items are applied to resolve inconsistency issues like [#182](https://github.com/iZettle/Form/issues/182))
+- Remove the APIs to store and retrieve reconfigure blocks for `UICollectionView` cells and supplementary views
+
 # 4.0.0
 - Replaced `Carthage` with `SPM`
 - Removed `Presentation` dependency references from project
