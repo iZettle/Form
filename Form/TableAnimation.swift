@@ -95,7 +95,7 @@ public extension UITableView {
             case let .row(.update(_, index)):
                 let indexPath = indexPath(index)
                 if let visiblePaths = self.indexPathsForVisibleRows, visiblePaths.contains(indexPath) {
-                    reloadRows(at: [indexPath], with: .none)
+                    reloadRows(at: [indexPath], with: .automatic)
                 } else {
                     notUpdatedRowIndexPaths.append(indexPath)
                 }
