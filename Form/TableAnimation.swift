@@ -48,6 +48,27 @@ public extension UITableView {
             return IndexPath(row: tableIndex.row, section: tableIndex.section)
         }
 
+        var notUpdatedRowIndexPaths: [IndexPath] = []
+
+        CATransaction.begin()
+
+        // After the animation some rows that we skipped updating might become visible so we need to update them
+        CATransaction.setCompletionBlock { [weak self] in
+            guard
+                !notUpdatedRowIndexPaths.isEmpty,
+                let `self` = self,
+                let visiblePaths = self.indexPathsForVisibleRows
+            else {
+                return
+            }
+
+            let indexPathsForNewlyVisibleRows = Set(visiblePaths).intersection(Set(notUpdatedRowIndexPaths))
+
+            guard !indexPathsForNewlyVisibleRows.isEmpty else { return }
+
+            self.reloadRows(at: Array(indexPathsForNewlyVisibleRows), with: .automatic)
+        }
+
         beginUpdates()
 
         changes.forEach {
@@ -72,10 +93,18 @@ public extension UITableView {
             case let .row(.move(_, fromIndex, toIndex)):
                 moveRow(at: indexPath(fromIndex), to: indexPath(toIndex))
             case let .row(.update(_, index)):
-                reloadRows(at: [indexPath(index)], with: .none)
+                let indexPath = indexPath(index)
+                if let visiblePaths = self.indexPathsForVisibleRows, visiblePaths.contains(indexPath) {
+                    reloadRows(at: [indexPath], with: .none)
+                } else {
+                    notUpdatedRowIndexPaths.append(indexPath)
+                }
+
             }
         }
 
         endUpdates()
+
+        CATransaction.commit()
     }
 }
