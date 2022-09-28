@@ -587,6 +587,7 @@ private extension TableKit {
         for cell in self.view.visibleCells {
             guard let index = self.view.indexPath(for: cell), let tableIndex = TableIndex(index, in: table) else { continue }
             cell.updatePosition(position: position(tableIndex))
+            cell.applyFormStyle(style.style(from: cell.traitCollectionWithFallback))
         }
     }
 
