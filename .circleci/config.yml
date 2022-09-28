@@ -9,7 +9,7 @@ anchors:
   - &test_output_folder test_output
   - &default_executor
     macos:
-      xcode: "13.2.1"
+      xcode: "14.0.0"
 
 env:
   global:
@@ -124,13 +124,13 @@ jobs:
       - store_test_results:
           path: swiftlint.html
 
-  test-xcode12-ios14:
+  test-xcode13-ios15:
     macos:
-      xcode: "12.5.0"
+      xcode: "13.0.0"
     steps:
       - test_main_project
 
-  test-xcode13-ios15:
+  test-xcode14-ios16:
     <<: *default_executor
     steps:
       - test_main_project
