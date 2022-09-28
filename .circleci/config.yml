@@ -153,8 +153,8 @@ workflows:
     jobs:
       - swiftlint:
           version: 0.39.2
-      - test-xcode12-ios14
       - test-xcode13-ios15
+      - test-xcode14-ios16
       - test-example-messages
       - test-example-demo
 
