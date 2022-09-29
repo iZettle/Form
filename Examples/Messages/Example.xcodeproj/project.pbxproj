@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2A8568E12344F73200B9D157 /* ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8568E02344F73200B9D157 /* ExampleTests.swift */; };
 		75593950283BA41200EA10E9 /* Presentation in Frameworks */ = {isa = PBXBuildFile; productRef = 7559394F283BA41200EA10E9 /* Presentation */; };
+		C8D31DC528E5B8AD00CB59C2 /* Flow in Frameworks */ = {isa = PBXBuildFile; productRef = C8D31DC428E5B8AD00CB59C2 /* Flow */; };
+		C8D31DC828E5B91A00CB59C2 /* Form in Frameworks */ = {isa = PBXBuildFile; productRef = C8D31DC728E5B91A00CB59C2 /* Form */; };
 		F61928ED2088DE200008F713 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61928EC2088DE200008F713 /* Messages.swift */; };
 		F61928EF2088DE7E0008F713 /* ComposeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61928EE2088DE7E0008F713 /* ComposeMessage.swift */; };
 		F61928F12088DEBD0008F713 /* MessageDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61928F02088DEBD0008F713 /* MessageDetails.swift */; };
@@ -64,6 +66,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8D31DC828E5B91A00CB59C2 /* Form in Frameworks */,
+				C8D31DC528E5B8AD00CB59C2 /* Flow in Frameworks */,
 				75593950283BA41200EA10E9 /* Presentation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,6 +152,8 @@
 			name = Example;
 			packageProductDependencies = (
 				7559394F283BA41200EA10E9 /* Presentation */,
+				C8D31DC428E5B8AD00CB59C2 /* Flow */,
+				C8D31DC728E5B91A00CB59C2 /* Form */,
 			);
 			productName = Messages;
 			productReference = F6B3E0552086210E00F55C53 /* Example.app */;
@@ -183,6 +189,8 @@
 			mainGroup = F6B3E04C2086210E00F55C53;
 			packageReferences = (
 				7559394E283BA41200EA10E9 /* XCRemoteSwiftPackageReference "Presentation" */,
+				C8D31DC328E5B8AD00CB59C2 /* XCRemoteSwiftPackageReference "Flow" */,
+				C8D31DC628E5B91A00CB59C2 /* XCRemoteSwiftPackageReference "Form" */,
 			);
 			productRefGroup = F6B3E0562086210E00F55C53 /* Products */;
 			projectDirPath = "";
@@ -348,7 +356,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -402,7 +410,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -417,6 +425,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Example/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -434,6 +443,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Example/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -486,6 +496,22 @@
 				minimumVersion = 1.15.2;
 			};
 		};
+		C8D31DC328E5B8AD00CB59C2 /* XCRemoteSwiftPackageReference "Flow" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iZettle/Flow.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		C8D31DC628E5B91A00CB59C2 /* XCRemoteSwiftPackageReference "Form" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iZettle/Form.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -493,6 +519,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7559394E283BA41200EA10E9 /* XCRemoteSwiftPackageReference "Presentation" */;
 			productName = Presentation;
+		};
+		C8D31DC428E5B8AD00CB59C2 /* Flow */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C8D31DC328E5B8AD00CB59C2 /* XCRemoteSwiftPackageReference "Flow" */;
+			productName = Flow;
+		};
+		C8D31DC728E5B91A00CB59C2 /* Form */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C8D31DC628E5B91A00CB59C2 /* XCRemoteSwiftPackageReference "Form" */;
+			productName = Form;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
