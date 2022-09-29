@@ -88,7 +88,7 @@ public extension ParentChildRelational {
         }
     }
 
-    ///Returns the first ancestor of type `type` if any.
+    /// Returns the first ancestor of type `type` if any.
     func firstAncestor<T>(ofType type: T.Type) -> T? {
         guard let parent = parent else { return nil }
         if let matching = parent as? T {

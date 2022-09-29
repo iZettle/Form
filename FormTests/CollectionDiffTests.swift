@@ -15,6 +15,7 @@ func changes<T: Hashable>(from old: [T], to new: [T]) -> [ChangeStep<T, Int>] {
 }
 
 func randomizedArray(length: Int) -> [Int] {
+    // swiftlint:disable:next legacy_random
     return (1...length).map { _ in Int(arc4random_uniform(UInt32(length))) }
 }
 

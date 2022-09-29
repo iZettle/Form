@@ -172,7 +172,7 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
         get {
             editor.accessibilityValue
         }
-        //swiftlint:disable:next unused_setter_value
+        // swiftlint:disable superfluous_disable_command unused_setter_value
         set { /* accessibilityValue is always read from the editor. */ }
     }
 
@@ -191,7 +191,7 @@ public final class ValueField<Value>: UIControl, UIKeyInput {
     /// Always use `.no` autocorrection as the system keyboard will be confused if it is used.
     public dynamic var autocorrectionType: UITextAutocorrectionType {
         get { return .no }
-        //swiftlint:disable:next unused_setter_value
+        // swiftlint:disable:next unused_setter_value
         set { /* ignore */ }
     }
 

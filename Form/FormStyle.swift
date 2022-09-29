@@ -18,7 +18,7 @@ public struct FormStyle: Style {
 
 public struct DynamicFormStyle: DynamicStyle {
     public var styleGenerator: (UITraitCollection) -> FormStyle
-    public init(generateStyle : @escaping (UITraitCollection) -> FormStyle) {
+    public init(generateStyle: @escaping (UITraitCollection) -> FormStyle) {
         self.styleGenerator = generateStyle
     }
 }

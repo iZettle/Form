@@ -51,7 +51,7 @@ public extension UIScrollView {
 }
 
 public extension UIScrollView {
-    /// Will dynamically adjust the content offset of `self` to reveal first responders.
+    /// Will dynamically adjust the content offset of `self` to reveal first responders.
     /// Parameter adjustInsets: Function to adjust the frame of the first responder view used to calculate the content offset. Defaults to `alignToRow`.
     /// - Returns: A disposable that will stop adjustments when being disposed.
     func scrollToRevealFirstResponder(_ adjustInsets: @escaping (UIView) -> UIEdgeInsets = alignToRow) -> Disposable {
