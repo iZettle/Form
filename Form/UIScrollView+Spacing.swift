@@ -57,7 +57,8 @@ public extension UIScrollView {
         disembedBag += { deactivate(constraints) }
 
         // .equalSpacing gives ambigious layout on iOS < 11, help out by calculating spacing manually.
-        if #unavailable(iOS 11), !orderedViews.isEmpty {
+        // swiftlint:disable:next unavailable_condition
+        if #available(iOS 11, *) {} else if !orderedViews.isEmpty {
             let contentHeight = signal(for: \.contentSize)[\.height].toVoid().atValue {
                 for view in orderedViews { view.layoutIfNeeded() }
             }.map {
