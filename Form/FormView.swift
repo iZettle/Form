@@ -47,7 +47,7 @@ public extension FormView {
             return visibleViews
         }
 
-        //swiftlint:disable:next unused_setter_value
+        // swiftlint:disable superfluous_disable_command unused_setter_value
         set { /* Always computed */ }
     }
 

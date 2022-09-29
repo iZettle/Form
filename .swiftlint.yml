@@ -18,6 +18,8 @@ disabled_rules:
   - shorthand_operator
   - unused_closure_parameter
 
+  - inclusive_language
+
 opt_in_rules:
   - first_where
   - last_where

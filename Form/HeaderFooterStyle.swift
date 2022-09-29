@@ -28,7 +28,7 @@ public struct HeaderFooterStyle: Style {
 
 public struct DynamicHeaderFooterStyle: DynamicStyle {
     public var styleGenerator: (UITraitCollection) -> HeaderFooterStyle
-    public init(generateStyle : @escaping (UITraitCollection) -> HeaderFooterStyle) {
+    public init(generateStyle: @escaping (UITraitCollection) -> HeaderFooterStyle) {
         self.styleGenerator = generateStyle
     }
 }

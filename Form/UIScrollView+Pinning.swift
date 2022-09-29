@@ -189,7 +189,7 @@ private extension UIScrollView {
         switch edge {
         case .bottom:
             // FIXME: enable for iOS 11 if we can remove the re-pin hack
-            //precondition(self[insets: insetKey].bottom == 0, "Only one view can be pinned to bottom")
+            // precondition(self[insets: insetKey].bottom == 0, "Only one view can be pinned to bottom")
             bag += viewHeight.atOnce().onValue { height in
                 self[insets: insetKey].bottom = height
             }
@@ -223,7 +223,7 @@ private extension UIScrollView {
 
         case .top:
             // FIXME: enable for iOS 11 if we can remove the re-pin hack
-            //precondition(self[insets: insetKey].bottom == 0, "Only one view can be pinned to top")
+            // precondition(self[insets: insetKey].bottom == 0, "Only one view can be pinned to top")
             bag += viewHeight.atOnce().onValue { height in
                 self[insets: insetKey].top = height
             }

@@ -54,7 +54,7 @@ public extension SectionStyle {
 
 public struct DynamicSectionStyle: DynamicStyle {
     public var styleGenerator: (UITraitCollection) -> SectionStyle
-    public init(generateStyle : @escaping (UITraitCollection) -> SectionStyle) {
+    public init(generateStyle: @escaping (UITraitCollection) -> SectionStyle) {
         self.styleGenerator = generateStyle
     }
 }

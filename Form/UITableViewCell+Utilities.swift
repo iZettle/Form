@@ -151,10 +151,8 @@ public extension UITableViewCell {
 
 extension UITableViewCell {
     var reorderControlView: UIView? {
-        for view in subviews as [UIView] {
-            if type(of: view).description() == "UITableViewCellReorderControl" {
-                return view
-            }
+        for view in subviews as [UIView] where type(of: view).description() == "UITableViewCellReorderControl" {
+            return view
         }
         return nil
     }
@@ -208,8 +206,8 @@ private extension UITableViewCell {
 // Passing through touches if the touch doesn't hit a subview
 private class TapThroughView: UIView {
     fileprivate override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        for subview in subviews {
-            if subview.point(inside: convert(point, to: subview), with: event) { return true }
+        for subview in subviews where subview.point(inside: convert(point, to: subview), with: event) {
+            return true
         }
         return false
     }
