@@ -205,6 +205,10 @@ public final class TableKit<Section, Row> {
             cell.releaseBag(forType: Row.self)
         }
 
+        bag += delegate.willDisplayCell.onValue { cell in
+            cell.0.prepareForReuse()
+        }
+
         bag += {
             for cell in view.visibleCells {
                 cell.releaseBag(forType: Row.self)
