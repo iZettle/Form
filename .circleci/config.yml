@@ -4,12 +4,12 @@
 version: 2.1
 
 anchors:
-  - &test_device "iPhone Xs"
+  - &test_device "iPhone 15"
   - &clean_before_build true
   - &test_output_folder test_output
   - &default_executor
     macos:
-      xcode: "14.0.0"
+      xcode: "15.0.0"
 
 env:
   global:
@@ -124,13 +124,13 @@ jobs:
       - store_test_results:
           path: swiftlint.html
 
-  test-xcode13-ios15:
+  test-xcode14-ios16:
     macos:
-      xcode: "13.0.0"
+      xcode: "14.0.0"
     steps:
       - test_main_project
 
-  test-xcode14-ios16:
+  test-xcode15-ios17:
     <<: *default_executor
     steps:
       - test_main_project
@@ -153,8 +153,8 @@ workflows:
     jobs:
       - swiftlint:
           version: 0.49.1
-      - test-xcode13-ios15
       - test-xcode14-ios16
+      - test-xcode15-ios17
       - test-example-messages
       - test-example-demo
 
