@@ -149,6 +149,7 @@
 		72C5ED6E226F432600E32125 /* UIScrollView+PinningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+PinningTests.swift"; sourceTree = "<group>"; };
 		B35F8AED1F36676D00904E37 /* Collection+Changes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Collection+Changes.swift"; path = "Form/Collection+Changes.swift"; sourceTree = "<group>"; };
 		B35F8B4B1F3783E400904E37 /* CollectionDiffTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDiffTests.swift; sourceTree = "<group>"; };
+		C8AAEE622B2C588F0082AAC6 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		CA6755E91D4B6F1C000662FF /* SegmentedControlStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegmentedControlStyle.swift; path = Form/SegmentedControlStyle.swift; sourceTree = "<group>"; };
 		CDD2A5201F42DE7500E2B78B /* HighlightedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HighlightedTests.swift; sourceTree = "<group>"; };
 		CFD2FFE2221323BF002D4D36 /* TextStyleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStyleTests.swift; sourceTree = "<group>"; };
@@ -383,6 +384,7 @@
 		F6A9D5D41C1728BA009A0EEB = {
 			isa = PBXGroup;
 			children = (
+				C8AAEE622B2C588F0082AAC6 /* Package.swift */,
 				F666BBDA20BEDC32006D2507 /* CHANGELOG.md */,
 				F666BBD720BEDC31006D2507 /* FormFramework.podspec */,
 				F666BBD820BEDC32006D2507 /* LICENSE.md */,

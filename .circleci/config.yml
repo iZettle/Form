@@ -9,7 +9,8 @@ anchors:
   - &test_output_folder test_output
   - &default_executor
     macos:
-      xcode: "15.0.0"
+      xcode: "15.1.0"
+    resource_class: macos.m1.large.gen1
 
 env:
   global:
@@ -167,7 +168,7 @@ workflows:
           version: 0.49.1
       - test-xcode14-ios16
       # Disable untill we fix test for Xcode 15
-      # - test-xcode15-ios17
+      - test-xcode15-ios17
       - test-example-messages
       - test-example-demo
 
