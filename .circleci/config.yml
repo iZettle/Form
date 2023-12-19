@@ -104,7 +104,7 @@ commands:
         default: *test_device_os
     steps:
       - run:
-        name: Run examples
+          name: Run examples
           command: |
             cd <<parameters.path>>
             xcodebuild -workspace <<parameters.workspace>> \
