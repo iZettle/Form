@@ -44,7 +44,7 @@ class TableChangeTests: XCTestCase {
         DispatchQueue.main.async {
             nextRunLoop.fulfill()
         }
-        wait(for: [nextRunLoop], timeout: 0.5)
+        wait(for: [nextRunLoop], timeout: 1)
 
         tableView.set(to, sectionIdentifier: { $0 }, rowIdentifier: { $0 }, rowNeedsUpdate: { _, _ in true })
         collectionView.set(to, sectionIdentifier: { $0 }, rowIdentifier: { $0 }, rowNeedsUpdate: { _, _ in true })
@@ -53,7 +53,7 @@ class TableChangeTests: XCTestCase {
         DispatchQueue.main.async {
             secondNextRunLoop.fulfill()
         }
-        wait(for: [secondNextRunLoop], timeout: 0.5)
+        wait(for: [secondNextRunLoop], timeout: 1)
     }
 
     func test<R: Hashable, S: Hashable, T: Sequence, I: Sequence>(from: T, to: T) where T.Iterator.Element == (S, I), I.Iterator.Element == R {

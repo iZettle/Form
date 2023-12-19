@@ -167,7 +167,7 @@ workflows:
           version: 0.49.1
       - test-xcode14-ios16
       # Disable untill we fix test for Xcode 15
-      # - test-xcode15-ios17
+      - test-xcode15-ios17
       - test-example-messages
       - test-example-demo
 

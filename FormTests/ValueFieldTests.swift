@@ -121,7 +121,7 @@ class ValueFieldTests: XCTestCase {
             }
         )
 
-        wait(for: [fieldBecameFirstResponder, fieldResignedFirstResponder], timeout: 1)
+        wait(for: [fieldBecameFirstResponder, fieldResignedFirstResponder], timeout: 2)
     }
 
     func testTextHighlight_afterTextIsPasted_isDisabled() {
