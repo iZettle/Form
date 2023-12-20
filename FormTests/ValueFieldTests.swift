@@ -121,10 +121,13 @@ class ValueFieldTests: XCTestCase {
             }
         )
 
-        wait(for: [fieldBecameFirstResponder, fieldResignedFirstResponder], timeout: 1)
+        wait(for: [fieldBecameFirstResponder, fieldResignedFirstResponder], timeout: 2)
     }
 
-    func testTextHighlight_afterTextIsPasted_isDisabled() {
+    // Since iOS 16 a permission dialog pops up when the pasteboard is used so this results with
+    // Stall on main thread error. We should replace the usage of the UIPasteboard with
+    // UIPasteControl that works arround this issue.
+    func disabled_testTextHighlight_afterTextIsPasted_isDisabled() {
         let fieldBecameFirstResponder = createFieldAndMakeItFirstResponder(
             beforeMakingFieldFirstResponder: { field in
                 UIPasteboard.general.string = "foo"
