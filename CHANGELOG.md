@@ -1,3 +1,6 @@
+# 4.0.3
+- Support Xcode 15
+
 # 4.0.0
 - Replaced `Carthage` with `SPM`
 - Removed `Presentation` dependency references from project
