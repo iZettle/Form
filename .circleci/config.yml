@@ -155,7 +155,7 @@ jobs:
     steps:
       - test_main_project:
           simulator: "iPhone 15"
-          os_version: "17.0"
+          os_version: "17.5"
 
   test-example-messages:
     # can not use xcode > 14 since we have this error.
