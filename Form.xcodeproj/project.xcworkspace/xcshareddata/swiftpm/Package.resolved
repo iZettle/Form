@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/iZettle/Flow.git",
       "state" : {
-        "revision" : "bbc4cabcdf9e7a47661ede841cf45e370db79eb3",
-        "version" : "1.12.0"
+        "branch" : "fix-compatibility-for-form",
+        "revision" : "0529d086db518de552e4c71cf8a14ec5060d876b"
       }
     }
   ],

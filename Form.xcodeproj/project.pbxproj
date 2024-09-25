@@ -937,8 +937,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/iZettle/Flow.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.12.0;
+				branch = "fix-compatibility-for-form";
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
