@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -938,7 +938,7 @@
 			repositoryURL = "https://github.com/iZettle/Flow.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.10.1;
+				minimumVersion = 1.12.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
