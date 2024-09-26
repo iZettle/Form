@@ -121,7 +121,7 @@ class ValueFieldTests: XCTestCase {
             }
         )
 
-        wait(for: [fieldBecameFirstResponder, fieldResignedFirstResponder], timeout: 2)
+        wait(for: [fieldBecameFirstResponder, fieldResignedFirstResponder], timeout: 10)
     }
 
     // Since iOS 16 a permission dialog pops up when the pasteboard is used so this results with

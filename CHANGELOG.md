@@ -1,5 +1,8 @@
+# 4.1.0
+- Support `Xcode 16`
+
 # 4.0.3
-- Support Xcode 15
+- Support `Xcode 15`
 
 # 4.0.0
 - Replaced `Carthage` with `SPM`

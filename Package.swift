@@ -1,11 +1,11 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.7
 
 import PackageDescription
 
 let package = Package(
     name: "Form",
     platforms: [
-        .iOS(.v10)
+        .iOS(.v12)
     ],
     products: [
         .library(
@@ -13,7 +13,10 @@ let package = Package(
             targets: ["Form"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/izettle/Flow.git", .upToNextMajor(from: "1.10.0"))
+        .package(
+            url: "https://github.com/iZettle/Flow.git",
+            .upToNextMajor(from: "1.12.1")
+        )
     ],
     targets: [
         .target(
