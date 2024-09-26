@@ -125,9 +125,9 @@ Both forms and tables are using the same styling allowing you to seamlessly inte
 
 ## Requirements
 
-- Xcode `9.3+`
+- Xcode `10.0+`
 - Swift 5
-- iOS `9.0+`
+- iOS `12.0+`
 
 ## Installation
 
