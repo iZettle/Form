@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/iZettle/Flow.git",
       "state" : {
-        "branch" : "xcode-16",
-        "revision" : "fce5caed4500e490c8fadcd28893a7f207438bfe"
+        "revision" : "c3e69f924f046207487948dcad55826343a122d5",
+        "version" : "1.12.1"
       }
     }
   ],
