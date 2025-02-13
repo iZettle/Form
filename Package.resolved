@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/iZettle/Flow.git",
       "state" : {
-        "branch" : "bump-ios-min-deployment-target",
-        "revision" : "10f5108b34fe528f885d9a97513eb8dc43300d4e"
+        "revision" : "b452ec9f7f525d24d99d5c01ef5853ab28223d23",
+        "version" : "1.13.0"
       }
     }
   ],

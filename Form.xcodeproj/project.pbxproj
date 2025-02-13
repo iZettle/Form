@@ -937,8 +937,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/iZettle/Flow.git";
 			requirement = {
-				branch = "bump-ios-min-deployment-target";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.13.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

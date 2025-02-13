@@ -15,7 +15,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/iZettle/Flow.git",
-            branch: "bump-ios-min-deployment-target"
+            .upToNextMajor(from: "1.13.0")
         )
     ],
     targets: [
