@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "Form",
     platforms: [
-        .iOS(.v12)
+        .iOS(.v14)
     ],
     products: [
         .library(
@@ -15,7 +15,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/iZettle/Flow.git",
-            .upToNextMajor(from: "1.12.1")
+            branch: "bump-ios-min-deployment-target"
         )
     ],
     targets: [
