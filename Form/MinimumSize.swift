@@ -10,10 +10,12 @@ import UIKit
 public struct MinimumSize: Style {
     public var width: CGFloat?
     public var height: CGFloat?
+    public var priority: UILayoutPriority
 
-    public init(width: CGFloat? = nil, height: CGFloat? = nil) {
+    public init(width: CGFloat? = nil, height: CGFloat? = nil, priority: UILayoutPriority = .defaultHigh) {
         self.width = width
         self.height = height
+        self.priority = priority
     }
 }
 
